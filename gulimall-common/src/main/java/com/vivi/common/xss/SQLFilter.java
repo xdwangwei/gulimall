@@ -8,7 +8,7 @@
 
 package com.vivi.common.xss;
 
-import io.renren.common.exception.RRException;
+import com.vivi.common.exception.RRException;
 import org.apache.commons.lang.StringUtils;
 
 /**

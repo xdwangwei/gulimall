@@ -1,5 +1,7 @@
 package com.vivi.gulimall.coupon.service.impl;
 
+import com.vivi.common.utils.PageUtils;
+import com.vivi.common.utils.Query;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -18,7 +20,7 @@ public class SeckillSkuNoticeServiceImpl extends ServiceImpl<SeckillSkuNoticeDao
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SeckillSkuNoticeEntity> page = this.page(
                 new Query<SeckillSkuNoticeEntity>().getPage(params),
-                new QueryWrapper<SeckillSkuNoticeEntity>()
+                new QueryWrapper<>()
         );
 
         return new PageUtils(page);

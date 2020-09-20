@@ -1,0 +1,28 @@
+server:
+  port: 7000
+
+# mysql
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #MySQL配置
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://39.98.43.184:3306/gulimall_sms?useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+#    服务名配置
+  application:
+    name: gulimall-coupon
+#    nacos注册中心地址配置
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+mybatis-plus:
+  mapperLocations: classpath:mapper/**/*.xml
+  global-config:
+    db-config:
+#   分配ID(主键类型为Number(Long和Integer)或String)(since 3.3.0),
+#  使用接口IdentifierGenerator的方法nextId
+#  (默认实现类为DefaultIdentifierGenerator雪花算法)
+      id-type: assign_id
