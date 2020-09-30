@@ -1,27 +1,38 @@
-server:
-  port: 10001
+#将配置全部写在配置中心
 
-# mysql
-spring:
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    #MySQL配置
-    driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://39.98.43.184:3306/gulimall_pms?useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai
-    username: root
-    password: root
-  application:
-    name: gulimall-product
-  #    nacos注册中心地址配置
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
-mybatis-plus:
-  mapperLocations: classpath:mapper/**/*.xml
-  global-config:
-    db-config:
-#   分配ID(主键类型为Number(Long和Integer)或String)(since 3.3.0),
-#  使用接口IdentifierGenerator的方法nextId
-#  (默认实现类为DefaultIdentifierGenerator雪花算法)
-      id-type: assign_id
+#server:
+#  port: 10001
+#
+## mysql
+#spring:
+#  datasource:
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    #MySQL配置
+#    driverClassName: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://39.98.43.184:3306/gulimall_pms?useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: root
+#  application:
+#    name: gulimall-product
+#  #    nacos注册中心地址配置
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 127.0.0.1:8848
+##      config:
+##        extension-configs:
+#mybatis-plus:
+#  mapperLocations: classpath:mapper/**/*.xml
+#  global-config:
+#    db-config:
+##   分配ID(主键类型为Number(Long和Integer)或String)(since 3.3.0),
+##  使用接口IdentifierGenerator的方法nextId
+##  (默认实现类为DefaultIdentifierGenerator雪花算法)
+#      id-type: assign_id
+#
+## 测试读取本地配置和nacos配置中心配置
+#test:
+#  nacos:
+#    config:
+#      name: zhangsan
+#      age: 20

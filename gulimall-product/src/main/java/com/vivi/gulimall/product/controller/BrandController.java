@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -21,6 +22,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("product/brand")
 public class BrandController {
+
+
     @Autowired
     private BrandService brandService;
 
@@ -35,6 +38,16 @@ public class BrandController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 树形列表
+     */
+    @RequestMapping("/list/tree")
+    // @RequiresPermissions("product:brand:list")
+    public R listTree(){
+        List<BrandEntity> list = brandService.list();
+
+        return R.ok().put("listTree", list);
+    }
 
     /**
      * 信息
