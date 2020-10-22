@@ -3,6 +3,7 @@ package com.vivi.gulimall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.gulimall.product.entity.SpuInfoEntity;
+import com.vivi.gulimall.product.vo.SpuVO;
 
 import java.util.Map;
 
@@ -15,6 +16,20 @@ import java.util.Map;
  */
 public interface SpuInfoService extends IService<SpuInfoEntity> {
 
+    /**
+     * 简单的分页查询
+     * @param params
+     * @return
+     */
     PageUtils queryPage(Map<String, Object> params);
+
+    boolean save(SpuVO spuVO);
+
+    /**
+     * 加了许多判断条件的分页查询
+     * @param params
+     * @return
+     */
+    PageUtils queryPageCondition(Map<String, Object> params);
 }
 

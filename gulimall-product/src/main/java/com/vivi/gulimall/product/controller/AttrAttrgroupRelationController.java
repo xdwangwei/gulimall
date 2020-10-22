@@ -4,6 +4,7 @@ import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.R;
 import com.vivi.gulimall.product.entity.AttrAttrgroupRelationEntity;
 import com.vivi.gulimall.product.service.AttrAttrgroupRelationService;
+import com.vivi.gulimall.product.vo.AttrAttrGroupRelationVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,6 +78,28 @@ public class AttrAttrgroupRelationController {
     public R delete(@RequestBody Long[] ids){
 		attrAttrgroupRelationService.removeByIds(Arrays.asList(ids));
 
+        return R.ok();
+    }
+
+    /**
+     * 批量删除
+     * @param relationVOS
+     * @return
+     */
+    @PostMapping("/batch/delete")
+    public R deleteBatch(@RequestBody AttrAttrGroupRelationVO[] relationVOS) {
+        attrAttrgroupRelationService.removeBatch(Arrays.asList(relationVOS));
+        return R.ok();
+    }
+
+    /**
+     * 批量新增
+     * @param entities
+     * @return
+     */
+    @PostMapping("/batch/save")
+    public R saveBatch(@RequestBody AttrAttrGroupRelationVO[] entities) {
+        attrAttrgroupRelationService.saveBatch(Arrays.asList(entities));
         return R.ok();
     }
 

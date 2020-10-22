@@ -26,6 +26,7 @@ import com.vivi.gulimall.coupon.service.SpuBoundsService;
 @RestController
 @RequestMapping("coupon/spubounds")
 public class SpuBoundsController {
+
     @Autowired
     private SpuBoundsService spuBoundsService;
 
@@ -57,7 +58,7 @@ public class SpuBoundsController {
      */
     @RequestMapping("/save")
     // @RequiresPermissions("coupon:spubounds:save")
-    public R save(@RequestBody SpuBoundsEntity spuBounds){
+    public R saveSpuBounds(@RequestBody SpuBoundsEntity spuBounds){
 		spuBoundsService.save(spuBounds);
 
         return R.ok();

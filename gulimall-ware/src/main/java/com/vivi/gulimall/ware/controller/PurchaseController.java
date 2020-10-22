@@ -1,16 +1,16 @@
 package com.vivi.gulimall.ware.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.sun.org.apache.regexp.internal.RE;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.R;
+import com.vivi.gulimall.ware.vo.PurchaseDoneVO;
+import com.vivi.gulimall.ware.vo.PurchaseMergeVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.vivi.gulimall.ware.entity.PurchaseEntity;
 import com.vivi.gulimall.ware.service.PurchaseService;
@@ -26,6 +26,7 @@ import com.vivi.gulimall.ware.service.PurchaseService;
 @RestController
 @RequestMapping("ware/purchase")
 public class PurchaseController {
+
     @Autowired
     private PurchaseService purchaseService;
 
@@ -38,6 +39,35 @@ public class PurchaseController {
         PageUtils page = purchaseService.queryPage(params);
 
         return R.ok().put("page", page);
+    }
+
+    @RequestMapping("/unreceived/list")
+    // @RequiresPermissions("ware:purchase:list")
+    public R unReceivedList(@RequestParam Map<String, Object> params){
+        PageUtils page = purchaseService.queryPageUnreceived(params);
+
+        return R.ok().put("page", page);
+    }
+
+    @PostMapping("/merge")
+    public R mergePurchase(@RequestBody PurchaseMergeVO purchaseMergeVO) {
+        purchaseService.mergePurchase(purchaseMergeVO);
+        return R.ok();
+    }
+
+    // http://localhost:88/api/ware/purchase/receive
+    @PostMapping("/receive")
+    public R receivePurchase(@RequestBody List<Long> purchaseIds) {
+        purchaseService.receivePurchase(purchaseIds);
+        return R.ok();
+    }
+
+    // /ware/purchase/done
+    @PostMapping("/done")
+    public R done(@RequestBody PurchaseDoneVO purchaseDoneVO) {
+        purchaseService.purchaseDone(purchaseDoneVO);
+        return R.ok();
+
     }
 
 
@@ -80,8 +110,8 @@ public class PurchaseController {
     @RequestMapping("/delete")
     // @RequiresPermissions("ware:purchase:delete")
     public R delete(@RequestBody Long[] ids){
-		purchaseService.removeByIds(Arrays.asList(ids));
-
+		// purchaseService.removeByIds(Arrays.asList(ids));
+        purchaseService.removeCascadeByIds(Arrays.asList(ids));
         return R.ok();
     }
 

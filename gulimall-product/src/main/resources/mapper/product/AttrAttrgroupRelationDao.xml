@@ -11,5 +11,15 @@
         <result property="attrSort" column="attr_sort"/>
     </resultMap>
 
+    <!-- 可根据自己的需求，是否要使用 -->
+
+    <delete id="removeBatch" parameterType="list">
+        delete from pms_attr_attrgroup_relation
+        <where>
+            <foreach collection="entityList" item="entity" separator="OR">
+                (attr_id = #{entity.attrId} AND attr_group_id = #{entity.attrGroupId})
+            </foreach>
+        </where>
+    </delete>
 
 </mapper>

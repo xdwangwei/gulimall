@@ -7,7 +7,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     #MySQL配置
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://39.98.43.184:3306/gulimall_wms?useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://39.99.153.116:3306/gulimall_wms?useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: root
   application:
@@ -17,6 +17,8 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
 
 mybatis-plus:
   mapperLocations: classpath:mapper/**/*.xml
@@ -25,4 +27,8 @@ mybatis-plus:
 #   分配ID(主键类型为Number(Long和Integer)或String)(since 3.3.0),
 #  使用接口IdentifierGenerator的方法nextId
 #  (默认实现类为DefaultIdentifierGenerator雪花算法)
-      id-type: assign_id
+      id-type: auto
+
+logging:
+  level:
+    com.vivi.gulimall.ware: debug

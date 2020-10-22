@@ -4,6 +4,7 @@ import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.R;
 import com.vivi.gulimall.product.entity.SpuInfoEntity;
 import com.vivi.gulimall.product.service.SpuInfoService;
+import com.vivi.gulimall.product.vo.SpuVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,8 @@ public class SpuInfoController {
     @RequestMapping("/list")
     // @RequiresPermissions("product:spuinfo:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = spuInfoService.queryPage(params);
+        // PageUtils page = spuInfoService.queryPage(params);
+        PageUtils page = spuInfoService.queryPageCondition(params);
 
         return R.ok().put("page", page);
     }
@@ -52,9 +54,9 @@ public class SpuInfoController {
      */
     @RequestMapping("/save")
     // @RequiresPermissions("product:spuinfo:save")
-    public R save(@RequestBody SpuInfoEntity spuInfo){
-		spuInfoService.save(spuInfo);
-
+    public R save(@RequestBody /*SpuInfoEntity spuInfo*/SpuVO spuVO){
+		// spuInfoService.save(spuInfo);
+		spuInfoService.save(spuVO);
         return R.ok();
     }
 

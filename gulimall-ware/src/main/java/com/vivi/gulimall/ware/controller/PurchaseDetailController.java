@@ -27,6 +27,7 @@ import com.vivi.gulimall.ware.service.PurchaseDetailService;
 @RestController
 @RequestMapping("ware/purchasedetail")
 public class PurchaseDetailController {
+
     @Autowired
     private PurchaseDetailService purchaseDetailService;
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -33,6 +34,27 @@ public class ProductAttrValueController {
         PageUtils page = productAttrValueService.queryPage(params);
 
         return R.ok().put("page", page);
+    }
+
+    /**
+     * /product/productattrvalue/listforspu/{spuId}
+     * 获取指定spu的规格属性
+     */
+    @GetMapping("/listforspu/{spuId}")
+    public R listForSpu(@PathVariable("spuId") Long spuId) {
+        List<ProductAttrValueEntity> list = productAttrValueService.listForSpu(spuId);
+        return R.ok().put("data", list);
+    }
+
+    /**
+     * /product/productattrvalue/update/{spuId}
+     * 修改指定spu的规格属性
+     */
+    @PostMapping("/update/{spuId}")
+    public R updateForSpu(@PathVariable("spuId") Long spuId,
+                          @RequestBody List<ProductAttrValueEntity> list) {
+        productAttrValueService.updateForSpu(spuId, list);
+        return R.ok();
     }
 
 

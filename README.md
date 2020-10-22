@@ -1,5 +1,40 @@
 # gulimall
 分布式商城
+
+## Docker
+### Docker安装ElasticSearch
+```shell script
+docker pull elasticsearch:7.8.0
+docker run -p 9200:9200 -p 9300:9300 --name es7.8 \
+-e "discovery.type=single-node" \
+-e ES_JAVA_OPTS="-Xms128m -Xmx512m" \
+-v /root/docker/elasticsearch/plugins:/usr/share/elasticsearch/plugins \
+-v /root/docker/elasticsearch/data:/usr/share/elasticsearch/data \
+-v /root/docker/elasticsearch/logs:/usr/share/elasticsearch/logs \
+-d elasticsearch:7.8.0
+```
+### Docker安装Kibana
+```sehll
+# 拉取镜像
+# kibana版本必须和elasticsearch版本保持一致
+docker pull kibana:7.8.0
+
+# 启动容器
+# YOUR_ELASTICSEARCH_CONTAINER_NAME_OR_ID 正在运行的ES容器ID或name
+docker run --link YOUR_ELASTICSEARCH_CONTAINER_NAME_OR_ID:elasticsearch -p 5601:5601 {docker-repo}:{version}
+docker run --link es7.8:elasticsearch -p 5601:5601 --name kibana -d kibana:7.8.0
+```
+### Docker安装IK分词器
+```sehll
+# Ik分词器版本要和ES和Kibana版本保持一致
+
+# 进入容器
+docker exec -it es7.8 /bin/bash
+#此命令需要在容器中运行
+elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.8.0/elasticsearch-analysis-ik-7.8.0.zip
+# 退出容器，重启容器
+docker restart es7.8
+```
 ## spring-cloud-alibaba的使用
 ### 引入依赖，全套组件版本统一管理
 ```xml
@@ -77,7 +112,7 @@ d将变为 ${prefix}.${file-extension}
 - 每个配置空间下所创建的配置集dataId，可以设置其所属组，默认组是DEFAULT_PUBLIC，可以通过这个组来进行生产、测试等多个环境下的多个配置，然后在配置文件中指定读取的是哪个组即可
 6. 读取多个配置文件
 我们可以将服务的全部配置分成多个配置文件(数据连接相关，mybatis相关，redis相关，其他)，为每部分的配置文件也都可以设置所属组，然后在配置文件中通过spring.cloud.nacos.config.extension-configs:来指定加在属于指定组的多个配置文件 
-7. 通常情况下，每个模块(微服务)会去创建自己专属的命名空间(如服务名)，然后在命名空间内创建多个daytaId进行相应部分的配置管理，并可以为其指定所属组来进行不同环境下的不同配置。
+7. 通常情况下，每个模块(微服务)会去创建自己专属的命名空间(如服务名)，然后在命名空间内创建多个dataId进行相应部分的配置管理，并可以为其指定所属组来进行不同环境下的不同配置。
 ```java
 @RestController
 @RequestMapping("/config")
@@ -93,3 +128,23 @@ public class ConfigController {
     }
 }
 ```
+## JSR303
+1)、导入 javax.validation、hibernate-validator依赖，尤其是第二个，在springboot应用中使用校验，必须导入
+2）、给Bean的字段添加校验注解:javax.validation.constraints，并定义自己的message提示
+3)、开启校验功能 使用@Valid
+   效果：校验错误以后会有默认的响应；
+4）、给校验的bean后紧跟一个BindingResult，就可以获取到校验的结果
+5）、分组校验（多场景的复杂校验）
+      1)、	@NotBlank(message = "品牌名必须提交",groups = {AddGroup.class,UpdateGroup.class})
+       给校验注解标注什么情况需要进行校验
+      2）、@Validated({AddGroup.class})
+      3)、默认没有指定分组的字段校验使用注解@Valid，在分组校验情况下，只会在@Validated({AddGroup.class})生效；
+5）、自定义校验
+   1）、编写一个自定义的校验注解
+   2）、编写一个自定义的校验器 ConstraintValidator
+   3）、关联自定义的校验器和自定义的校验注解
+      @Constraint(validatedBy = { ListValueConstraintValidator.class【可以指定多个不同的校验器，适配不同类型的校验】 })
+统一的异常处理
+@ControllerAdvice
+   1）、编写异常处理类，使用@ControllerAdvice。
+   2）、使用@ExceptionHandler标注方法可以处理的异常。

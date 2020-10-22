@@ -10,6 +10,7 @@
         <result property="searchType" column="search_type"/>
         <result property="icon" column="icon"/>
         <result property="valueSelect" column="value_select"/>
+        <result property="valueType" column="value_type"/>
         <result property="attrType" column="attr_type"/>
         <result property="enable" column="enable"/>
         <result property="catelogId" column="catelog_id"/>

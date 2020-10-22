@@ -4,9 +4,15 @@ import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.R;
 import com.vivi.gulimall.product.entity.BrandEntity;
 import com.vivi.gulimall.product.service.BrandService;
+import com.vivi.gulimall.product.valid.AddBrandValidateGroup;
+import com.vivi.gulimall.product.valid.UpdateBrandStatusValidateGroup;
+import com.vivi.gulimall.product.valid.UpdateBrandValidateGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -65,9 +71,9 @@ public class BrandController {
      */
     @RequestMapping("/save")
     // @RequiresPermissions("product:brand:save")
-    public R save(@RequestBody BrandEntity brand){
+    // 需要分组校验时就不能使用 @Valid ，要使用 @Validated
+    public R save(@Validated({AddBrandValidateGroup.class}) @RequestBody BrandEntity brand){
 		brandService.save(brand);
-
         return R.ok();
     }
 
@@ -76,9 +82,21 @@ public class BrandController {
      */
     @RequestMapping("/update")
     // @RequiresPermissions("product:brand:update")
-    public R update(@RequestBody BrandEntity brand){
-		brandService.updateById(brand);
+    public R update(@Validated({UpdateBrandValidateGroup.class}) @RequestBody BrandEntity brand){
+		// brandService.updateById(brand);
+        brandService.updateCascadeById(brand);
+        return R.ok();
+    }
 
+    /**
+     * 只修改品牌状态信息
+     * @param brand
+     * @return
+     */
+    @RequestMapping("/update/status")
+    // @RequiresPermissions("product:brand:update")
+    public R updateStatus(@Validated({UpdateBrandStatusValidateGroup.class}) @RequestBody BrandEntity brand){
+        brandService.updateById(brand);
         return R.ok();
     }
 

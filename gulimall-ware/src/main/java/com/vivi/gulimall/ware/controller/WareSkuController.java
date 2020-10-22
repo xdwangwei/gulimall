@@ -71,7 +71,6 @@ public class WareSkuController {
     // @RequiresPermissions("ware:waresku:update")
     public R update(@RequestBody WareSkuEntity wareSku){
 		wareSkuService.updateById(wareSku);
-
         return R.ok();
     }
 

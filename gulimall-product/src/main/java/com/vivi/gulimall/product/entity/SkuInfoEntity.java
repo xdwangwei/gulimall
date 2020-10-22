@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.math.BigDecimal;
 import java.io.Serializable;
 import java.util.Date;
+
+import com.vivi.gulimall.product.vo.SpuVO;
 import lombok.Data;
 
 /**
@@ -40,7 +42,7 @@ public class SkuInfoEntity implements Serializable {
 	/**
 	 * 所属分类id
 	 */
-	private Long catalogId;
+	private Long catelogId;
 	/**
 	 * 品牌id
 	 */

@@ -12,6 +12,7 @@
         <result property="skuPrice" column="sku_price"/>
         <result property="wareId" column="ware_id"/>
         <result property="status" column="status"/>
+        <result property="failReason" column="fail_reason"/>
     </resultMap>
 
 

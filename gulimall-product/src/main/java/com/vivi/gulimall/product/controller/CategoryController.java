@@ -35,6 +35,15 @@ public class CategoryController {
         return R.ok().put("page", page);
     }
 
+    /**
+     * 全部分类信息，以树形结构展示
+     */
+    @RequestMapping("/list/tree")
+    // @RequiresPermissions("product:category:list")
+    public R listWithTree(){
+        return R.ok().put("list", categoryService.listWithTree());
+    }
+
 
     /**
      * 信息
@@ -64,20 +73,31 @@ public class CategoryController {
     @RequestMapping("/update")
     // @RequiresPermissions("product:category:update")
     public R update(@RequestBody CategoryEntity category){
-		categoryService.updateById(category);
+		// categoryService.updateById(category);
+		categoryService.updateCascadeById(category);
 
         return R.ok();
     }
 
     /**
      * 删除
+     * @RequestBody,前端必须发送post请求
      */
     @RequestMapping("/delete")
     // @RequiresPermissions("product:category:delete")
     public R delete(@RequestBody Long[] catIds){
-		categoryService.removeByIds(Arrays.asList(catIds));
+        // removeByIds是自己生成的删除方法，只执行删除功能
+		// categoryService.removeByIds(Arrays.asList(catIds));
+
+		// 实际上删除菜单前需要检查当前菜单是否在别处被引入，不能轻易删除，即便是逻辑删除也不行
+        // 所以自己写一个包含这些逻辑处理的方法
+        categoryService.removeBatchByIds(Arrays.asList(catIds));
 
         return R.ok();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Long.MAX_VALUE);
     }
 
 }

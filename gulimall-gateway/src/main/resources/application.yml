@@ -8,3 +8,84 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+    gateway:
+#      路由规则·
+      routes:
+        - id: route_qq
+          uri: https://qq.com
+          predicates:
+#            根据请求参数路由
+            - Query=search, qq
+
+        - id: route_baidu
+          uri: https://baidu.com
+          predicates:
+            # 根据请求参数路由
+            - Query=search, baidu
+
+#       路由到商品管理模块
+        - id: route_gulimall_product
+          uri: lb://gulimall-product
+          predicates:
+#            根据请求路径路由
+            - Path=/api/product/**
+          filters:
+#            路径重写
+#        localhost:88/api/product/** --> localhost:10001/product/**
+            - RewritePath=/api(?<segment>/?.*), $\{segment}
+
+        #       路由到用户管理模块
+        - id: route_gulimall_member
+          uri: lb://gulimall-member
+          predicates:
+            #            根据请求路径路由
+            - Path=/api/member/**
+          filters:
+            #            路径重写
+            #        localhost:88/api/product/** --> localhost:10001/product/**
+            - RewritePath=/api(?<segment>/?.*), $\{segment}
+
+        #       路由到库存管理模块
+        - id: route_gulimall_ware
+          uri: lb://gulimall-ware
+          predicates:
+            #            根据请求路径路由
+            - Path=/api/ware/**
+          filters:
+            #            路径重写
+            #        localhost:88/api/product/** --> localhost:10001/product/**
+            - RewritePath=/api(?<segment>/?.*), $\{segment}
+
+        #       路由到订单管理模块
+        - id: route_gulimall_order
+          uri: lb://gulimall-order
+          predicates:
+            #            根据请求路径路由
+            - Path=/api/order/**
+          filters:
+            #            路径重写
+            #        localhost:88/api/product/** --> localhost:10001/product/**
+            - RewritePath=/api(?<segment>/?.*), $\{segment}
+
+        #       路由到第三方服务模块
+        - id: route_gulimall_third_party
+          uri: lb://gulimall-third-party
+          predicates:
+            # 根据请求路径路由
+            - Path=/api/thirdparty/**
+          filters:
+            #    路径重写
+            #    localhost:88/api/thirdparty/** --> localhost:30000/**
+            - RewritePath=/api(?<segment>/?.*), $\{segment}
+
+#       路由到renren-fast
+        - id: route_renren_fast
+          uri: lb://renren-fast
+          predicates:
+#           这里不能写/api/renren-fast，因为前端发送验证码的路径是/captcha.jpg
+#           没有指定前缀，但是我们还是要路由到/renren-fast进行处理
+#           这个路由规则要写在最后面，因为它是最不精确匹配
+            - Path=/api/**
+          filters:
+#           路径重写，之前的路由规则都未生效时就转发给/renren-fast进行处理
+            - RewritePath=/api(?<segment>/?.*), /renren-fast/$\{segment}

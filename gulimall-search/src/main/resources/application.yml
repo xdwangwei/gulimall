@@ -1,0 +1,15 @@
+server:
+  port: 12000
+
+spring:
+  application:
+    name: guliamll-search
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+elasticsearch:
+  host-addr: 39.99.153.116
+  port: 9200
+  schema: http

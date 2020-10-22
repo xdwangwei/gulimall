@@ -1,8 +1,12 @@
 package com.vivi.gulimall.product.feign;
 
+import com.vivi.common.to.SkuDiscountTO;
+import com.vivi.common.to.SpuBoundsTO;
 import com.vivi.common.utils.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author wangwei
@@ -13,4 +17,10 @@ public interface CouponFeignService {
 
     @GetMapping("/coupon/feign/test/product")
     R productCouponList();
+
+    @RequestMapping("/coupon/sku/discount/save")
+    R saveDiscount(@RequestBody SkuDiscountTO skuDiscountTO);
+
+    @RequestMapping("/coupon/spubounds/save")
+    R saveSpuBounds(@RequestBody SpuBoundsTO spuBoundsTO);
 }
