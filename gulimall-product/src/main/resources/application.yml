@@ -1,52 +1,57 @@
 #将配置全部写在配置中心
 
-#server:
-#  port: 10001
-#
-## mysql
-#spring:
-#  datasource:
-#    type: com.alibaba.druid.pool.DruidDataSource
-#    #MySQL配置
-#    driverClassName: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://39.99.153.116:3306/gulimall_pms?useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai
-#    username: root
-#    password: root
-#  application:
-#    name: gulimall-product
-#  #    nacos注册中心地址配置
-#  cloud:
-#    nacos:
-#      discovery:
-#        server-addr: 127.0.0.1:8848
-##      config:
-##        extension-configs:
-#mybatis-plus:
-#  mapperLocations: classpath:mapper/**/*.xml
-#  global-config:
-#    db-config:
-##   分配ID(主键类型为Number(Long和Integer)或String)(since 3.3.0),
-##  使用接口IdentifierGenerator的方法nextId
-##  (默认实现类为DefaultIdentifierGenerator雪花算法)
-#      id-type: auto
-#
-## 测试读取本地配置和nacos配置中心配置
-#test:
-#  nacos:
-#    config:
-#      name: zhangsan
-#      age: 20
+server:
+  port: 10001
 
-# 开启mybatis-plus逻辑删除
+# mysql
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #MySQL配置
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://39.99.153.116:3306/gulimall_pms?useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  application:
+    name: gulimall-product
+  #    nacos注册中心地址配置
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+#      config:
+#        extension-configs:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+  thymeleaf:
+    cache: false
+  redis:
+    host: 49.235.94.155
+    port: 6379
+    password: redis
+
 mybatis-plus:
+  # 开启mybatis-plus逻辑删除
   global-config:
     db-config:
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+      db-config:
+        #   分配ID(主键类型为Number(Long和Integer)或String)(since 3.3.0),
+        #  使用接口IdentifierGenerator的方法nextId
+        #  (默认实现类为DefaultIdentifierGenerator雪花算法)
+        id-type: auto
+  mapperLocations: classpath:mapper/**/*.xml
+
+# 测试读取本地配置和nacos配置中心配置
+test:
+  nacos:
+    config:
+      name: zhangsan
+      age: 20
+
 logging:
   level:
     com.vivi.gulimall.product: debug
 
-spring:
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
+

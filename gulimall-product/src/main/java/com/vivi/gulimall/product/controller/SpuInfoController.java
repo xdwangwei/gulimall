@@ -50,6 +50,15 @@ public class SpuInfoController {
     }
 
     /**
+     * 上架
+     */
+    @RequestMapping("/{id}/up")
+    public R up(@PathVariable("id") Long id){
+        spuInfoService.statusUp(id);
+        return R.ok();
+    }
+
+    /**
      * 保存
      */
     @RequestMapping("/save")

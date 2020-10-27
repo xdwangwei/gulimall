@@ -1,11 +1,15 @@
 package com.vivi.gulimall.ware.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.vivi.common.to.SkuStockTO;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.R;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +31,8 @@ import com.vivi.gulimall.ware.service.WareSkuService;
 @RestController
 @RequestMapping("ware/waresku")
 public class WareSkuController {
+
+
     @Autowired
     private WareSkuService wareSkuService;
 
@@ -37,8 +43,15 @@ public class WareSkuController {
     // @RequiresPermissions("ware:waresku:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = wareSkuService.queryPage(params);
-
         return R.ok().put("page", page);
+    }
+
+    @RequestMapping("/stock")
+    public R skuStock(@RequestBody List<Long> skuIds) {
+        List<SkuStockTO> skuStockTOS = wareSkuService.getSkusStock(skuIds);
+        R ok = R.ok();
+        ok.setData(skuStockTOS);
+        return ok;
     }
 
 

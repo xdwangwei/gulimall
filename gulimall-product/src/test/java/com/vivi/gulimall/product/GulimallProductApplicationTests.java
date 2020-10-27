@@ -6,6 +6,7 @@ import com.vivi.gulimall.product.service.CategoryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.security.RunAs;
@@ -21,6 +22,9 @@ class GulimallProductApplicationTests {
 
 	@Autowired
 	CategoryService categoryService;
+	
+	@Autowired
+	private StringRedisTemplate redisTemplate;
 
 	@Test
 	void contextLoads() {
@@ -42,6 +46,12 @@ class GulimallProductApplicationTests {
 		System.out.println(Arrays.asList(path));
 		System.out.println(path);
 		path.forEach(System.out::println);
+	}
+
+	@Test
+	void testStringRedisTemplate() {
+		String res = redisTemplate.opsForValue().get("hello");
+		System.out.println(res);
 	}
 
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.gulimall.product.entity.BrandEntity;
 import com.vivi.gulimall.product.entity.CategoryEntity;
+import com.vivi.gulimall.product.vo.Catelog2VO;
 
 import java.util.List;
 import java.util.Map;
@@ -48,5 +49,18 @@ public interface CategoryService extends IService<CategoryEntity> {
      * @param categoryEntity
      */
     boolean updateCascadeById(CategoryEntity categoryEntity);
+
+    /**
+     * 得到所有的一级分类
+     * @return
+     */
+    List<CategoryEntity> getLevel1Categories();
+
+
+    /**
+     * 首页三级分类渲染所需要的的数据模型
+     * @return
+     */
+    Map<String, List<Catelog2VO>> getCatelogJson();
 }
 

@@ -3,13 +3,13 @@ server:
 
 spring:
   application:
-    name: guliamll-search
+    name: gulimall-search
   cloud:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
 
 elasticsearch:
-  host-addr: 39.99.153.116
+  host-addr: 49.235.94.155
   port: 9200
   schema: http

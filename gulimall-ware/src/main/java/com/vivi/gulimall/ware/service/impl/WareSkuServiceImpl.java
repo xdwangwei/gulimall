@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sun.corba.se.spi.ior.ObjectKey;
+import com.vivi.common.to.SkuStockTO;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.Query;
 import com.vivi.common.utils.R;
@@ -20,6 +21,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service("wareSkuService")
@@ -84,6 +86,19 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
         wareSkuEntity.setId(entity.getId());
         wareSkuEntity.setStock(entity.getStock() + num);
         return this.updateById(wareSkuEntity);
+    }
+
+    @Override
+    public List<SkuStockTO> getSkusStock(List<Long> skuIds) {
+        List<SkuStockTO> collect = skuIds.stream().map(skuId -> {
+            SkuStockTO skuStockTO = new SkuStockTO();
+            long stock = baseMapper.getSkuStock(skuId);
+            skuStockTO.setSkuId(skuId);
+            skuStockTO.setStock(stock);
+            return skuStockTO;
+        }).collect(Collectors.toList());
+
+        return collect;
     }
 
     private boolean isValidId(String key) {

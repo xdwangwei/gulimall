@@ -19,6 +19,7 @@ import com.vivi.gulimall.product.vo.AttrRespVO;
 import com.vivi.gulimall.product.vo.AttrVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.websocket.reactive.WebSocketReactiveAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -216,6 +217,22 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         attrAttrgroupRelationDao.delete(new QueryWrapper<AttrAttrgroupRelationEntity>().in("attr_id", list));
         // 删除所有指定的属性记录
         this.removeByIds(list);
+    }
+
+
+    /**
+     * 找出指定的属性集中可以用于搜索的属性
+     * @param ids
+     * @return
+     */
+    @Override
+    public List<AttrEntity> listSearchAttrByIds(List<Long> ids) {
+        QueryWrapper<AttrEntity> wrapper = new QueryWrapper<>();
+        wrapper.in("attr_id", ids);
+        wrapper.eq("enable", 1);
+        wrapper.eq("search_type", 1);
+        List<AttrEntity> list = this.list(wrapper);
+        return list;
     }
 
 }

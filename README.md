@@ -2,6 +2,38 @@
 分布式商城
 
 ## Docker
+
+### Docker安装Redis
+```shell script
+docker pull redis:5.0.9
+mkdir /root/docker/redis
+vim /root/docker/redis/redis.conf
+    port 6379
+    requirepass xxxx
+    appendonly yes
+docker run -p 6379:6379 --name redis \
+        -v /root/docker/redis/data:/date \
+        -v /root/docker/redis/redis.conf:/etc/redis/redis.conf \
+        -d redis-server /etc/redis/redis.conf
+```
+### Docker安装Nginx
+```shell script
+mkdir /root/docker/nginx
+mkdir /root/docker/nginx/conf
+# 由于我们现在没有配置文件，也不知道配置什么。可以先启动一个nginx，讲他的配置文件拷贝出来
+# 再作为映射，启动真正的nginx
+docker pull nginx:1.17.4
+docker run --name some-nginx -d nginx:1.17.4
+docker container cp some-nginx:/etc/nginx /root/docker/nginx/conf
+# 然后就可以删除这个容器了
+docker docker rm -f some-nginx
+# 启动nginx
+docker run --name nginx -p 80:80 \
+        -v /root/docker/nginx/conf:/etc/nginx \
+        -v /root/docker/nginx/html:/usr/share/nginx/html \
+        -d nginx:1.17.4
+
+```
 ### Docker安装ElasticSearch
 ```shell script
 docker pull elasticsearch:7.8.0
@@ -24,7 +56,7 @@ docker pull kibana:7.8.0
 docker run --link YOUR_ELASTICSEARCH_CONTAINER_NAME_OR_ID:elasticsearch -p 5601:5601 {docker-repo}:{version}
 docker run --link es7.8:elasticsearch -p 5601:5601 --name kibana -d kibana:7.8.0
 ```
-### Docker安装IK分词器
+### DockerElasticSearch安装IK分词器
 ```sehll
 # Ik分词器版本要和ES和Kibana版本保持一致
 
@@ -148,3 +180,142 @@ public class ConfigController {
 @ControllerAdvice
    1）、编写异常处理类，使用@ControllerAdvice。
    2）、使用@ExceptionHandler标注方法可以处理的异常。
+   
+## 分布式锁Redisson的使用
+   https://redis.io/topics/distlock
+   https://github.com/redisson/redisson
+
+   Redisson是一个在Redis的基础上实现的Java驻内存数据网格（In-Memory Data Grid）。它不仅提供了一系列的分布式的Java常用对象，还提供了许多分布式服务。
+   其中包括(BitSet, Set, Multimap, SortedSet, Map, List, Queue, BlockingQueue, Deque, BlockingDeque, Semaphore, Lock, AtomicLong, CountDownLatch, Publish / Subscribe, Bloom filter, Remote service, Spring cache, Executor service, Live Object service, Scheduler service)
+   Redisson提供了使用Redis的最简单和最便捷的方法。Redisson的宗旨是促进使用者对Redis的关注分离（Separation of Concern），从而让使用者能够将精力更集中地放在处理业务逻辑上。
+     
+   1. 导入erdisson依赖，可去maven仓库
+   2. 编写配置类，创建 RedissonClient对象
+   3. @autowired注入RedissonClient对象
+   4. 获取锁 参数就是锁的名字
+            // 获取分布式可重入锁，最基本的锁
+           RLock lock = redissonClient.getLock("锁名");
+           // 获取读写锁
+           redissonClient.getReadWriteLock("anyRWLock");
+           // 信号量
+           redissonClient.getSemaphore("semaphore");
+  
+      Rlock实现了juc下的lock，完全可以像使用本地锁一样使用它
+  
+   5. 以可重入锁为例
+      如果直接执行 lock.lock();
+         Redisson内部提供了一个监控锁的看门狗，它的作用是在Redisson实例被关闭前，(定时任务)不断的延长锁的有效期。
+         默认情况下，看门狗的检查锁的超时时间是30秒钟，也可以通过修改Config.lockWatchdogTimeout来另行指定
+         也就是说，先加锁，然后执行业务，锁的默认有效期是30s，业务进行期间，会通过定时任务不断将锁的有效期续至30s。直到业务代码结束
+         所以即便不手动释放锁。最终也会自动释放
+         默认是任务调度的周期是 看门狗时间 / 3  = 10s
+   
+      也可以使用 lock.lock(10, TimeUnit.SECONDS);手动指定时间
+         此时，不会有定时任务自动延期，超过这个时间后锁便自动解开了
+         需要注意的是，如果代码块中有手动解锁，但是业务执行完成之前锁的有效期到了，
+         此时执行unlock会报错：当前线程无法解锁
+         因为现在redis中的锁是另一个线程加上的，而他的删锁逻辑是lua脚本执行
+         先获取键值，判断是否是自己加的锁。如果是。则释放，lua脚本保证这是一个原子操作
+         所以，手动设置时间必须保证这个时间内业务能够执行完成
+         
+## SpringCache的使用
+
+    https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/integration.html#cache
+    1. 导入依赖
+        ```xml
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        ```
+    2. CacheAutoconfiguration类导入了多种类型的缓存自动配置
+    ```java
+    static class CacheConfigurationImportSelector implements ImportSelector {
+    		@Override
+    		public String[] selectImports(AnnotationMetadata importingClassMetadata) {
+    			CacheType[] types = CacheType.values();
+    			String[] imports = new String[types.length];
+    			for (int i = 0; i < types.length; i++) {
+    				imports[i] = CacheConfigurations.getConfigurationClass(types[i]);
+    			}
+    			return imports;
+    		}
+    
+    	}
+    // 缓存类型
+    public enum CacheType {
+        GENERIC,
+        JCACHE,
+        EHCACHE,
+        HAZELCAST,
+        INFINISPAN,
+        COUCHBASE,
+        REDIS,
+        CAFFEINE,
+        SIMPLE,
+        NONE;
+    // 各种类型缓存对应的自动配置类
+    mappings.put(CacheType.GENERIC, GenericCacheConfiguration.class);
+    mappings.put(CacheType.EHCACHE, EhCacheCacheConfiguration.class);
+    mappings.put(CacheType.HAZELCAST, HazelcastCacheConfiguration.class);
+    mappings.put(CacheType.INFINISPAN, InfinispanCacheConfiguration.class);
+    mappings.put(CacheType.JCACHE, JCacheCacheConfiguration.class);
+    mappings.put(CacheType.COUCHBASE, CouchbaseCacheConfiguration.class);
+    mappings.put(CacheType.REDIS, RedisCacheConfiguration.class);
+    mappings.put(CacheType.CAFFEINE, CaffeineCacheConfiguration.class);
+    mappings.put(CacheType.SIMPLE, SimpleCacheConfiguration.class);
+    mappings.put(CacheType.NONE, NoOpCacheConfiguration.class);
+    MAPPINGS = Collections.unmodifiableMap(mappings);
+    ```
+    3. 每种类型的缓存自动配置类中，创建了CacheManager，根据默认配置或用户自定义配置初始化了一系列Cache
+    以RedisCacheConfiguration为例
+    ```java
+        // 创建cacheManager。初始化cache
+        @Bean
+        RedisCacheManager cacheManager(){}
+        // 用于决定初始化cache用什么配置，如果用户自定义了RedisCacheConfiguration。就用用户的配置
+        // 否则就自己创建一个配置
+        private determineConfiguration(){
+            			CacheProperties cacheProperties,
+            			ObjectProvider<org.springframework.data.redis.cache.RedisCacheConfiguration> redisCacheConfiguration,
+            			ClassLoader classLoader) {
+            		return redisCacheConfiguration.getIfAvailable(() -> createConfiguration(cacheProperties, classLoader));
+        }
+        // 自己创建一个RedisCacheConfiguration
+        private createConfiguration(
+            CacheProperties cacheProperties, ClassLoader classLoader) {
+            Redis redisProperties = cacheProperties.getRedis();
+            // 这里就是默认策略的设置
+            org.springframework.data.redis.cache.RedisCacheConfiguration config = org.springframework.data.redis.cache.RedisCacheConfiguration
+                    .defaultCacheConfig();
+            // 值的序列化采用Jdk序列化
+            config = config.serializeValuesWith(
+                    SerializationPair.fromSerializer(new JdkSerializationRedisSerializer(classLoader)));
+            // 读取配置文件中用户指定的缓存有效期
+            if (redisProperties.getTimeToLive() != null) {
+                config = config.entryTtl(redisProperties.getTimeToLive());
+            }
+            // 读取配置文件中用户指定的缓存键的前缀
+            if (redisProperties.getKeyPrefix() != null) {
+                config = config.prefixCacheNameWith(redisProperties.getKeyPrefix());
+            }
+            // 读取配置文件中用户指定的缓存是否要缓存空值，缓存控制能够解决缓存雪崩(疯狂访问一个缓存和数据库中都没有的id，导致崩溃)
+            if (!redisProperties.isCacheNullValues()) {
+                config = config.disableCachingNullValues();
+            }
+            // 读取配置文件中用户指定的缓存是否使用指定的键前缀
+            if (!redisProperties.isUseKeyPrefix()) {
+                config = config.disableKeyPrefix();
+            }
+            return config;
+        }
+    ```
+    4. 使用缓存
+    ```java
+    @Cacheable: Triggers cache population: 触发将值存入缓存的操作
+    @CacheEvict: Triggers cache eviction.   触发将值从缓存移除的操作
+    @CachePut: Updates the cache without interfering with the method execution：触发更新缓存的操作 
+    @Caching: Regroups multiple cache operations to be applied on a method：组合以上多种操作
+    @CacheConfig: Shares some common cache-related settings at class-level：在类级别上共享相同的缓存配置
+    ```
+    

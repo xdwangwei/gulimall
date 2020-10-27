@@ -19,7 +19,9 @@ public enum BizCodeEnum {
 
     UNKNOW_EXCEPTION(00000,"系统未知异常"),
     // 商品模块异常
-    PRODUCT_VAILD_EXCEPTION(10001,"参数格式校验失败");
+    PRODUCT_VAILD_EXCEPTION(10001,"参数格式校验失败"),
+
+    PRODUCT_UP_FAILED(10111, "商品上架至ES失败");
 
     private int code;
     private String msg;

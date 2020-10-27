@@ -89,3 +89,8 @@ spring:
           filters:
 #           路径重写，之前的路由规则都未生效时就转发给/renren-fast进行处理
             - RewritePath=/api(?<segment>/?.*), /renren-fast/$\{segment}
+
+        - id: host_route_gulimall_product
+          uri: lb://gulimall-product
+          predicates:
+            - Host=**.gulimall.com

@@ -52,5 +52,11 @@ public interface AttrService extends IService<AttrEntity> {
      */
     void removeCascadeByIds(List<Long> list);
 
+    /**
+     * 找出指定的属性集中可以用于搜索的属性
+     * @param ids
+     * @return
+     */
+    List<AttrEntity> listSearchAttrByIds(List<Long> ids);
 }
 

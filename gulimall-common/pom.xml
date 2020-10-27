@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>gulimall</artifactId>
         <groupId>com.vivi</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
     <description>各个微服务的公共依赖服务</description>
     <artifactId>gulimall-common</artifactId>
 
@@ -22,7 +21,7 @@
         <commons.io.version>2.5</commons.io.version>
         <commons.configuration.version>1.10</commons.configuration.version>
         <httpcore.version>4.4.13</httpcore.version>
-        <fastjson.version>1.2.60</fastjson.version>
+        <fastjson.version>1.2.74</fastjson.version>
         <velocity.version>1.7</velocity.version>
         <pagehelper.spring.boot.version>1.2.5</pagehelper.spring.boot.version>
         <mysql.version>8.0.18</mysql.version>
@@ -31,7 +30,6 @@
         <hibernate.validator.version>6.0.12.Final</hibernate.validator.version>
         <springcloud.alibaba.version>2.2.2.RELEASE</springcloud.alibaba.version>
     </properties>
-
 
     <dependencies>
         <!--mybatisPlus-->
@@ -98,6 +96,13 @@
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate.validator.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+
     </dependencies>
 
     <!--spring-cloud-alibaba组件包管理-->
