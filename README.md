@@ -70,6 +70,9 @@ docker restart es7.8
 ## spring-cloud-alibaba的使用
 ### 引入依赖，全套组件版本统一管理
 ```xml
+    <properties>
+        <springcloud.alibaba.version>2.2.2.RELEASE</springcloud.alibaba.version>
+    </properties>
 <dependencyManagement>
     <dependencies>
         <dependency>
@@ -220,102 +223,102 @@ public class ConfigController {
          
 ## SpringCache的使用
 
-    https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/integration.html#cache
-    1. 导入依赖
-        ```xml
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
-        ```
-    2. CacheAutoconfiguration类导入了多种类型的缓存自动配置
-    ```java
-    static class CacheConfigurationImportSelector implements ImportSelector {
-    		@Override
-    		public String[] selectImports(AnnotationMetadata importingClassMetadata) {
-    			CacheType[] types = CacheType.values();
-    			String[] imports = new String[types.length];
-    			for (int i = 0; i < types.length; i++) {
-    				imports[i] = CacheConfigurations.getConfigurationClass(types[i]);
-    			}
-    			return imports;
-    		}
-    
-    	}
-    // 缓存类型
-    public enum CacheType {
-        GENERIC,
-        JCACHE,
-        EHCACHE,
-        HAZELCAST,
-        INFINISPAN,
-        COUCHBASE,
-        REDIS,
-        CAFFEINE,
-        SIMPLE,
-        NONE;
-    // 各种类型缓存对应的自动配置类
-    mappings.put(CacheType.GENERIC, GenericCacheConfiguration.class);
-    mappings.put(CacheType.EHCACHE, EhCacheCacheConfiguration.class);
-    mappings.put(CacheType.HAZELCAST, HazelcastCacheConfiguration.class);
-    mappings.put(CacheType.INFINISPAN, InfinispanCacheConfiguration.class);
-    mappings.put(CacheType.JCACHE, JCacheCacheConfiguration.class);
-    mappings.put(CacheType.COUCHBASE, CouchbaseCacheConfiguration.class);
-    mappings.put(CacheType.REDIS, RedisCacheConfiguration.class);
-    mappings.put(CacheType.CAFFEINE, CaffeineCacheConfiguration.class);
-    mappings.put(CacheType.SIMPLE, SimpleCacheConfiguration.class);
-    mappings.put(CacheType.NONE, NoOpCacheConfiguration.class);
-    MAPPINGS = Collections.unmodifiableMap(mappings);
+https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/integration.html#cache
+1. 导入依赖
+    ```xml
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-cache</artifactId>
+    </dependency>
     ```
-    3. 每种类型的缓存自动配置类中，创建了CacheManager，根据默认配置或用户自定义配置初始化了一系列Cache
-    以RedisCacheConfiguration为例
-    ```java
-        // 创建cacheManager。初始化cache
-        @Bean
-        RedisCacheManager cacheManager(){}
-        // 用于决定初始化cache用什么配置，如果用户自定义了RedisCacheConfiguration。就用用户的配置
-        // 否则就自己创建一个配置
-        private determineConfiguration(){
-            			CacheProperties cacheProperties,
-            			ObjectProvider<org.springframework.data.redis.cache.RedisCacheConfiguration> redisCacheConfiguration,
-            			ClassLoader classLoader) {
-            		return redisCacheConfiguration.getIfAvailable(() -> createConfiguration(cacheProperties, classLoader));
+2. CacheAutoconfiguration类导入了多种类型的缓存自动配置
+```java
+static class CacheConfigurationImportSelector implements ImportSelector {
+        @Override
+        public String[] selectImports(AnnotationMetadata importingClassMetadata) {
+            CacheType[] types = CacheType.values();
+            String[] imports = new String[types.length];
+            for (int i = 0; i < types.length; i++) {
+                imports[i] = CacheConfigurations.getConfigurationClass(types[i]);
+            }
+            return imports;
         }
-        // 自己创建一个RedisCacheConfiguration
-        private createConfiguration(
-            CacheProperties cacheProperties, ClassLoader classLoader) {
-            Redis redisProperties = cacheProperties.getRedis();
-            // 这里就是默认策略的设置
-            org.springframework.data.redis.cache.RedisCacheConfiguration config = org.springframework.data.redis.cache.RedisCacheConfiguration
-                    .defaultCacheConfig();
-            // 值的序列化采用Jdk序列化
-            config = config.serializeValuesWith(
-                    SerializationPair.fromSerializer(new JdkSerializationRedisSerializer(classLoader)));
-            // 读取配置文件中用户指定的缓存有效期
-            if (redisProperties.getTimeToLive() != null) {
-                config = config.entryTtl(redisProperties.getTimeToLive());
-            }
-            // 读取配置文件中用户指定的缓存键的前缀
-            if (redisProperties.getKeyPrefix() != null) {
-                config = config.prefixCacheNameWith(redisProperties.getKeyPrefix());
-            }
-            // 读取配置文件中用户指定的缓存是否要缓存空值，缓存控制能够解决缓存雪崩(疯狂访问一个缓存和数据库中都没有的id，导致崩溃)
-            if (!redisProperties.isCacheNullValues()) {
-                config = config.disableCachingNullValues();
-            }
-            // 读取配置文件中用户指定的缓存是否使用指定的键前缀
-            if (!redisProperties.isUseKeyPrefix()) {
-                config = config.disableKeyPrefix();
-            }
-            return config;
+
+    }
+// 缓存类型
+public enum CacheType {
+    GENERIC,
+    JCACHE,
+    EHCACHE,
+    HAZELCAST,
+    INFINISPAN,
+    COUCHBASE,
+    REDIS,
+    CAFFEINE,
+    SIMPLE,
+    NONE;}
+// 各种类型缓存对应的自动配置类
+mappings.put(CacheType.GENERIC, GenericCacheConfiguration.class);
+mappings.put(CacheType.EHCACHE, EhCacheCacheConfiguration.class);
+mappings.put(CacheType.HAZELCAST, HazelcastCacheConfiguration.class);
+mappings.put(CacheType.INFINISPAN, InfinispanCacheConfiguration.class);
+mappings.put(CacheType.JCACHE, JCacheCacheConfiguration.class);
+mappings.put(CacheType.COUCHBASE, CouchbaseCacheConfiguration.class);
+mappings.put(CacheType.REDIS, RedisCacheConfiguration.class);
+mappings.put(CacheType.CAFFEINE, CaffeineCacheConfiguration.class);
+mappings.put(CacheType.SIMPLE, SimpleCacheConfiguration.class);
+mappings.put(CacheType.NONE, NoOpCacheConfiguration.class);
+MAPPINGS = Collections.unmodifiableMap(mappings);
+```
+3. 每种类型的缓存自动配置类中，创建了CacheManager，根据默认配置或用户自定义配置初始化了一系列Cache
+以RedisCacheConfiguration为例
+```java
+    // 创建cacheManager。初始化cache
+    @Bean
+    RedisCacheManager cacheManager(){}
+    // 用于决定初始化cache用什么配置，如果用户自定义了RedisCacheConfiguration。就用用户的配置
+    // 否则就自己创建一个配置
+    private determineConfiguration(){
+                    CacheProperties cacheProperties,
+                    ObjectProvider<org.springframework.data.redis.cache.RedisCacheConfiguration> redisCacheConfiguration,
+                    ClassLoader classLoader) {
+                return redisCacheConfiguration.getIfAvailable(() -> createConfiguration(cacheProperties, classLoader));
+    }
+    // 自己创建一个RedisCacheConfiguration
+    private createConfiguration(
+        CacheProperties cacheProperties, ClassLoader classLoader) {
+        Redis redisProperties = cacheProperties.getRedis();
+        // 这里就是默认策略的设置
+        org.springframework.data.redis.cache.RedisCacheConfiguration config = org.springframework.data.redis.cache.RedisCacheConfiguration
+                .defaultCacheConfig();
+        // 值的序列化采用Jdk序列化
+        config = config.serializeValuesWith(
+                SerializationPair.fromSerializer(new JdkSerializationRedisSerializer(classLoader)));
+        // 读取配置文件中用户指定的缓存有效期
+        if (redisProperties.getTimeToLive() != null) {
+            config = config.entryTtl(redisProperties.getTimeToLive());
         }
-    ```
-    4. 使用缓存
-    ```java
-    @Cacheable: Triggers cache population: 触发将值存入缓存的操作
-    @CacheEvict: Triggers cache eviction.   触发将值从缓存移除的操作
-    @CachePut: Updates the cache without interfering with the method execution：触发更新缓存的操作 
-    @Caching: Regroups multiple cache operations to be applied on a method：组合以上多种操作
-    @CacheConfig: Shares some common cache-related settings at class-level：在类级别上共享相同的缓存配置
-    ```
+        // 读取配置文件中用户指定的缓存键的前缀
+        if (redisProperties.getKeyPrefix() != null) {
+            config = config.prefixCacheNameWith(redisProperties.getKeyPrefix());
+        }
+        // 读取配置文件中用户指定的缓存是否要缓存空值，缓存控制能够解决缓存雪崩(疯狂访问一个缓存和数据库中都没有的id，导致崩溃)
+        if (!redisProperties.isCacheNullValues()) {
+            config = config.disableCachingNullValues();
+        }
+        // 读取配置文件中用户指定的缓存是否使用指定的键前缀
+        if (!redisProperties.isUseKeyPrefix()) {
+            config = config.disableKeyPrefix();
+        }
+        return config;
+    }
+```
+4. 使用缓存
+```java
+@Cacheable: Triggers cache population: 触发将值存入缓存的操作
+@CacheEvict: Triggers cache eviction.   触发将值从缓存移除的操作
+@CachePut: Updates the cache without interfering with the method execution：触发更新缓存的操作 
+@Caching: Regroups multiple cache operations to be applied on a method：组合以上多种操作
+@CacheConfig: Shares some common cache-related settings at class-level：在类级别上共享相同的缓存配置
+```
     
