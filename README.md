@@ -224,7 +224,7 @@ public class ConfigController {
 ## SpringCache的使用
 
 https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/integration.html#cache
-1. 导入依赖
+1. 导入依赖。
     ```xml
     <dependency>
         <groupId>org.springframework.boot</groupId>
@@ -314,11 +314,142 @@ MAPPINGS = Collections.unmodifiableMap(mappings);
     }
 ```
 4. 使用缓存
+首先在applicaition.yml中指定我们使用的是哪个类型的缓存，
+并在配置类上使用@EnableCaching启用缓存
+接下来只需要使用注解标注方法就行
+```yml
+spring.cache.type=redis
+```
 ```java
+@EnableCaching
+public class Application {
+    public static void main(String[] args) {
+    		SpringApplication.run(Application.class, args);
+    }
+}
 @Cacheable: Triggers cache population: 触发将值存入缓存的操作
 @CacheEvict: Triggers cache eviction.   触发将值从缓存移除的操作
 @CachePut: Updates the cache without interfering with the method execution：触发更新缓存的操作 
 @Caching: Regroups multiple cache operations to be applied on a method：组合以上多种操作
 @CacheConfig: Shares some common cache-related settings at class-level：在类级别上共享相同的缓存配置
 ```
+### @Cacheable
+```java
+    /**
+     * @Cacheable 代表当前方法的结果需要放入缓存
+     *      并且，每次访问这个方法时，会先去缓存中判断数据是否存在，若存在则直接返回缓存中数据，不会执行方法
+     *      但是我们需要指定，要将结果放入哪个缓存中，每个cacheManager管理多个cache.
+     *      我们需要指定cache的名字(相当于对缓存进行分区管理，建议按照业务进行划分)
+     *      使用cacheNames或value属性都可以。可以同时放入多个分区
+     *
+     *  存入缓存中的键名：product-category::SimpleKey []
+     *                  cacheName::默认生成的键名 [方法参数列表]
+     *      这个simplekey[]就是自己生成的键名
+     *      我们可以使用注解的key属性，指定键名，它接收一个Spel表达式
+     *          比如 #root.methodName 就是获取方法名
+     *       详细用法：https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/integration.html#cache-spel-context
+     *   指定key后，得到的键名是：product-category::getLevel1Category
+     *   
+     *  默认生成的值是采用jdk序列化，并且过期时间是-1，
+     *  如果我们想要改变默认配置，
+     *      一些最基本的配置可以在配置文件中设置：
+     *          # 是否缓存空值
+     *          spring.cache.redis.cache-null-values=true
+     *          # 键的前缀
+     *          spring.cache.redis.key-prefix=CACHE_
+     *          # 是否使用这个前缀
+     *          spring.cache.redis.use-key-prefix=true
+     *          # 缓存的有效期
+     *          spring.cache.redis.time-to-live=3600000
+
+     *  比较高级的配置，比如设置序列化策略采用json形式，就得自己编写RedisCacheConfiguration
+
+            sync 属性：默认为false。
+                如果设为true。则会为处理过程加上synchronized本地锁。也就是说在一个微服务里面，能够保证线程间互斥访问这个方法
+     *
+     * @return
+     */
+    @RequestMapping("/product/category/level1")
+    @Cacheable(cacheNames = {"product-category"}, key = "#root.methodName")
+    public List<CategoryEntity> getLevel1Category() {
+        System.out.println("查询数据库");
+        List<CategoryEntity> level1Categories = categoryService.getLevel1Categories();
+        return level1Categories;
+    }
+    /**
+     * 自己编写RedisCacheConfiguration
+     */
+    @EnableConfigurationProperties(CacheProperties.class)
+    @Configuration
+    public class RedisCacheConfig {
     
+        /**
+         * 没有无参构造方法。不能直接 new RedisCacheConfiguration();
+         * 使用RedisCacheConfiguration.defaultCacheConfig();默认配置，再修改
+         * 
+         * 用户的自定义配置都在 application.yml中其中spring.cache部分。
+         * 它和CacheProperties.class进行了绑定，
+         *      @ConfigurationProperties(prefix = "spring.cache")
+         *      public class CacheProperties {}
+         * 但是这个类它没有被作为一个bean放入容器中。
+         * 我们需要手动导入
+         * @EnableConfigurationProperties(CacheProperties.class)
+         * 这样容器中就会创建出一个 cacheProperties对象。我们可以使用方法参数直接接收
+         * @return
+         */
+        @Bean
+        public RedisCacheConfiguration redisCacheConfiguration(CacheProperties cacheProperties) {
+            RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
+            // 设置键的序列化策略
+            config = config.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.string()));
+            // 设置值的序列化策略
+            config = config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.json()));
+            // 加载配置文件中用户自定义配置
+            // 拿出redis部分
+            CacheProperties.Redis redisProperties = cacheProperties.getRedis();
+            if (redisProperties.getTimeToLive() != null) {
+                config = config.entryTtl(redisProperties.getTimeToLive());
+            }
+            if (redisProperties.getKeyPrefix() != null) {
+                config = config.prefixCacheNameWith(redisProperties.getKeyPrefix());
+            }
+            if (!redisProperties.isCacheNullValues()) {
+                config = config.disableCachingNullValues();
+            }
+            if (!redisProperties.isUseKeyPrefix()) {
+                config = config.disableKeyPrefix();
+            }
+            return config;
+        }
+    }
+
+    /**
+     * @CacheEvict: 触发删除缓存操作
+     *      cacheNames: 指定要删除的是哪个缓存分区的缓存
+     *      key: 要删除的是这个分区中的那个缓存
+     *      allEntries: 是否删除这个分区中的所有缓存。默认false
+     * 所以。如果只指定cacheNames.不指定key。不会进行任何删除。
+     *      如果设置allEntries = true。那么不用指定key。全部删除
+     *  
+     * key。一次只能指定一个key。那如果要删除多个，但不想全部删除，就需要使用 @Caching
+     *     @Caching(
+     *             evict = {
+     *                     @CacheEvict(cacheNames = {ProductConstant.CacheName.PRODUCT_CATEGORY},
+     *                             key = "'level1Category'"),
+     *                     @CacheEvict(cacheNames = {ProductConstant.CacheName.PRODUCT_CATEGORY},
+     *                             key = "'level2Category'")
+     *             },
+     *             cacheable = {}
+     *     )
+     */
+    
+    /**
+     * @CachePut
+
+     * 最简单的保证缓存和数据库一致性的方式就是，每次执行更新操作。就将缓存删除。下次查询方法自然会将最新数据存入缓存
+     * 
+     * 如果我们的更新方法没有返回值，也就是更新完就结束，那么我们使用@CacheEvit删除缓存
+     * 如果我们的更新方法有返回值，也就是更新成功后将最新数据返回，那么我们使用@CachePut将最新数据更新到缓存
+     * @return
+     */  
+```

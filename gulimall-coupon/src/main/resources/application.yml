@@ -22,10 +22,10 @@ mybatis-plus:
   mapperLocations: classpath:mapper/**/*.xml
   global-config:
     db-config:
+      id-type: auto
 #   分配ID(主键类型为Number(Long和Integer)或String)(since 3.3.0),
 #  使用接口IdentifierGenerator的方法nextId
 #  (默认实现类为DefaultIdentifierGenerator雪花算法)
-      id-type: auto
 
 logging:
   level:

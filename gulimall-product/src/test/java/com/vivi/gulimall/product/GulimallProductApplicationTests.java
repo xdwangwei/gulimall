@@ -1,11 +1,13 @@
 package com.vivi.gulimall.product;
 
 import com.vivi.gulimall.product.entity.BrandEntity;
+import com.vivi.gulimall.product.entity.CategoryEntity;
 import com.vivi.gulimall.product.service.BrandService;
 import com.vivi.gulimall.product.service.CategoryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 

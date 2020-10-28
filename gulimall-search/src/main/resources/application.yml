@@ -8,8 +8,11 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+  thymeleaf:
+    cache: false
 
 elasticsearch:
   host-addr: 49.235.94.155
   port: 9200
   schema: http
+

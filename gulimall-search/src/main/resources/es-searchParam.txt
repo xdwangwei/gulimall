@@ -1,0 +1,153 @@
+# 1.模糊匹配keyword
+# 2.过滤(分类id。品牌id，价格区间，是否有库存，规格属性)，
+# 3.排序，
+# 4.分页，
+# 5.高亮，
+# 6.聚合分析
+GET /gulimall-product/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "skuTitle": "小米"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "term": {
+            "catelogId": "225"
+          }
+        },
+        {
+          "terms": {
+            "brandId": [
+              "6",
+              "7"
+            ]
+          }
+        },
+        {
+          "nested": {
+            "path": "attrs",
+            "query": {
+              "bool": {
+                "filter": [
+                  {
+                    "term": {
+                      "attrs.attrId": "13"
+                    }
+                  },
+                  {
+                    "terms": {
+                      "attrs.attrValue": [
+                        "Mali G76",
+                        "其他",
+                        "以官网信息为准"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "term": {
+            "hasStock": "true"
+          }
+        },
+        {
+          "range": {
+            "skuPrice": {
+              "gte": 0,
+              "lte": 2200
+            }
+          }
+        }
+      ]
+    }
+  },
+  "sort": [
+    {
+      "skuPrice": {
+        "order": "desc"
+      }
+    }
+  ],
+  "from": 0,
+  "size": 2,
+  "highlight": {
+    "fields": {
+      "skuTitle": {
+        "pre_tags":"<b style='color: red'>",
+        "post_tags": "</b>"
+      }
+    }
+  },
+  "aggs": {
+    "brandAgg": {
+      "terms": {
+        "field": "brandId",
+        "size": 100
+      },
+      "aggs": {
+        "brandNameAgg": {
+          "terms": {
+            "field": "brandName",
+            "size": 100
+          }
+        },
+        "brandImgAgg": {
+          "terms": {
+            "field": "brandImg",
+            "size": 100
+          }
+        }
+      }
+    },
+    "catelogAgg": {
+      "terms": {
+        "field": "catelogId",
+        "size": 100
+      },
+      "aggs": {
+        "catelogNameAgg": {
+          "terms": {
+            "field": "catelogName",
+            "size": 100
+          }
+        }
+      }
+    },
+    "attrAgg": {
+      "nested": {
+        "path": "attrs"
+      },
+      "aggs": {
+        "attrIdAgg": {
+          "terms": {
+            "field": "attrs.attrId",
+            "size": 100
+          },
+          "aggs": {
+            "attrNameAgg": {
+              "terms": {
+                "field": "attrs.attrName",
+                "size": 100
+              }
+            },
+            "attrValueAgg": {
+              "terms": {
+                "field": "attrs.attrValue",
+                "size": 100
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

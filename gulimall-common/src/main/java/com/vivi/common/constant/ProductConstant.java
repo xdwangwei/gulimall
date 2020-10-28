@@ -67,4 +67,12 @@ public class ProductConstant {
 
         public static final String CATELOG_JSON_LOCK = "catelogJsonLock";
     }
+
+    /**
+     * gulimall-product使用springCache时，每个chache的名字(缓存分区)
+     */
+    public static class CacheName {
+        public static final String PRODUCT_CATEGORY = "product-category";
+    }
+
 }

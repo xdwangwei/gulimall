@@ -80,7 +80,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     }
 
     // TODO 高级部分完善,事务回滚
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean save(SpuVO spuVO) {
         // System.out.println(spuVO);

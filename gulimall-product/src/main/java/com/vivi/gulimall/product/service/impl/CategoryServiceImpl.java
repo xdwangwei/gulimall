@@ -16,6 +16,8 @@ import com.vivi.gulimall.product.vo.Catelog2VO;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
@@ -49,6 +51,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         return new PageUtils(page);
     }
 
+
+    @Cacheable(cacheNames = {ProductConstant.CacheName.PRODUCT_CATEGORY},
+            key = "'categoryList'")
     @Override
     public List<CategoryEntity> listWithTree() {
         // 查出所有的菜单
@@ -87,8 +92,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      * 但是如果只存category_id，需要其他信息再去查，就会总成数据库压力大，所以通常会伴随有几个冗余字段，比如category_name
      * 所以在更新brand表的时候，如果更新字段部分包括了出现在其他表中的冗余字段，则需要将这些关联的表的这些部分也更新了
      * 这样才能保证数据一致性
+     *
+     *
+     * 更新完删除缓存
      * @param categoryEntity
      */
+    @CacheEvict(cacheNames = {ProductConstant.CacheName.PRODUCT_CATEGORY},
+                allEntries = true)
     @Override
     public boolean updateCascadeById(CategoryEntity categoryEntity) {
         // 先更新category表本身
@@ -110,19 +120,33 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      * 查出所有一级分类菜单
      * @return
      */
+    @Cacheable(cacheNames = {ProductConstant.CacheName.PRODUCT_CATEGORY},
+            key = "'level1Categories'")
     @Override
     public List<CategoryEntity> getLevel1Categories() {
         return this.list(new QueryWrapper<CategoryEntity>().eq("parent_cid", 0));
     }
 
     /**
-     * 首页三级分类渲染所需要的的数据模型
+     * 首页三级分类渲染所需要的的数据模型     ----新版
      *
-     * 加入缓存逻辑，加入锁，保证只访问一次数据库，其他请求直接访问redis
+     * springCache整合
      * @return
      */
+    @Cacheable(cacheNames = {ProductConstant.CacheName.PRODUCT_CATEGORY},
+                key = "'catelogJson'")
     @Override
     public Map<String, List<Catelog2VO>> getCatelogJson() {
+        return getCatelogJsonFromDB();
+    }
+
+    /**
+     * 首页三级分类渲染所需要的的数据模型  ---- 旧版
+     *
+     * 加入自己实现的缓存逻辑，加入锁，保证只访问一次数据库，其他请求直接访问redis
+     * @return
+     */
+    private Map<String, List<Catelog2VO>> getCatelogJsonOld() {
         String str = stringRedisTemplate.opsForValue().get(ProductConstant.RedisKey.CATELOG_JSON_VALUE);
         // 如果redis中有，就直接返回
         if (!StringUtils.isEmpty(str)) {

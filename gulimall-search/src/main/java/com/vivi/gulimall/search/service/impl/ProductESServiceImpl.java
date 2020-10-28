@@ -1,8 +1,8 @@
 package com.vivi.gulimall.search.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.vivi.common.constant.SearchConstant;
 import com.vivi.common.to.SkuESModel;
-import com.vivi.gulimall.search.constant.ProductESIndex;
 import com.vivi.gulimall.search.service.ProductESService;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.bulk.BulkRequest;
@@ -38,7 +38,7 @@ public class ProductESServiceImpl implements ProductESService {
         BulkRequest bulkRequest = new BulkRequest();
         for (SkuESModel skuESModel : list) {
             bulkRequest.add(
-                    new IndexRequest(ProductESIndex.ES_PRODUCT_INDEX)
+                    new IndexRequest(SearchConstant.ESIndex.ES_PRODUCT_INDEX)
                     .id(skuESModel.getSkuId().toString())
                     .source(JSON.toJSONString(skuESModel), XContentType.JSON)
             );

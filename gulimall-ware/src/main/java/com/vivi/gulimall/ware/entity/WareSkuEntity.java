@@ -17,6 +17,7 @@ import lombok.Data;
 @Data
 @TableName("wms_ware_sku")
 public class WareSkuEntity implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	/**

@@ -1,0 +1,61 @@
+PUT gulimall-product
+{
+  "mappings": {
+    "properties": {
+      "skuId": {
+        "type": "long"
+      },
+      "spuId": {
+        "type": "keyword"
+      },
+      "skuTitle": {
+        "type": "text",
+        "analyzer": "ik_smart"
+      },
+      "skuPrice": {
+        "type": "keyword"
+      },
+      "skuImg": {
+        "type": "keyword"
+      },
+      "saleCount": {
+        "type": "long"
+      },
+      "hasStock": {
+        "type": "boolean"
+      },
+      "hotScore": {
+        "type": "long"
+      },
+      "brandId": {
+        "type": "long"
+      },
+      "catelogId": {
+        "type": "long"
+      },
+      "brandName": {
+        "type": "keyword"
+      },
+      "brandImg": {
+        "type": "keyword"
+      },
+      "catelogName": {
+        "type": "keyword"
+      },
+      "attrs": {
+        "type": "nested",
+        "properties": {
+          "attrId": {
+            "type": "long"
+          },
+          "attrName": {
+            "type": "keyword"
+          },
+          "attrValue": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+  }
+}
