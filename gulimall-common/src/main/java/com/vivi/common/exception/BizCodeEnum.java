@@ -21,7 +21,11 @@ public enum BizCodeEnum {
     // 商品模块异常
     PRODUCT_VAILD_EXCEPTION(10001,"参数格式校验失败"),
 
-    PRODUCT_UP_FAILED(10111, "商品上架至ES失败");
+    PRODUCT_UP_FAILED(10111, "商品上架至ES失败"),
+
+    WARE_PURCHASE_MERGE_EXCEPTION(80001, "无法将采购项合并到已被领取的采购单"),
+
+    WARE_PURCHASE_ASSIGN_EXCEPTION(80002, "只能给新建的采购单分配采购员");
 
     private int code;
     private String msg;

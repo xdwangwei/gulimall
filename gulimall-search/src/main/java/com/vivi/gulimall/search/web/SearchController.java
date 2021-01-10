@@ -3,11 +3,15 @@ package com.vivi.gulimall.search.web;
 import com.vivi.gulimall.search.service.SearchService;
 import com.vivi.gulimall.search.vo.SearchParam;
 import com.vivi.gulimall.search.vo.SearchResult;
+import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author wangwei
@@ -25,8 +29,8 @@ public class SearchController {
      * @return
      */
     @RequestMapping("/list.html")
-    public String listPage(@RequestBody SearchParam param,
-                       Model model) {
+    public String listPage(SearchParam param, Model model, HttpServletRequest request) {
+        param.setQueryString(request.getQueryString());
         SearchResult result = searchService.search(param);
         model.addAttribute("result", result);
         return "list";

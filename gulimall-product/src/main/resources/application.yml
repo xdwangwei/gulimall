@@ -1,7 +1,7 @@
 #将配置全部写在配置中心
 
 server:
-  port: 10001
+  port: 10010
 
 # mysql
 spring:
@@ -9,7 +9,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     #MySQL配置
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://39.99.153.116:3306/gulimall_pms?useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://192.168.50.10:3306/gulimall_pms?useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: root
   application:
@@ -26,7 +26,7 @@ spring:
   thymeleaf:
     cache: false
   redis:
-    host: 49.235.94.155
+    host: 192.168.50.10
     port: 6379
     password: redis
 

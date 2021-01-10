@@ -12,6 +12,7 @@ public class SearchConstant {
     public class ESIndex {
 
         public static final String ES_PRODUCT_INDEX = "gulimall-product";
+
     }
 
 }

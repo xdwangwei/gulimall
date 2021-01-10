@@ -37,10 +37,11 @@ public class WareConstant {
      */
     public enum PurchaseDetailStatus {
         CREATED(0, "刚创建"),
-        ASSIGNED(1,  "已分配"),
-        DOING(2,  "正在采购"),
-        FINISHED(3, "已完成"),
-        FAILED(4,  "已失败");
+        WAITING(1, "待分配"),
+        ASSIGNED(2,  "已分配"),
+        DOING(3,  "正在采购"),
+        FINISHED(4, "已完成"),
+        FAILED(5,  "已失败");
 
         private int value;
         private String desc;

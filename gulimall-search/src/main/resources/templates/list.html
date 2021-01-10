@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/search/css/index.css">
-    <link rel="stylesheet" type="text/css" href="/search/font/iconfont.css">
-    <!--<script src="/search/js/jquery-3.2.1.min.js"></script>-->
-    <script src="/search/js/jquery-1.12.4.js"></script>
-    <title>Document</title>
+    <link rel="stylesheet" href="/static/search/css/index.css">
+    <link rel="stylesheet" type="text/css" href="/static/search/font/iconfont.css">
+    <!--<script src="/static/search/js/jquery-3.2.1.min.js"></script>-->
+    <script src="/static/search/js/jquery-1.12.4.js"></script>
+    <title>谷粒商城</title>
 </head>
 <body>
 <!--头部-->
@@ -21,7 +21,7 @@
                     谷粒商城首页
                 </a>
                 <a href="#" class="header_head_p_a">
-                    <!--<img src="/search/img/img_05.png" style="border-radius: 50%;"/>-->
+                    <!--<img src="/static/search/img/img_05.png" style="border-radius: 50%;"/>-->
                     北京</a>
             </div>
             <div class="header_head_p_cs">
@@ -76,7 +76,7 @@
             <span>|</span>
             <li class="header_wdjd" style="width:80px;">
                 <a href="#">我的谷粒商城</a>
-                <img src="/search/image/down-@1x.png" />
+                <img src="/static/search/image/down-@1x.png" />
                 <!--<b class="glyphicon glyphicon-menu-down"></b>-->
                 <div class="header_wdjd_txt">
                     <ul>
@@ -126,7 +126,7 @@
             <span>|</span>
             <li class="header_wdjd1">
                 <a href="#">客户服务</a>
-                <img src="/search/image/down-@1x.png" />
+                <img src="/static/search/image/down-@1x.png" />
                 <!--<b class="glyphicon glyphicon-menu-down"></b>-->
                 <div class="header_wdjd_txt">
                     <ul>
@@ -182,7 +182,7 @@
             <span>|</span>
             <li class="header_wzdh">
                 <a href="#">网站导航</a>
-                <img src="/search/image/down-@1x.png" />
+                <img src="/static/search/image/down-@1x.png" />
                 <!--<b class="glyphicon glyphicon-menu-down"></b>-->
                 <div class="header_wzdh_txt">
                     <ul style="width: 25%;">
@@ -389,7 +389,7 @@
             <li class="header_sjjd">
                 <a href="#">手机谷粒商城</a>
                 <div class="header_sjjd_div">
-                    <img src="/search/img/01.png" />
+                    <img src="/static/search/img/01.png" />
                 </div>
             </li>
         </ul>
@@ -399,16 +399,16 @@
 <!--搜索导航-->
 <div class="header_sous">
     <div class="logo">
-        <a href="http://gulimall.com"><img src="/search/image/logo1.jpg" alt=""></a>
+        <a href="http://gulimall.com"><img src="/static/search/image/logo1.jpg" alt=""></a>
     </div>
     <div class="header_form">
-        <input type="text" placeholder="手机" />
-        <a href="#">搜索</a>
+        <input id="input_keyword" type="text" placeholder="手机" th:value="${param.keyword}"/>
+        <a href="javascript:searchByKeyword()">搜索</a>
     </div>
     <div class="header_ico">
         <div class="header_gw">
             <span><a href="#">我的购物车</a></span>
-            <img src="/search/image/settleup-@1x.png" />
+            <img src="/static/search/image/settleup-@1x.png" />
             <span>0</span>
         </div>
         <div class="header_ko">
@@ -598,18 +598,18 @@
                     </ol>
                     <div class="header_r">
                         <div class="header_r_tu">
-                            <a href="#"><img src="/search/img/56b2f385n8e4eb051.jpg" /></a>
-                            <a href="#"><img src="/search/img/56b2f385n8e4eb051.jpg" /></a>
-                            <a href="#"><img src="/search/img/56b2f385n8e4eb051.jpg" /></a>
-                            <a href="#"><img src="/search/img/56b2f385n8e4eb051.jpg" /></a>
-                            <a href="#"><img src="/search/img/56b2f385n8e4eb051.jpg" /></a>
-                            <a href="#"><img src="/search/img/56b2f385n8e4eb051.jpg" /></a>
-                            <a href="#"><img src="/search/img/56b2f385n8e4eb051.jpg" /></a>
-                            <a href="#"><img src="/search/img/56b2f385n8e4eb051.jpg" /></a>
+                            <a href="#"><img src="/static/search/img/56b2f385n8e4eb051.jpg" /></a>
+                            <a href="#"><img src="/static/search/img/56b2f385n8e4eb051.jpg" /></a>
+                            <a href="#"><img src="/static/search/img/56b2f385n8e4eb051.jpg" /></a>
+                            <a href="#"><img src="/static/search/img/56b2f385n8e4eb051.jpg" /></a>
+                            <a href="#"><img src="/static/search/img/56b2f385n8e4eb051.jpg" /></a>
+                            <a href="#"><img src="/static/search/img/56b2f385n8e4eb051.jpg" /></a>
+                            <a href="#"><img src="/static/search/img/56b2f385n8e4eb051.jpg" /></a>
+                            <a href="#"><img src="/static/search/img/56b2f385n8e4eb051.jpg" /></a>
                         </div>
                         <div class="header_r_tu1">
-                            <a href="#"><img src="/search/img/JD_ash7 - 副本.png" /></a>
-                            <a href="#"><img src="/search/img/JD_ash6.png" /></a>
+                            <a href="#"><img src="/static/search/img/JD_ash7 - 副本.png" /></a>
+                            <a href="#"><img src="/static/search/img/JD_ash6.png" /></a>
                         </div>
                     </div>
                 </div>
@@ -673,7 +673,7 @@
             <div class="bd mc">
                 <ul class="mc">
                     <li>
-                        <a href="#" class="mc_a"><img src="/search/img/5a28b5a1n8a5c095f.jpg" alt=""></a>
+                        <a href="#" class="mc_a"><img src="/static/search/img/5a28b5a1n8a5c095f.jpg" alt=""></a>
                         <div class="mc_div">
                             <a href="#" class="mc_div_a1">
                                 <em>华为 HUAWEI nova 2S 全面屏四摄 6GB +64GB 曜石黑 移动联通电信4G手机 双卡双待</em>
@@ -687,7 +687,7 @@
                         </div>
                     </li>
                     <li>
-                        <a href="#" class="mc_a"><img src="/search/img/59f5eef1n99542494.jpg" alt=""></a>
+                        <a href="#" class="mc_a"><img src="/static/search/img/59f5eef1n99542494.jpg" alt=""></a>
                         <div class="mc_div">
                             <a href="#" class="mc_div_a1">
                                 <em>【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待</em>
@@ -701,7 +701,7 @@
                         </div>
                     </li>
                     <li style="margin-right: 0">
-                        <a href="#" class="mc_a"><img src="/search/img/59f5eef1n99542494.jpg" alt=""></a>
+                        <a href="#" class="mc_a"><img src="/static/search/img/59f5eef1n99542494.jpg" alt=""></a>
                         <div class="mc_div">
                             <a href="#" class="mc_div_a1">
                                 <em>华为 HUAWEI nova 2S 全面屏四摄 6GB +64GB 曜石黑 移动联通电信4G手机 双卡双待</em>
@@ -738,9 +738,9 @@
         <div class="JD_ipone_one a">
             <a href="#">手机</a>
         </div>
-        <i><img src="/search/image/right-@1x.png" alt=""></i>
+        <i><img src="/static/search/image/right-@1x.png" alt=""></i>
         <div class="JD_ipone_one b">
-            <a href="#" class="qqq">手机通讯录 <img src="/search/image/down-@1x.png" alt=""></a>
+            <a href="#" class="qqq">手机通讯录 <img src="/static/search/image/down-@1x.png" alt=""></a>
             <div>
                 <a href="#">手机通讯</a>
                 <a href="#">运营商</a>
@@ -748,9 +748,9 @@
                 <a href="#">手机服务</a>
             </div>
         </div>
-        <i><img src="/search/image/right-@1x.png" alt=""></i>
+        <i><img src="/static/search/image/right-@1x.png" alt=""></i>
         <div class="JD_ipone_one c">
-            <a href="#" class="qqq">手机 <img src="/search/image/down-@1x.png" alt=""></a>
+            <a href="#" class="qqq">手机 <img src="/static/search/image/down-@1x.png" alt=""></a>
             <div>
                 <a href="#">手机</a>
                 <a href="#">老人机</a>
@@ -762,7 +762,11 @@
                 <a href="#">游戏手机</a>
             </div>
         </div>
-        <i><img src="/search/image/right-@1x.png" alt=""></i>
+        <i><img src="/static/search/image/right-@1x.png" alt=""></i>
+        <!--遍历面包屑功能-->
+        <div class="JD_ipone_one c">
+            <a th:href="${nav.link}" th:each="nav : ${result.breadCrumbsNavs}"><span>[[${nav.attrName}]]</span>: <span>[[${nav.attrValue}]]</span> ×</a>
+        </div>
     </div>
 </div>
 
@@ -779,108 +783,28 @@
                 <!--品牌-->
                 <div class="JD_nav_wrap">
                     <div class="sl_key">
-                        <span>品牌：</span>
+                        <span><b>品牌：</b></span>
                     </div>
                     <div class="sl_value">
                         <div class="sl_value_logo">
                             <ul>
-                                <li>
-                                    <a href="#">
-                                        <img src="/search/img/598033b4nd6055897.jpg" alt="">
-                                        <div>
+                                <li th:each="brand : ${result.brands}">
+                                    <!--因为整个语句写在${}里面，所以普通字符串要用''，多个无法区分使用&quot;-->
+                                    <a th:href="${'javascript:searchProduct(&quot;brandId&quot;, '+brand.brandId+')'}">
+                                        <img th:src="${brand.brandImg}" alt="">
+                                        <div th:text="${brand.brandName}">
                                             华为(HUAWEI)
                                         </div>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="/search/img/598042c9n6e4e79e5.jpg" alt="">
-                                        <div>
-                                            小米(MI)
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="/search/img/574d36dbn262ef26d.jpg" alt="">
-                                        <div>
-                                            Apple
-                                        </div>
-                                    </a>
-                                </li>
-                                <li><a href="#"><img src="/search/img/57fdf4b8n6e95624d.jpg" alt="">
-                                    <div>
-                                        魅族(MEIZU)
-                                    </div>
-                                </a></li>
-                                <li><a href="#"><img src="/search/img/5716e2c4nc925baf3.jpg" alt="">
-                                    <div>
-                                        三星(SAMSUNG)
-                                    </div>
-                                </a></li>
-                                <li><a href="#"><img src="/search/img/591aa1abn602ebecf.jpg" alt="">
-                                    <div>
-                                        360
-                                    </div>
-                                </a></li>
-                                <li><a href="#"><img src="/search/img/56b2f385n8e4eb051.jpg" alt="">
-                                    <div>
-                                        oppo
-                                    </div>
-                                </a></li>
-                                <li><a href="#"><img src="/search/img/563b3484n9ba68e13.jpg" alt="">
-                                    <div>
-                                        vivo
-                                    </div>
-                                </a></li>
-                                <li><a href="#"><img src="/search/img/563b33ffn9c288c6c.jpg" alt="">
-                                    <div>
-                                        一加
-                                    </div>
-                                </a></li>
-                                <li><a href="#"><img src="/search/img/563b33d4n6c59780c.jpg" alt="">
-                                    <div>
-                                        诺基亚（NOKIA）
-                                    </div>
-                                </a></li>
-                                <li><a href="#"><img src="/search/img/5631ccdene8df5efb.jpg" alt="">
-                                    <div>
-                                        锤子(smartisan)
-                                    </div>
-                                </a></li>
-                                <li><a href="#"><img src="/search/img/58f74d5an23fc1dff.jpg" alt="">
-                                    <div>
-                                        金立(Gionee)
-                                    </div>
-                                </a></li>
-                                <li><a href="#"><img src="/search/img/5670cf96ncffa2ae6.jpg" alt="">
-                                    <div>
-                                        酷派(Coolpad)
-                                    </div>
-                                </a></li>
-                                <li><a href="#"><img src="/search/img/5631cd12n7548352d.jpg" alt="">
-                                    <div>
-                                        努比亚(nubia)
-                                    </div>
-                                </a></li>
-                                <li><a href="#"><img src="/search/img/56a855a3ne38ee719.jpg" alt="">
-                                    <div>
-                                        中兴(ZTE)
-                                    </div>
-                                </a></li>
-                                <li><a href="#"><img src="/search/img/5836e479n88a98abb.jpg" alt="">
-                                    <div>
-                                        美图(meitu)
-                                    </div>
-                                </a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="sl_ext">
                         <a href="#">
                             更多
-                            <i style='background: url("/search/image/search.ele.png")no-repeat 3px 7px'></i>
-                            <b style='background: url("/search/image/search.ele.png")no-repeat 3px -44px'></b>
+                            <i style='background: url("/static/search/image/search.ele.png")no-repeat 3px 7px'></i>
+                            <b style='background: url("/static/search/image/search.ele.png")no-repeat 3px -44px'></b>
                         </a>
                         <a href="#">
                             多选
@@ -889,143 +813,33 @@
                         </a>
                     </div>
                 </div>
-                <!--价格-->
+                <!-- 分类 -->
                 <div class="JD_pre">
                     <div class="sl_key">
-                        <span>价格：</span>
+                        <span><b>分类：</b></span>
                     </div>
                     <div class="sl_value">
                         <ul>
-                            <li><a href="#">0-499</a></li>
-                            <li><a href="#">500-999</a></li>
-                            <li><a href="#">1000-1699</a></li>
-                            <li><a href="#">1700-2799</a></li>
-                            <li><a href="#">2800-4499</a></li>
-                            <li><a href="#">4500-11999</a></li>
-                            <li><a href="#">12000以上</a></li>
-                            <li class="sl_value_li">
-                                <input type="text">
-                                <p>-</p>
-                                <input type="text">
-                                <a href="#">确定</a>
+                            <li th:each="catelog : ${result.catelogs}">
+                                <a th:href="${'javascript:searchProduct(&quot;catelog3Id&quot;, '+catelog.catelogId+')'}" th:text="${catelog.catelogName}">电器
+                                </a>
                             </li>
                         </ul>
                     </div>
                 </div>
-                <!--系统-->
-                <div class="JD_pre">
+                <!--所有聚合出的要展示的属性-->
+                <div class="JD_pre" th:each="attr :${result.attrs}">
                     <div class="sl_key">
-                        <span>系统：</span>
+                        <span th:text="${attr.attrName}">系统：</span>
                     </div>
                     <div class="sl_value">
                         <ul>
-                            <li><a href="#">0-安卓（Android）</a></li>
-                            <li><a href="#">苹果（IOS）</a></li>
-                            <li><a href="#">微软（WindowsPhone）</a></li>
-                            <li><a href="#">基础功能机系统 </a></li>
-                            <li><a href="#">其他</a></li>
+                            <li th:each="value : ${attr.attrValue}">
+                                <!--键和值都是字符串，需要加 '' 标识-->
+                                <a th:href="${'javascript:searchProduct(&quot;attrs&quot;, &quot;'+attr.attrId+'_'+value+'&quot;)'}" th:text="${value}">0-安卓（Android）
+                                </a>
+                            </li>
                         </ul>
-                    </div>
-                </div>
-                <!--屏幕尺寸-->
-                <div class="JD_pre">
-                    <div class="sl_key">
-                        <span>屏幕尺寸：</span>
-                    </div>
-                    <div class="sl_value">
-                        <ul>
-                            <li><a href="#">5.56英寸及以上</a></li>
-                            <li><a href="#">5.5-5.1英寸</a></li>
-                            <li><a href="#">5.0-4.6英寸</a></li>
-                            <li><a href="#">4.5-3.1英寸</a></li>
-                            <li><a href="#">3.0英寸以下</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <!--热点-->
-                <div class="JD_pre">
-                    <div class="sl_key">
-                        <span>热点：</span>
-                    </div>
-                    <div class="sl_value">
-                        <ul>
-                            <li><a href="#">以旧换新</a></li>
-                            <li><a href="#">功能机</a></li>
-                            <li><a href="#">儿童手机</a></li>
-                            <li><a href="#">合约机</a></li>
-                            <li><a href="#">全面屏</a></li>
-                            <li><a href="#">直板键盘</a></li>
-                            <li><a href="#">翻盖</a></li>
-                            <li><a href="#">商务手机</a></li>
-                            <li><a href="#">安全手机</a></li>
-                            <li><a href="#">键盘手机</a></li>
-                        </ul>
-                    </div>
-                    <div class="sl_ext">
-                        <a href="#" class="sl_ext_show">
-                            更多
-                            <i style='background: url("/search/image/search.ele.png")no-repeat 3px 7px'></i>
-                            <b style='background: url("/search/image/search.ele.png")no-repeat 3px -44px'></b>
-                        </a>
-                        <a href="#">
-                            多选
-                            <i>+</i>
-                            <span>+</span>
-                        </a>
-                    </div>
-                </div>
-                <!--机身颜色-->
-                <div class="JD_pre">
-                    <div class="sl_key">
-                        <span>机身颜色：</span>
-                    </div>
-                    <div class="sl_value">
-                        <ul>
-                            <li><a href="#">白色</a></li>
-                            <li><a href="#">黑色</a></li>
-                            <li><a href="#">灰色</a></li>
-                            <li><a href="#">金色</a></li>
-                            <li><a href="#">银色</a></li>
-                            <li><a href="#">红色</a></li>
-                            <li><a href="#">蓝色</a></li>
-                            <li><a href="#">粉色</a></li>
-                            <li><a href="#">黄的</a></li>
-                            <li><a href="#">蓝色</a></li>
-                        </ul>
-                    </div>
-                    <div class="sl_ext">
-                        <a href="#"></a>
-                        <a href="#">
-                            多选
-                            <i>+</i>
-                            <span>+</span>
-                        </a>
-                    </div>
-                </div>
-                <!--机身内存-->
-                <div class="JD_pre" style="border: 0">
-                    <div class="sl_key">
-                        <span>机身内存：</span>
-                    </div>
-                    <div class="sl_value">
-                        <ul>
-                            <li><a href="#">16G</a></li>
-                            <li><a href="#">8G</a></li>
-                            <li><a href="#">256G</a></li>
-                            <li><a href="#">128G</a></li>
-                            <li><a href="#">64G</a></li>
-                            <li><a href="#">32G</a></li>
-                            <li><a href="#">8G以下</a></li>
-                            <li><a href="#">支持内存卡</a></li>
-                        </ul>
-                    </div>
-                    <div class="sl_ext">
-                        <a href="#"></a>
-                        <a href="#">
-                            多选
-                            <i>+</i>
-                            <span>+</span>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -1050,7 +864,7 @@
                         <div class="mc">
                             <ul>
                                 <li>
-                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/search/img/59bf3c47n91d65c73.jpg" alt=""></a>
+                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/static/search/img/59bf3c47n91d65c73.jpg" alt=""></a>
                                     <a href="#" title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">
                                         <em>华为 HUAWEI nova 2S 全面屏四摄 6GB +64GB 曜石黑 移动联通电信4G手机 双卡双待</em>
                                     </a>
@@ -1069,7 +883,7 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/search/img/59bf3c47n91d65c73.jpg" alt=""></a>
+                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/static/search/img/59bf3c47n91d65c73.jpg" alt=""></a>
                                     <a href="#" title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">
                                         <em>华为 HUAWEI nova 2S 全面屏四摄 6GB +64GB 曜石黑 移动联通电信4G手机 双卡双待</em>
                                     </a>
@@ -1088,7 +902,7 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/search/img/593ba628n8794c6a6.jpg" alt=""></a>
+                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/static/search/img/593ba628n8794c6a6.jpg" alt=""></a>
                                     <a href="#" title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">
                                         <em>诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机</em>
                                     </a>
@@ -1107,7 +921,7 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/search/img/5919637an271a1301.jpg" alt=""></a>
+                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/static/search/img/5919637an271a1301.jpg" alt=""></a>
                                     <a href="#" title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">
                                         <em>vivo Xplay6 全网通 6GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待</em>
                                     </a>
@@ -1135,7 +949,7 @@
                         <div class="mc">
                             <ul>
                                 <li>
-                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/search/img/59bf3c47n91d65c73.jpg" alt=""></a>
+                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/static/search/img/59bf3c47n91d65c73.jpg" alt=""></a>
                                     <a href="#">
                                         <em>华为 HUAWEI nova 2S 全面屏四摄 6GB +64GB 曜石黑 移动联通电信4G手机 双卡双待</em>
                                     </a>
@@ -1146,7 +960,7 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/search/img/59bf3c47n91d65c73.jpg" alt=""></a>
+                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/static/search/img/59bf3c47n91d65c73.jpg" alt=""></a>
                                     <a href="#">
                                         <em>华为 HUAWEI nova 2S 全面屏四摄 6GB +64GB 曜石黑 移动联通电信4G手机 双卡双待</em>
                                     </a>
@@ -1157,7 +971,7 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/search/img/593ba628n8794c6a6.jpg" alt=""></a>
+                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/static/search/img/593ba628n8794c6a6.jpg" alt=""></a>
                                     <a href="#">
                                         <em>诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机</em>
                                     </a>
@@ -1168,7 +982,7 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/search/img/5919637an271a1301.jpg" alt=""></a>
+                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/static/search/img/5919637an271a1301.jpg" alt=""></a>
                                     <a href="#">
                                         <em>vivo Xplay6 全网通 6GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待</em>
                                     </a>
@@ -1189,10 +1003,10 @@
                         <div class="mc">
                             <ul>
                                 <li>
-                                    <a href="#"><img src="/search/img/599a806bn9d829c1c.jpg" alt=""></a>
+                                    <a href="#"><img src="/static/search/img/599a806bn9d829c1c.jpg" alt=""></a>
                                 </li>
                                 <li>
-                                    <a href="#"><img src="/search/img/593e4de0n5ff878a4.jpg" alt=""></a>
+                                    <a href="#"><img src="/static/search/img/593e4de0n5ff878a4.jpg" alt=""></a>
                                 </li>
                             </ul>
                         </div>
@@ -1204,16 +1018,37 @@
                 <div class="filter">
                     <!--综合排序-->
                     <div class="filter_top">
-                        <div class="filter_top_left">
-                            <a href="#">综合排序</a>
-                            <a href="#">销量</a>
-                            <a href="#">价格</a>
-                            <a href="#">评论分</a>
-                            <a href="#">上架时间</a>
+                        <!--
+                        ${param}是取出请求路径中的参数，
+                        这样写
+                        th:attr="style=${(#strings.isEmpty(param.sort) || #strings.startsWith(param.sort, 'hotScore')) ? 'color: #FFF;border-color: #e4393c;background: #e4393c;' : 'color: #333;border-color: #CCC;background: #FFF;'}"
+                        会报错：
+                        EL1021E: A problem occurred whilst attempting to access the property 'param': 'Access to variable "param" is forbidden in this context. Note some restrictions apply to variable access. For example, direct access to request parameters is forbidden in preprocessing and unescaped expressions, in TEXT template mode, in fragment insertion specifications and in some specific attribute processors.'
+                        可以·将${param.sort}取出来，放在父标签的一个变量里面，在子标签内按照变量判断，而不是直接取${param}
+
+                        th:class 和 th:attr 都是为了回显，先点击某个排序字段，点击后样式会变，页面刷新后需要恢复到点击时的样式
+                        -->
+                        <div class="filter_top_left" th:with="sortField = ${param.sort}, price=${param.skuPrice}">
+                            <a sort="hotScore"
+                               th:class="${(!#strings.isEmpty(sortField) && #strings.startsWith(sortField, 'hotScore') && #strings.endsWith(sortField, 'desc')) ? 'a_sort desc' : 'a_sort'}"
+                               th:attr="style=${(#strings.isEmpty(sortField) || #strings.startsWith(sortField, 'hotScore')) ? 'color: #FFF;border-color: #e4393c;background: #e4393c;' : 'color: #333;border-color: #CCC;background: #FFF;'}">综合排序</a>
+                            <a sort="saleCount"
+                               th:class="${(!#strings.isEmpty(sortField) && #strings.startsWith(sortField, 'saleCount') && #strings.endsWith(sortField, 'desc')) ? 'a_sort desc' : 'a_sort'}"
+                               th:attr="style=${(!#strings.isEmpty(sortField) && #strings.startsWith(sortField, 'saleCount')) ? 'color: #FFF;border-color: #e4393c;background: #e4393c;' : 'color: #333;border-color: #CCC;background: #FFF;'}">销量</a>
+                            <a sort="skuPrice"
+                               th:class="${(!#strings.isEmpty(sortField) && #strings.startsWith(sortField, 'skuPrice') && #strings.endsWith(sortField, 'desc')) ? 'a_sort desc' : 'a_sort'}"
+                               th:attr="style=${(!#strings.isEmpty(sortField) && #strings.startsWith(sortField, 'skuPrice')) ? 'color: #FFF;border-color: #e4393c;background: #e4393c;' : 'color: #333;border-color: #CCC;background: #FFF;'}">价格</a>
+                            <a>评论分</a>
+                            <a>上架时间</a>
+                            <input id="input_price_from" type="number" th:min="0" width="120px" style="margin-left: 20px"
+                                th:value="${!#strings.isEmpty(price) ? #strings.substringBefore(price, '_') : 0}"/> -
+                            <input id="input_price_to" type="number" th:min="0" width="120px"
+                                   th:value="${!#strings.isEmpty(price) ? #strings.substringAfter(price, '_') : 0}"/>
+                            <button id="price_btn">确定
                         </div>
                         <div class="filter_top_right">
                             <span class="fp-text">
-                               <b>1</b><em>/</em><i>169</i>
+                               <b>1</b><em>/</em><i>[[${result.totalPage}]]</i>
                            </span>
                             <a href="#" class="prev"><</a>
                             <a href="#" class="next"> > </a>
@@ -1231,9 +1066,9 @@
                             </div>
                             <div class="dizhi_con">
                                 <ul id="tab">
-                                    <li id="tab1" value="1">北京 <img src="/search/image/down-@1x.png" alt=""></li>
-                                    <li id="tab2" value="2">朝阳 <img src="/search/image/down-@1x.png" alt=""></li>
-                                    <li id="tab3" value="3">三环以内 <img src="/search/image/down-@1x.png" alt=""></li>
+                                    <li id="tab1" value="1">北京 <img src="/static/search/image/down-@1x.png" alt=""></li>
+                                    <li id="tab2" value="2">朝阳 <img src="/static/search/image/down-@1x.png" alt=""></li>
+                                    <li id="tab3" value="3">三环以内 <img src="/static/search/image/down-@1x.png" alt=""></li>
                                 </ul>
                                 <div id="container">
                                     <div id="content1" style="z-index: 1;">
@@ -1317,8 +1152,9 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
-                                        <i></i>
+                                    <a href="#" th:with="flag=${param.hasStock}">
+                                        <input type="checkbox" id="input_stock"
+                                        th:checked="${#strings.equals(flag, '1')}"/>
                                         仅显示有货
                                     </a>
                                 </li>
@@ -1332,1568 +1168,36 @@
                         </div>
 
                     </div>
-                    <!--排序内容-->
+                    <!--商品列表-->
                     <div class="rig_tab">
-                        <div>
+                        <div th:each="sku : ${result.skuList}">
                             <div class="ico">
                                 <i class="iconfont icon-weiguanzhu"></i>
                                 <a href="#">关注</a>
                             </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/57d0d400Nfd249af4.jpg" class="dim">
+                            <p class="da" th:attr="id=${sku.skuId}">
+                                <a href="#">
+                                    <img th:src="${sku.skuImg}" src="/static/search/img/57d0d400Nfd249af4.jpg" class="dim">
                                 </a>
                             </p>
                             <ul class="tab_im">
                                 <li><a href="#" title="黑色">
-                                    <img src="/search/img/57d0d400Nfd249af4.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/57d11c33N5cd57490.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/57d11b9cNad700eeb.jpg"></a></li>
-                                <li><a href="#" title="红色">
-                                    <img src="/search/img/58d1d078N20e18b62.jpg"></a></li>
-                                <li><a href="#" title="黑色">
-                                    <img src="/search/img/57d11b6cN1fd1194d.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/57d11c72N093250ec.jpg"></a></li>
+                                    <img th:src="${sku.skuImg}" src="/static/search/img/57d0d400Nfd249af4.jpg"></a></li>
                             </ul>
                             <p class="tab_R">
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥6388.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
+                                <span th:text="'￥' + ${sku.skuPrice}">￥5299</span>
                             </p>
                             <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
+                                <a href="#" th:utext="${sku.skuTitle}">
                                     Apple iPhone 7 Plus (A1661) 32G 黑色 移动联通电信4G手机
                                 </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 玫瑰金色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 金色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus 128G 红色特别版 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 亮黑色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 银色 移动联通电信4G手机
-                                </a></p>
+                            </p>
                             <p class="tab_PI">已有<span>11万+</span>热门评价
                                 <a href="#">二手有售</a>
                             </p>
                             <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
                                 <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/59bf3c47N91d65c73.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="蓝色">
-                                    <img src="/search/img/59bf3c47N91d65c73.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/59bf38e4N886f54b1.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/59bf35ffN5802ea0b.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/59bf36d4N29f9ce53.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥1699.00</span>
-                                <span>¥1699.00</span>
-                                <span>¥1699.00</span>
-                                <span>¥1688.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 魅海蓝
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 珠光白
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 樱语粉
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 流光金
-                                </a>
-                            </p>
-                            <p class="tab_PI">已有<span>8万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/58cb5c42N1ce8b049.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/58cb5c42N1ce8b049.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/5825a5a6Nde8ecb75.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/583ced0fN27e50577.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥999.00</span>
-                                <span>¥1099.00</span>
-                                <span>¥1099.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 冰河银
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 铂光金
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 玫瑰金
-                                </a>
-                            </p>
-                            <p class="tab_PI">已有<span>15万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/59788619Nc97bcfcc.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="金色">
-                                    <img src="/search/img/59788619Nc97bcfcc.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥1699.00</span>
-                            </p>
-                            <p class="tab_JE"><a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                Apple iPhone X (A1865) 256GB 深空灰色 移动联通电信4G手机                </a></p>
-                            <p class="tab_PI">已有<span>52万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="rig_tab">
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/57d0d400Nfd249af4.jpg" class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="黑色">
-                                    <img src="/search/img/57d0d400Nfd249af4.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/57d11c33N5cd57490.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/57d11b9cNad700eeb.jpg"></a></li>
-                                <li><a href="#" title="红色">
-                                    <img src="/search/img/58d1d078N20e18b62.jpg"></a></li>
-                                <li><a href="#" title="黑色">
-                                    <img src="/search/img/57d11b6cN1fd1194d.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/57d11c72N093250ec.jpg"></a></li>
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥6388.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 黑色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 玫瑰金色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 金色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus 128G 红色特别版 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 亮黑色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 银色 移动联通电信4G手机
-                                </a></p>
-                            <p class="tab_PI">已有<span>11万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/59bf3c47N91d65c73.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="蓝色">
-                                    <img src="/search/img/59bf3c47N91d65c73.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/59bf38e4N886f54b1.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/59bf35ffN5802ea0b.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/59bf36d4N29f9ce53.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥1699.00</span>
-                                <span>¥1699.00</span>
-                                <span>¥1699.00</span>
-                                <span>¥1688.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 魅海蓝
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 珠光白
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 樱语粉
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 流光金
-                                </a>
-                            </p>
-                            <p class="tab_PI">已有<span>8万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/58cb5c42N1ce8b049.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/58cb5c42N1ce8b049.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/5825a5a6Nde8ecb75.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/583ced0fN27e50577.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥999.00</span>
-                                <span>¥1099.00</span>
-                                <span>¥1099.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 冰河银
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 铂光金
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 玫瑰金
-                                </a>
-                            </p>
-                            <p class="tab_PI">已有<span>15万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/59788619Nc97bcfcc.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="金色">
-                                    <img src="/search/img/59788619Nc97bcfcc.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥1699.00</span>
-                            </p>
-                            <p class="tab_JE"><a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                Apple iPhone X (A1865) 256GB 深空灰色 移动联通电信4G手机                </a></p>
-                            <p class="tab_PI">已有<span>52万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="rig_tab">
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/57d0d400Nfd249af4.jpg" class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="黑色">
-                                    <img src="/search/img/57d0d400Nfd249af4.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/57d11c33N5cd57490.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/57d11b9cNad700eeb.jpg"></a></li>
-                                <li><a href="#" title="红色">
-                                    <img src="/search/img/58d1d078N20e18b62.jpg"></a></li>
-                                <li><a href="#" title="黑色">
-                                    <img src="/search/img/57d11b6cN1fd1194d.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/57d11c72N093250ec.jpg"></a></li>
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥6388.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 黑色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 玫瑰金色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 金色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus 128G 红色特别版 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 亮黑色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 银色 移动联通电信4G手机
-                                </a></p>
-                            <p class="tab_PI">已有<span>11万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/59bf3c47N91d65c73.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="蓝色">
-                                    <img src="/search/img/59bf3c47N91d65c73.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/59bf38e4N886f54b1.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/59bf35ffN5802ea0b.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/59bf36d4N29f9ce53.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥1699.00</span>
-                                <span>¥1699.00</span>
-                                <span>¥1699.00</span>
-                                <span>¥1688.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 魅海蓝
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 珠光白
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 樱语粉
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 流光金
-                                </a>
-                            </p>
-                            <p class="tab_PI">已有<span>8万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/58cb5c42N1ce8b049.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/58cb5c42N1ce8b049.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/5825a5a6Nde8ecb75.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/583ced0fN27e50577.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥999.00</span>
-                                <span>¥1099.00</span>
-                                <span>¥1099.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 冰河银
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 铂光金
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 玫瑰金
-                                </a>
-                            </p>
-                            <p class="tab_PI">已有<span>15万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/59788619Nc97bcfcc.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="金色">
-                                    <img src="/search/img/59788619Nc97bcfcc.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥1699.00</span>
-                            </p>
-                            <p class="tab_JE"><a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                Apple iPhone X (A1865) 256GB 深空灰色 移动联通电信4G手机                </a></p>
-                            <p class="tab_PI">已有<span>52万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="rig_tab">
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/57d0d400Nfd249af4.jpg" class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="黑色">
-                                    <img src="/search/img/57d0d400Nfd249af4.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/57d11c33N5cd57490.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/57d11b9cNad700eeb.jpg"></a></li>
-                                <li><a href="#" title="红色">
-                                    <img src="/search/img/58d1d078N20e18b62.jpg"></a></li>
-                                <li><a href="#" title="黑色">
-                                    <img src="/search/img/57d11b6cN1fd1194d.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/57d11c72N093250ec.jpg"></a></li>
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥6388.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 黑色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 玫瑰金色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 金色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus 128G 红色特别版 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 亮黑色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 银色 移动联通电信4G手机
-                                </a></p>
-                            <p class="tab_PI">已有<span>11万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/59bf3c47N91d65c73.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="蓝色">
-                                    <img src="/search/img/59bf3c47N91d65c73.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/59bf38e4N886f54b1.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/59bf35ffN5802ea0b.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/59bf36d4N29f9ce53.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥1699.00</span>
-                                <span>¥1699.00</span>
-                                <span>¥1699.00</span>
-                                <span>¥1688.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 魅海蓝
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 珠光白
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 樱语粉
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 流光金
-                                </a>
-                            </p>
-                            <p class="tab_PI">已有<span>8万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/58cb5c42N1ce8b049.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/58cb5c42N1ce8b049.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/5825a5a6Nde8ecb75.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/583ced0fN27e50577.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥999.00</span>
-                                <span>¥1099.00</span>
-                                <span>¥1099.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 冰河银
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 铂光金
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 玫瑰金
-                                </a>
-                            </p>
-                            <p class="tab_PI">已有<span>15万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/59788619Nc97bcfcc.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="金色">
-                                    <img src="/search/img/59788619Nc97bcfcc.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥1699.00</span>
-                            </p>
-                            <p class="tab_JE"><a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                Apple iPhone X (A1865) 256GB 深空灰色 移动联通电信4G手机                </a></p>
-                            <p class="tab_PI">已有<span>52万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="rig_tab">
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/57d0d400Nfd249af4.jpg" class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="黑色">
-                                    <img src="/search/img/57d0d400Nfd249af4.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/57d11c33N5cd57490.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/57d11b9cNad700eeb.jpg"></a></li>
-                                <li><a href="#" title="红色">
-                                    <img src="/search/img/58d1d078N20e18b62.jpg"></a></li>
-                                <li><a href="#" title="黑色">
-                                    <img src="/search/img/57d11b6cN1fd1194d.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/57d11c72N093250ec.jpg"></a></li>
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥6388.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 黑色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 玫瑰金色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 金色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus 128G 红色特别版 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 亮黑色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 银色 移动联通电信4G手机
-                                </a></p>
-                            <p class="tab_PI">已有<span>11万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/59bf3c47N91d65c73.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="蓝色">
-                                    <img src="/search/img/59bf3c47N91d65c73.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/59bf38e4N886f54b1.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/59bf35ffN5802ea0b.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/59bf36d4N29f9ce53.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥1699.00</span>
-                                <span>¥1699.00</span>
-                                <span>¥1699.00</span>
-                                <span>¥1688.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 魅海蓝
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 珠光白
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 樱语粉
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 流光金
-                                </a>
-                            </p>
-                            <p class="tab_PI">已有<span>8万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/58cb5c42N1ce8b049.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/58cb5c42N1ce8b049.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/5825a5a6Nde8ecb75.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/583ced0fN27e50577.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥999.00</span>
-                                <span>¥1099.00</span>
-                                <span>¥1099.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 冰河银
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 铂光金
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 玫瑰金
-                                </a>
-                            </p>
-                            <p class="tab_PI">已有<span>15万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/59788619Nc97bcfcc.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="金色">
-                                    <img src="/search/img/59788619Nc97bcfcc.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥1699.00</span>
-                            </p>
-                            <p class="tab_JE"><a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                Apple iPhone X (A1865) 256GB 深空灰色 移动联通电信4G手机                </a></p>
-                            <p class="tab_PI">已有<span>52万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="rig_tab">
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/57d0d400Nfd249af4.jpg" class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="黑色">
-                                    <img src="/search/img/57d0d400Nfd249af4.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/57d11c33N5cd57490.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/57d11b9cNad700eeb.jpg"></a></li>
-                                <li><a href="#" title="红色">
-                                    <img src="/search/img/58d1d078N20e18b62.jpg"></a></li>
-                                <li><a href="#" title="黑色">
-                                    <img src="/search/img/57d11b6cN1fd1194d.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/57d11c72N093250ec.jpg"></a></li>
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥6388.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 黑色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 玫瑰金色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 金色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus 128G 红色特别版 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 亮黑色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 银色 移动联通电信4G手机
-                                </a></p>
-                            <p class="tab_PI">已有<span>11万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/59bf3c47N91d65c73.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="蓝色">
-                                    <img src="/search/img/59bf3c47N91d65c73.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/59bf38e4N886f54b1.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/59bf35ffN5802ea0b.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/59bf36d4N29f9ce53.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥1699.00</span>
-                                <span>¥1699.00</span>
-                                <span>¥1699.00</span>
-                                <span>¥1688.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 魅海蓝
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 珠光白
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 樱语粉
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 流光金
-                                </a>
-                            </p>
-                            <p class="tab_PI">已有<span>8万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/58cb5c42N1ce8b049.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/58cb5c42N1ce8b049.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/5825a5a6Nde8ecb75.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/583ced0fN27e50577.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥999.00</span>
-                                <span>¥1099.00</span>
-                                <span>¥1099.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 冰河银
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 铂光金
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 玫瑰金
-                                </a>
-                            </p>
-                            <p class="tab_PI">已有<span>15万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/59788619Nc97bcfcc.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="金色">
-                                    <img src="/search/img/59788619Nc97bcfcc.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥1699.00</span>
-                            </p>
-                            <p class="tab_JE"><a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                Apple iPhone X (A1865) 256GB 深空灰色 移动联通电信4G手机                </a></p>
-                            <p class="tab_PI">已有<span>52万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="rig_tab">
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/57d0d400Nfd249af4.jpg" class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="黑色">
-                                    <img src="/search/img/57d0d400Nfd249af4.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/57d11c33N5cd57490.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/57d11b9cNad700eeb.jpg"></a></li>
-                                <li><a href="#" title="红色">
-                                    <img src="/search/img/58d1d078N20e18b62.jpg"></a></li>
-                                <li><a href="#" title="黑色">
-                                    <img src="/search/img/57d11b6cN1fd1194d.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/57d11c72N093250ec.jpg"></a></li>
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥6388.00</span>
-                                <span>¥5199.00</span>
-                                <span>¥5199.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 黑色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 玫瑰金色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 金色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus 128G 红色特别版 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 亮黑色 移动联通电信4G手机
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    Apple iPhone 7 Plus (A1661) 32G 银色 移动联通电信4G手机
-                                </a></p>
-                            <p class="tab_PI">已有<span>11万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/59bf3c47N91d65c73.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="蓝色">
-                                    <img src="/search/img/59bf3c47N91d65c73.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/59bf38e4N886f54b1.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/59bf35ffN5802ea0b.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/59bf36d4N29f9ce53.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥1699.00</span>
-                                <span>¥1699.00</span>
-                                <span>¥1699.00</span>
-                                <span>¥1688.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 魅海蓝
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 珠光白
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 樱语粉
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀8 4GB+64GB 全网通4G手机 流光金
-                                </a>
-                            </p>
-                            <p class="tab_PI">已有<span>8万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/58cb5c42N1ce8b049.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/58cb5c42N1ce8b049.jpg"></a></li>
-                                <li><a href="#" title="粉色">
-                                    <img src="/search/img/5825a5a6Nde8ecb75.jpg"></a></li>
-                                <li><a href="#" title="白色">
-                                    <img src="/search/img/583ced0fN27e50577.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥999.00</span>
-                                <span>¥1099.00</span>
-                                <span>¥1099.00</span>
-                            </p>
-                            <p class="tab_JE">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 冰河银
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 铂光金
-                                </a>
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    荣耀 畅玩6X 4GB 32GB 全网通4G手机 高配版 玫瑰金
-                                </a>
-                            </p>
-                            <p class="tab_PI">已有<span>15万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
-                                </a>
-                            </p>
-                            <div class="tab_FO">
-                                <div class="FO_one">
-                                    <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
-                                    </p>
-                                    <p>满赠
-                                        <span>该商品参加满赠活动</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="ico">
-                                <i class="iconfont icon-weiguanzhu"></i>
-                                <a href="#">关注</a>
-                            </div>
-                            <p class="da">
-                                <a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                    <img src="/search/img/59788619Nc97bcfcc.jpg"class="dim">
-                                </a>
-                            </p>
-                            <ul class="tab_im">
-                                <li><a href="#" title="金色">
-                                    <img src="/search/img/59788619Nc97bcfcc.jpg"></a></li>
-
-                            </ul>
-                            <p class="tab_R">
-                                <span>¥1699.00</span>
-                            </p>
-                            <p class="tab_JE"><a href="#" title="购买AppleCare+，获得原厂2年整机保修(含电池)，和多达2次意外损坏的保修服务。购买勾选：保障服务、原厂保2年。">
-                                Apple iPhone X (A1865) 256GB 深空灰色 移动联通电信4G手机                </a></p>
-                            <p class="tab_PI">已有<span>52万+</span>热门评价
-                                <a href="#">二手有售</a>
-                            </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
-                                <a href='#' title="联系供应商进行咨询">
-                                    <img src="/search/img/xcxc.png">
+                                    <img src="/static/search/img/xcxc.png">
                                 </a>
                             </p>
                             <div class="tab_FO">
@@ -2912,23 +1216,15 @@
                     <div class="filter_page">
                         <div class="page_wrap">
                             <span class="page_span1">
-                                <a href="#">
-                                    < 上一页
-                                </a>
-                                <a href="#" style="border: 0;color:#ee2222;background: #fff">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                                <a href="#" style="border: 0;font-size: 20px;color: #999;background: #fff">...</a>
-                                <a href="#">169</a>
-                                <a href="#">
-                                    下一页 >
-                                </a>
+                                <a class="a_nav" th:attr="pn=${result.currPage - 1}" th:if="${result.currPage > 1}">< 上一页</a>
+                                <a class="a_nav" th:each="nav : ${result.pageNavs}" th:attr="pn = ${nav}, style=${nav == result.currPage ? 'border: 0;color:#ee2222;background: #fff' : ''}">[[${nav}]]</a>
+                                <a class="a_nav" th:attr="pn=${result.currPage + 1}" th:if="${result.currPage < result.totalPage}">下一页 ></a>
                             </span>
                             <span class="page_span2">
-                                <em>共<b>169</b>页&nbsp;&nbsp;到第</em>
-                                <input type="number" value="1">
+                                <em>共<b>[[${result.totalPage}]]</b>页&nbsp;&nbsp;到第</em>
+                                <input id="input_pageNum" type="number" value="1" th:min="1" th:max="${result.totalPage}">
                                 <em>页</em>
-                                <a href="#">确定</a>
+                                <a href="javascript:gotoPage()">确定</a>
                             </span>
                         </div>
                     </div>
@@ -2943,14 +1239,14 @@
     <div class="JD_jx_title">
         <div class="mt">
             <strong class="mt-title">商品精选</strong>
-            <img src="/search/image/u-ad.gif" alt="">
+            <img src="/static/search/image/u-ad.gif" alt="">
         </div>
         <div class="mc">
             <ul>
                 <li>
                     <div class="mc_img">
                         <a href="#" title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">
-                            <img src="/search/img/5a25ffc7N98b35d49.jpg" alt="">
+                            <img src="/static/search/img/5a25ffc7N98b35d49.jpg" alt="">
                         </a>
                     </div>
                     <div class="mc_name">
@@ -2972,7 +1268,7 @@
                 <li>
                     <div class="mc_img">
                         <a href="#" title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">
-                            <img src="/search/img/5a25ffc7N98b35d49.jpg" alt="">
+                            <img src="/static/search/img/5a25ffc7N98b35d49.jpg" alt="">
                         </a>
                     </div>
                     <div class="mc_name">
@@ -2994,7 +1290,7 @@
                 <li>
                     <div class="mc_img">
                         <a href="#" title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">
-                            <img src="/search/img/5a25ffc7N98b35d49.jpg" alt="">
+                            <img src="/static/search/img/5a25ffc7N98b35d49.jpg" alt="">
                         </a>
                     </div>
                     <div class="mc_name">
@@ -3016,7 +1312,7 @@
                 <li>
                     <div class="mc_img">
                         <a href="#" title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">
-                            <img src="/search/img/5a25ffc7N98b35d49.jpg" alt="">
+                            <img src="/static/search/img/5a25ffc7N98b35d49.jpg" alt="">
                         </a>
                     </div>
                     <div class="mc_name">
@@ -3038,7 +1334,7 @@
                 <li>
                     <div class="mc_img">
                         <a href="#" title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">
-                            <img src="/search/img/5a25ffc7N98b35d49.jpg" alt="">
+                            <img src="/static/search/img/5a25ffc7N98b35d49.jpg" alt="">
                         </a>
                     </div>
                     <div class="mc_name">
@@ -3070,7 +1366,7 @@
         <div class="mt">
             <strong class="mt-title">猜你喜欢</strong>
             <a href="#">
-                <img src="/search/image/update.png" alt="">
+                <img src="/static/search/image/update.png" alt="">
                 换一批
             </a>
         </div>
@@ -3079,7 +1375,7 @@
                 <li>
                     <div class="mc_img">
                         <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机">
-                            <img src="/search/img/59bf3c47n91d65c73.jpg" alt="">
+                            <img src="/static/search/img/59bf3c47n91d65c73.jpg" alt="">
                         </a>
                     </div>
                     <div class="mc_name">
@@ -3100,7 +1396,7 @@
                 <li>
                     <div class="mc_img">
                         <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机">
-                            <img src="/search/img/5a28b5c6Ndec5088f.jpg" alt=""></a>
+                            <img src="/static/search/img/5a28b5c6Ndec5088f.jpg" alt=""></a>
                     </div>
                     <div class="mc_name">
                         <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机">
@@ -3119,7 +1415,7 @@
                 </li>
                 <li>
                     <div class="mc_img">
-                        <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机"><img src="/search/img/593e4de0n5ff878a4.jpg" alt=""></a>
+                        <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机"><img src="/static/search/img/593e4de0n5ff878a4.jpg" alt=""></a>
                     </div>
                     <div class="mc_name">
                         <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机">
@@ -3138,7 +1434,7 @@
                 </li>
                 <li>
                     <div class="mc_img">
-                        <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机"><img src="/search/img/593e4de0n5ff878a4.jpg" alt=""></a>
+                        <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机"><img src="/static/search/img/593e4de0n5ff878a4.jpg" alt=""></a>
                     </div>
                     <div class="mc_name">
                         <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机">
@@ -3157,7 +1453,7 @@
                 </li>
                 <li>
                     <div class="mc_img">
-                        <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机"><img src="/search/img/59c493a7N3f9b9c85 (1).jpg" alt=""></a>
+                        <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机"><img src="/static/search/img/59c493a7N3f9b9c85 (1).jpg" alt=""></a>
                     </div>
                     <div class="mc_name">
                         <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机">
@@ -3176,7 +1472,7 @@
                 </li>
                 <li>
                     <div class="mc_img">
-                        <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机"><img src="/search/img/59c493a7N3f9b9c85 (1).jpg" alt=""></a>
+                        <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机"><img src="/static/search/img/59c493a7N3f9b9c85 (1).jpg" alt=""></a>
                     </div>
                     <div class="mc_name">
                         <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机">
@@ -3214,7 +1510,7 @@
                 <li>
                     <div class="mc_img">
                         <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机">
-                            <img src="/search/img/59e58a11Nc38676d5.jpg" alt="">
+                            <img src="/static/search/img/59e58a11Nc38676d5.jpg" alt="">
                         </a>
                     </div>
                     <div class="mc_price">
@@ -3226,7 +1522,7 @@
                 <li>
                     <div class="mc_img">
                         <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机">
-                            <img src="/search/img/5a28acccN73689386.jpg" alt="">
+                            <img src="/static/search/img/5a28acccN73689386.jpg" alt="">
                         </a>
                     </div>
                     <div class="mc_price">
@@ -3238,7 +1534,7 @@
                 <li>
                     <div class="mc_img">
                         <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机">
-                            <img src="/search/img/5a1690ddN441b5dce.jpg" alt="">
+                            <img src="/static/search/img/5a1690ddN441b5dce.jpg" alt="">
                         </a>
                     </div>
                     <div class="mc_price">
@@ -3250,7 +1546,7 @@
                 <li>
                     <div class="mc_img">
                         <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机">
-                            <img src="/search/img/5a02bde7N7d4453b1.jpg" alt="">
+                            <img src="/static/search/img/5a02bde7N7d4453b1.jpg" alt="">
                         </a>
                     </div>
                     <div class="mc_price">
@@ -3262,7 +1558,7 @@
                 <li>
                     <div class="mc_img">
                         <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机">
-                            <img src="/search/img/5a122dbeN044ebf19.jpg" alt="">
+                            <img src="/static/search/img/5a122dbeN044ebf19.jpg" alt="">
                         </a>
                     </div>
                     <div class="mc_price">
@@ -3274,7 +1570,7 @@
                 <li>
                     <div class="mc_img">
                         <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机">
-                            <img src="/search/img/59c493a7N3f9b9c85.jpg" alt="">
+                            <img src="/static/search/img/59c493a7N3f9b9c85.jpg" alt="">
                         </a>
                     </div>
                     <div class="mc_price">
@@ -3286,7 +1582,7 @@
                 <li>
                     <div class="mc_img">
                         <a href="#" title="诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机">
-                            <img src="/search/img/5a08f6f6N5bab2c1c.jpg" alt="">
+                            <img src="/static/search/img/5a08f6f6N5bab2c1c.jpg" alt="">
                         </a>
                     </div>
                     <div class="mc_price">
@@ -3302,7 +1598,7 @@
     </div>
 </div>
 
-<div style="width: 1210px;margin: 0 auto;margin-bottom: 10px"><img src="/search/img/5a33a2e0N9a04b4af.jpg" alt=""></div>
+<div style="width: 1210px;margin: 0 auto;margin-bottom: 10px"><img src="/static/search/img/5a33a2e0N9a04b4af.jpg" alt=""></div>
 <!--底部-->
 <footer class="footer">
     <div class="footer_top">
@@ -3484,38 +1780,38 @@
     <div class="header_bar_box">
         <ul>
             <li>
-                <a href="#"><img src="/search/img/wo.png" /></a>
+                <a href="#"><img src="/static/search/img/wo.png" /></a>
                 <div class="div">
                     <a href="#">谷粒商城会员</a>
                 </div>
             </li>
             <li>
-                <a href="#"><img src="/search/img/gouwuche.png" /></a>
+                <a href="#"><img src="/static/search/img/gouwuche.png" /></a>
                 <div class="div">
                     <a href="#">购物车</a>
                 </div>
             </li>
             <li>
-                <a href="#"><img src="/search/img/taoxin.png" /></a>
+                <a href="#"><img src="/static/search/img/taoxin.png" /></a>
                 <div class="div">
                     <a href="#">我的关注</a>
                 </div>
             </li>
 
             <li>
-                <a href="#"><img src="/search/img/shi.png" /></a>
+                <a href="#"><img src="/static/search/img/shi.png" /></a>
                 <div class="div">
                     <a href="#">我的足迹</a>
                 </div>
             </li>
             <li>
-                <a href="#"><img src="/search/img/xinxi.png" /></a>
+                <a href="#"><img src="/static/search/img/xinxi.png" /></a>
                 <div class="div">
                     <a href="#">我的消息</a>
                 </div>
             </li>
             <li>
-                <a href="#"><img src="/search/img/qianbao.png" /></a>
+                <a href="#"><img src="/static/search/img/qianbao.png" /></a>
                 <div class="div">
                     <a href="#">资讯JIMI</a>
                 </div>
@@ -3523,13 +1819,13 @@
         </ul>
         <ul>
             <li>
-                <a href="#"><img src="/search/img/fa3f24a70d38bd439261cb7439e517a5.png" /></a>
+                <a href="#"><img src="/static/search/img/fa3f24a70d38bd439261cb7439e517a5.png" /></a>
                 <div class="div">
                     <a href="#">顶部</a>
                 </div>
             </li>
             <li>
-                <a href="#"><img src="/search/img/xinxi.png" /></a>
+                <a href="#"><img src="/static/search/img/xinxi.png" /></a>
                 <div class="div">
                     <a href="#">反馈</a>
                 </div>
@@ -3594,8 +1890,6 @@
           }
           return false;
       });
-
-
 
     $(".rig_tab>div").hover(function(){
         var i = $(this).index();
@@ -3672,6 +1966,131 @@
     },function(){
         $(this).css("color","#727272")
     })
+
+
+    /*点击规格属性进行检索。链接跳转*/
+    function searchProduct(attrName, attrValue) {
+        // console.log(attrName, attrValue)
+        // alert(attrName, attrValue);
+       var currHref =  location.href;
+       var index = currHref.indexOf("?");
+       // 如果链接中有问号，直接往后拼接
+        if (index != -1) {
+            // 只有brandId和attrs,属性是多选值，也就是可以是 xxx&brandId=1&brandId=4
+            if (attrName === "attrs" || attrName === "brandId") {
+                location.href = currHref + "&" + attrName + "=" + attrValue;
+            } else {
+                // 如果是其他k=v。只能是单个值，之前的链接中参数部分已经出现，那就直接替换值
+                if (currHref.includes(attrName)) {
+                    location.href = replaceParamVal(currHref, attrName, attrValue);
+                } else {
+                    location.href = currHref + "&" + attrName + "=" + attrValue;
+                }
+            }
+            //
+            // 如果链接中没有问号。第一个拼接的k=v应该用?链接
+        } else {
+            location.href =  currHref + "?" + attrName + "=" + attrValue;
+        }
+    }
+
+    /*替换url中某个k=v为k=v1*/
+    function replaceParamVal(url, paramName, newValue) {
+        var urlStr = url.toString();
+        var regx = eval('/(' + paramName + '=)([^&]*)/gi');
+        var newUrl = urlStr.replace(regx, paramName + '=' + newValue);
+        return newUrl;
+    }
+
+
+    /*点击搜索按钮*/
+    function searchByKeyword() {
+        var keyword = $("#input_keyword").val();
+        if (keyword == null || keyword == '' || keyword.length == 0) {
+            alert("搜索关键字不能为空")
+            return false;
+        }
+        searchProduct("keyword", keyword)
+        return false;
+    }
+
+    /*导航部分，每个页码的点击事件*/
+    $(".a_nav").click(function (){
+        var pn = $(this).attr("pn");
+        searchProduct("pageNum", pn);
+        return false;
+    });
+
+    /*导航页的确定按钮*/
+    function gotoPage() {
+        var pageNum = $("#input_pageNum").val();
+        searchProduct("pageNum", pageNum);
+        return false;
+    }
+
+    /*排序部分*/
+    $(".a_sort").click(function (){
+        // alert($(this).text())
+        // color: #FFF;border-color: #e4393c;background: #e4393c;
+
+        // 恢复其他排序字段的默认样式
+        $(".a_sort").css({"color": "#333", "border-color": "#CCC", "background": "#FFF"})
+        $(".a_sort").each(function (){
+            // 删除文本后面的上下箭头
+            var old = $(this).text().replace("↑", "").replace("↓", "");
+            $(this).text(old);
+        })
+
+        // 被点击字段高亮
+        $(this).css({"color": "#FFF", "border-color": "#e4393c", "background": "#e4393c"})
+        // 反转排序规则
+        $(this).toggleClass("desc");
+        // 删除文本后面的上下箭头
+        var old = $(this).text().replace("↑", "").replace("↓", "");
+        var order = "";
+        // 得到排序规则，为文本内容添加上下箭头
+        if ($(this).hasClass("desc")) {
+            order = "desc";
+            $(this).text(old + "↓");
+        } else {
+            order = "asc";
+            $(this).text(old + "↑");
+        }
+        var sort = $(this).attr("sort") + "_" + order;
+
+        // 页面跳转
+        searchProduct("sort", sort)
+
+        // 禁用默认行为
+        return false;
+    })
+
+    /*按照价格区间检索*/
+    $("#price_btn").click(function (){
+        var price_from = $("#input_price_from").val();
+        var price_to = $("#input_price_to").val();
+
+        if (price_from < 0) price_from = 0;
+        if (price_to < 0) price_to = 0;
+        var skuPrice = price_from + "_" + price_to;
+
+        // 跳转
+        searchProduct("skuPrice", skuPrice)
+        return false;
+    })
+
+    /*点击仅显示有货*/
+    $("#input_stock").change(function (){
+        var flag = $(this).prop("checked");
+        if (flag) {
+            searchProduct('hasStock', 1);
+        } else {
+            var regx = eval('/([?&]hasStock=)([^&]*)/gi');
+            location.href = (location.href+'').replace(regx, "");
+        }
+        return false;
+    })
+
 </script>
 </body>
 </html>

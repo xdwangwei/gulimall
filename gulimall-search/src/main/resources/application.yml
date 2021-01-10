@@ -12,7 +12,7 @@ spring:
     cache: false
 
 elasticsearch:
-  host-addr: 49.235.94.155
+  host-addr: 192.168.50.10
   port: 9200
   schema: http
 

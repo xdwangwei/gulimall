@@ -11,17 +11,17 @@ spring:
     gateway:
 #      路由规则·
       routes:
-        - id: route_qq
-          uri: https://qq.com
-          predicates:
-#            根据请求参数路由
-            - Query=search, qq
-
-        - id: route_baidu
-          uri: https://baidu.com
-          predicates:
-            # 根据请求参数路由
-            - Query=search, baidu
+#        - id: route_qq
+#          uri: https://qq.com
+#          predicates:
+##            根据请求参数路由
+#            - Query=search, qq
+#
+#        - id: route_baidu
+#          uri: https://baidu.com
+#          predicates:
+#            # 根据请求参数路由
+#            - Query=search, baidu
 
 #       路由到商品管理模块
         - id: route_gulimall_product
@@ -93,9 +93,29 @@ spring:
         - id: host_route_gulimall_product
           uri: lb://gulimall-product
           predicates:
-            - Host=gulimall.com
+            - Host=gulimall.com, item.gulimall.com
 
         - id: host_route_gulimall_search
           uri: lb://gulimall-search
           predicates:
             - Host=search.gulimall.com
+
+        - id: host_route_gulimall_order
+          uri: lb://gulimall-order
+          predicates:
+            - Host=order.gulimall.com
+
+        - id: host_route_gulimall_auth_server
+          uri: lb://gulimall-auth-server
+          predicates:
+            - Host=auth.gulimall.com
+
+        - id: host_route_gulimall_ware
+          uri: lb://gulimall-ware
+          predicates:
+            - Host=ware.gulimall.com
+
+        - id: host_route_gulimall_member
+          uri: lb://gulimall-member
+          predicates:
+            - Host=member.gulimall.com

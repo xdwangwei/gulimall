@@ -33,6 +33,8 @@ public class R extends HashMap<String, Object> {
 		return this;
 	}
 
+
+
 	/**
 	 * 将数据反序列化为指定类型并返回，基本对象类型
 	 * @param clazz
@@ -41,6 +43,19 @@ public class R extends HashMap<String, Object> {
 	 */
 	public<T> T getData(Class<T> clazz) {
 		Object data = this.get("data");
+		String jsonString = JSON.toJSONString(data);
+		T t = JSON.parseObject(jsonString, clazz);
+		return t;
+	}
+
+	/**
+	 * 将数据反序列化为指定类型并返回，基本对象类型
+	 * @param clazz
+	 * @param <T>
+	 * @return
+	 */
+	public<T> T getData(String key, Class<T> clazz) {
+		Object data = this.get(key);
 		String jsonString = JSON.toJSONString(data);
 		T t = JSON.parseObject(jsonString, clazz);
 		return t;

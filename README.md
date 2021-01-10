@@ -3,6 +3,40 @@
 
 ## Docker
 
+### Docker安装RabbitMQ
+```shell
+docker run --name rabbitmq -p 5672:5672 -p 15672:15672 -d rabbitmq:3.8-management
+```
+
+### Docker安装Mysql
+```shell
+# 编写my.cnf配置文件
+vim /root/docker/mysql/conf/my.cnf
+[mysql]
+# 设置mysql客户端默认字符集
+default-character-set=utf8mb4
+[client]
+# 设置mysql客户端连接服务端时默认使用的端口
+port=3306
+default-character-set=utf8mb4
+[mysqld]
+# 设置3306端口
+port=3306
+# 允许最大连接数
+max_connections=200
+# 允许连接失败的次数。
+max_connect_errors=10
+# 服务端使用的字符集默认为utf8mb4
+character-set-server=utf8mb4
+collation-server=utf8mb4_unicode_ci
+skip-name-resolve
+```
+docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root \
+-v /dockerfile/mysql/conf:/etc/mysql/conf.d \
+-v /dockerfile/mysql/data:/var/lib/mysql \
+-v /dockerfile/mysql/log:/var/log/mysql \
+-d mysql:8.0
+
 ### Docker安装Redis
 ```shell script
 docker pull redis:5.0.9
@@ -12,9 +46,9 @@ vim /root/docker/redis/redis.conf
     requirepass xxxx
     appendonly yes
 docker run -p 6379:6379 --name redis \
-        -v /root/docker/redis/data:/date \
+        -v /root/docker/redis/data:/data \
         -v /root/docker/redis/redis.conf:/etc/redis/redis.conf \
-        -d redis-server /etc/redis/redis.conf
+        -d redis:5.0.9 redis-server /etc/redis/redis.conf
 ```
 ### Docker安装Nginx
 ```shell script
@@ -37,6 +71,10 @@ docker run --name nginx -p 80:80 \
 ### Docker安装ElasticSearch
 ```shell script
 docker pull elasticsearch:7.8.0
+# 做映射之前赋予文件夹相应权限，
+chmod -R 775 /root/docker/elasticsearch/data
+chmod -R 775 /root/docker/elasticsearch/logs
+
 docker run -p 9200:9200 -p 9300:9300 --name es7.8 \
 -e "discovery.type=single-node" \
 -e ES_JAVA_OPTS="-Xms128m -Xmx512m" \
@@ -44,6 +82,7 @@ docker run -p 9200:9200 -p 9300:9300 --name es7.8 \
 -v /root/docker/elasticsearch/data:/usr/share/elasticsearch/data \
 -v /root/docker/elasticsearch/logs:/usr/share/elasticsearch/logs \
 -d elasticsearch:7.8.0
+
 ```
 ### Docker安装Kibana
 ```sehll
@@ -70,9 +109,9 @@ docker restart es7.8
 ## spring-cloud-alibaba的使用
 ### 引入依赖，全套组件版本统一管理
 ```xml
-    <properties>
-        <springcloud.alibaba.version>2.2.2.RELEASE</springcloud.alibaba.version>
-    </properties>
+<properties>
+    <springcloud.alibaba.version>2.2.2.RELEASE</springcloud.alibaba.version>
+</properties>
 <dependencyManagement>
     <dependencies>
         <dependency>

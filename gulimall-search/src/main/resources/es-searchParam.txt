@@ -34,7 +34,7 @@ GET /gulimall-product/_search
             "path": "attrs",
             "query": {
               "bool": {
-                "filter": [
+                "must": [
                   {
                     "term": {
                       "attrs.attrId": "13"
@@ -150,4 +150,29 @@ GET /gulimall-product/_search
       }
     }
   }
+}
+
+GET /gulimall-product/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {}
+      ],
+      "filter": [
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    }
+  },
+  "sort": [
+    {}
+  ],
+  "from": 0,
+  "size": 2,
+  "highlight": {}
+  "aggs": {}
 }

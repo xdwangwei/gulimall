@@ -23,7 +23,7 @@ public class SearchResult {
     /**
      * 总共几页
      */
-    private Integer totalPage;
+    private Long totalPage;
 
     /**
      * 当前页码
@@ -38,7 +38,12 @@ public class SearchResult {
     /**
      * 总记录数
      */
-    private Integer totalCount;
+    private Long totalCount;
+
+    /**
+     * 页码导航
+     */
+    private List<Integer> pageNavs;
 
 
     /*=====================聚合分析=====================*/
@@ -56,6 +61,12 @@ public class SearchResult {
      * 查询到的所有商品所涉及的所有属性(规格)
      */
     private List<AttrVO> attrs;
+
+
+    //=====================面包屑导航================================
+    // 就是把规格属性查询参数一个一个显示出来，点击 × 号，能够自动刷新出不带这个参数时候的结果
+
+    private List<BreadCrumbsVO> breadCrumbsNavs;
 
     @Data
     public static class BrandVO {
@@ -75,5 +86,14 @@ public class SearchResult {
         private Long attrId;
         private String attrName;
         private List<String> attrValue;
+    }
+
+    @Data
+    public static class BreadCrumbsVO {
+        private String attrName;
+
+        private String attrValue;
+
+        private String link;
     }
 }

@@ -5,17 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.vivi.common.to.SkuStockTO;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.R;
-import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.vivi.gulimall.ware.entity.WareSkuEntity;
 import com.vivi.gulimall.ware.service.WareSkuService;
@@ -35,6 +29,7 @@ public class WareSkuController {
 
     @Autowired
     private WareSkuService wareSkuService;
+
 
     /**
      * 列表

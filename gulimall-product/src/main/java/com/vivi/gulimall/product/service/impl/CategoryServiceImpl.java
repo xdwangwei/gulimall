@@ -70,6 +70,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 为了保证数据一致性，此方法执行后清空缓存
+     * @param list
+     * @return
+     */
+    @CacheEvict(cacheNames = {ProductConstant.CacheName.PRODUCT_CATEGORY},
+            allEntries = true)
     @Override
     public boolean removeBatchByIds(List<Long> list) {
         // TODO 删除菜单前需要检查当前菜单是否在别处被引入，不能轻易删除，即便是逻辑删除也不行
@@ -108,7 +115,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
         // brand_category_relation表中存在category_id关联了category表，并有冗余字段category_name
         if (!StringUtils.isEmpty(categoryEntity.getName())) {
-            // 更新brand_cagegory_relation表中的brand_name冗余字段
+            // 更新brand_category_relation表中的brand_name冗余字段
             categoryBrandRelationDao.updateCategoryName(categoryEntity.getCatId(), categoryEntity.getName());
         }
 
@@ -288,6 +295,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
+                System.out.println("heheheheh");
             }
             return getCatelogJsonWithRedisLock();
         }
@@ -347,7 +355,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             Thread.sleep(30000);
             catelogJsonData = getCatelogJsonData();
         } catch (InterruptedException e) {
-
+            System.out.println("hahahahha");
         } finally {
         //     释放锁
             lock.unlock();

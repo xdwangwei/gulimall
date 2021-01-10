@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.sun.org.apache.regexp.internal.RE;
+import com.vivi.common.exception.BizCodeEnum;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.R;
 import com.vivi.gulimall.ware.vo.PurchaseDoneVO;
@@ -51,8 +52,11 @@ public class PurchaseController {
 
     @PostMapping("/merge")
     public R mergePurchase(@RequestBody PurchaseMergeVO purchaseMergeVO) {
-        purchaseService.mergePurchase(purchaseMergeVO);
-        return R.ok();
+        if (purchaseService.mergePurchase(purchaseMergeVO)) {
+            return R.ok();
+        }
+        return R.error(BizCodeEnum.WARE_PURCHASE_MERGE_EXCEPTION.getCode(),
+                BizCodeEnum.WARE_PURCHASE_MERGE_EXCEPTION.getMsg());
     }
 
     // http://localhost:88/api/ware/purchase/receive
@@ -68,6 +72,17 @@ public class PurchaseController {
         purchaseService.purchaseDone(purchaseDoneVO);
         return R.ok();
 
+    }
+
+    // /ware/purchase/assign
+    @PostMapping("/assign")
+    public R done(@RequestBody PurchaseEntity purchase) {
+        boolean res = purchaseService.purchaseAssign(purchase);
+        if (res) {
+            return R.ok();
+        }
+        return R.error(BizCodeEnum.WARE_PURCHASE_ASSIGN_EXCEPTION.getCode(),
+                BizCodeEnum.WARE_PURCHASE_ASSIGN_EXCEPTION.getMsg());
     }
 
 

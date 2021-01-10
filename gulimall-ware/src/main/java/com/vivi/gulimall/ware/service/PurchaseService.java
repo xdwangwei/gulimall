@@ -54,5 +54,12 @@ public interface PurchaseService extends IService<PurchaseEntity> {
      * @return
      */
     boolean purchaseDone(PurchaseDoneVO purchaseDoneVO);
+
+    /**
+     * 将新建的采购单分配给采购人员
+     * @param purchase
+     * @return
+     */
+    boolean purchaseAssign(PurchaseEntity purchase);
 }
 

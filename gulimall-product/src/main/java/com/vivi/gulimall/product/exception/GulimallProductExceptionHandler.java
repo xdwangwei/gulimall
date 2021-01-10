@@ -41,10 +41,10 @@ public class GulimallProductExceptionHandler {
      * @param e
      * @return
      */
-    @ExceptionHandler(value = Throwable.class)
-    public R throwableExceptionHandler(Throwable e) {
-        log.error("Throwable: {}", e.getMessage());
-        return R
-                .error(BizCodeEnum.UNKNOW_EXCEPTION.getCode(), BizCodeEnum.UNKNOW_EXCEPTION.getMsg());
-    }
+    // @ExceptionHandler(value = Throwable.class)
+    // public R throwableExceptionHandler(Throwable e) {
+    //     log.error("Throwable: {}", e.getMessage());
+    //     return R
+    //             .error(BizCodeEnum.UNKNOW_EXCEPTION.getCode(), BizCodeEnum.UNKNOW_EXCEPTION.getMsg());
+    // }
 }

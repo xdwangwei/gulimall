@@ -36,7 +36,7 @@ public class SearchParam {
      * &price=_500
      * &price=500_
      */
-    private String price;
+    private String skuPrice;
 
     /**
      * 有货无货
@@ -65,6 +65,12 @@ public class SearchParam {
      * 还要支持分页
      */
     private Integer pageNum;
+
+    /**
+     * 请求参数部分
+     *
+     */
+    private String queryString;
 
 
 }

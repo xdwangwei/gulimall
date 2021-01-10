@@ -48,6 +48,9 @@
         <result property="commentTime" column="comment_time"/>
         <result property="modifyTime" column="modify_time"/>
     </resultMap>
+    <select id="getOrderById" resultType="com.vivi.gulimall.order.entity.OrderEntity">
+
+    </select>
 
 
 </mapper>

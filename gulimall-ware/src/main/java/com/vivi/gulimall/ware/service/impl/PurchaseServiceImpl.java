@@ -67,7 +67,8 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
         if (CollectionUtils.isEmpty(purchaseDetailIds)) {
             return true;
         }
-
+        boolean isNewPurchase = false;
+        // 判断是需要先新建采购单再合并采购项还是直接合并到已有采购单
         Long purchaseId = purchaseMergeVO.getPurchaseId();
         if (purchaseId == null) {
             // 创建一个新的采购单
@@ -76,9 +77,12 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
             purchaseEntity.setCreateTime(new Date());
             purchaseEntity.setUpdateTime(new Date());
             purchaseEntity.setStatus(WareConstant.PurchaseStatus.CREATED.getValue());
+            // 保存采购单
             this.save(purchaseEntity);
             purchaseId = purchaseEntity.getId();
+            isNewPurchase = true;
         } else {
+            // 已有的采购单
             // 这个采购单状态必须是创建或者分配
             PurchaseEntity purchaseEntity = this.getById(purchaseId);
             if (purchaseEntity.getStatus() != WareConstant.PurchaseStatus.CREATED.getValue()
@@ -90,14 +94,15 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
 
         // 合并采购需求
         Long finalPurchaseId = purchaseId;
+        boolean finalIsNewPurchase = isNewPurchase;
         List<PurchaseDetailEntity> entities = purchaseDetailIds.stream().map(id -> {
             PurchaseDetailEntity purchaseDetailEntity = new PurchaseDetailEntity();
             // 指定id
             purchaseDetailEntity.setId(id);
             // 设置分配的采购单id
             purchaseDetailEntity.setPurchaseId(finalPurchaseId);
-            // 设置状态为已分配
-            purchaseDetailEntity.setStatus(WareConstant.PurchaseDetailStatus.ASSIGNED.getValue());
+            // 设置状态
+            purchaseDetailEntity.setStatus(finalIsNewPurchase ? WareConstant.PurchaseDetailStatus.WAITING.getValue() : WareConstant.PurchaseDetailStatus.ASSIGNED.getValue());
             return purchaseDetailEntity;
         }).collect(Collectors.toList());
         // 批量更新采购需求条目
@@ -112,9 +117,15 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
 
     @Override
     public boolean removeCascadeByIds(List<Long> list) {
-        // 删除采购单
-        this.removeByIds(list);
-        // TODO 修改这条采购单上的采购需求
+        if (!CollectionUtils.isEmpty(list)) {
+            // 删除采购单
+            this.removeByIds(list);
+            // 找到这个采购单关联的所有采购项
+            List<PurchaseDetailEntity> detailEntities = purchaseDetailService.list(new QueryWrapper<PurchaseDetailEntity>().in("purchase_id", list));
+            // 删除这条采购单上的采购需求
+            List<Long> ids = detailEntities.stream().map(PurchaseDetailEntity::getId).collect(Collectors.toList());
+            purchaseDetailService.removeByIds(ids);
+        }
         return true;
     }
 
@@ -197,6 +208,28 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
         this.updateById(purchaseEntity);
         // 批量修改采购项
         return purchaseDetailService.updateBatchById(detailEntities);
+    }
+
+    @Override
+    public boolean purchaseAssign(PurchaseEntity purchase) {
+        // 先更新采购单，这个采购单单位状态必须是新建，才能分配
+        if (purchase.getStatus() != null && (purchase.getStatus() == WareConstant.PurchaseStatus.CREATED.getValue())) {
+            purchase.setStatus(WareConstant.PurchaseStatus.ASSIGNED.getValue());
+            this.updateById(purchase);
+            // 再更新此采购单上的采购项状态为已分配
+            List<PurchaseDetailEntity> purchaseDetailEntities = purchaseDetailService.list(new QueryWrapper<PurchaseDetailEntity>().in("purchase_id", purchase.getId()));
+            if (!CollectionUtils.isEmpty(purchaseDetailEntities)) {
+                List<PurchaseDetailEntity> detailEntityList = purchaseDetailEntities.stream().map(detail -> {
+                    PurchaseDetailEntity detailEntity = new PurchaseDetailEntity();
+                    detailEntity.setId(detail.getId());
+                    detailEntity.setStatus(WareConstant.PurchaseDetailStatus.ASSIGNED.getValue());
+                    return detailEntity;
+                }).collect(Collectors.toList());
+                purchaseDetailService.updateBatchById(detailEntityList);
+            }
+            return true;
+        }
+        return false;
     }
 
 }

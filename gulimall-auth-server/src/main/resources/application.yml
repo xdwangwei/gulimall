@@ -1,0 +1,19 @@
+server:
+  port: 99
+
+spring:
+  application:
+    name: gulimall-auth-server
+  redis:
+    host: 49.235.94.155
+    port: 6379
+    password: redis
+  session:
+    store-type: redis
+  thymeleaf:
+    cache: false
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
