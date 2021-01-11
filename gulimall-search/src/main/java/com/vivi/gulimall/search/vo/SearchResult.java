@@ -4,6 +4,7 @@ import com.vivi.common.to.SkuESModel;
 import lombok.Data;
 import org.w3c.dom.Attr;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -62,6 +63,11 @@ public class SearchResult {
      */
     private List<AttrVO> attrs;
 
+    /**
+     * 请求参数中已携带的attr的id集合，当前请求的搜索结果页不再附加这些attr进行搜索
+     */
+    private List<Long> paramAttrIds = new ArrayList<>();
+
 
     //=====================面包屑导航================================
     // 就是把规格属性查询参数一个一个显示出来，点击 × 号，能够自动刷新出不带这个参数时候的结果
@@ -93,7 +99,7 @@ public class SearchResult {
         private String attrName;
 
         private String attrValue;
-
+        // 当前属性点x后，跳到哪
         private String link;
     }
 }

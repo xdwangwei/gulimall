@@ -1,9 +1,12 @@
 package com.vivi.gulimall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.vivi.common.to.BrandTO;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.gulimall.product.entity.BrandEntity;
+import com.vivi.gulimall.product.vo.BrandVO;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,5 +29,12 @@ public interface BrandService extends IService<BrandEntity> {
      * @param brand
      */
     boolean updateCascadeById(BrandEntity brand);
+
+    /**
+     * 查询多个brand信息
+     * @param ids
+     * @return
+     */
+    List<BrandTO> getBatch(List<Long> ids);
 }
 

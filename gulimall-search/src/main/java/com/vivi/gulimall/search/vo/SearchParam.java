@@ -66,6 +66,7 @@ public class SearchParam {
      */
     private Integer pageNum;
 
+
     /**
      * 请求参数部分
      *

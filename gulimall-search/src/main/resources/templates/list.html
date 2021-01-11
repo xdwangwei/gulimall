@@ -735,37 +735,20 @@
 <!--手机-->
 <div class="JD_ipone">
     <div class="JD_ipone_bar">
-        <div class="JD_ipone_one a">
-            <a href="#">手机</a>
-        </div>
-        <i><img src="/static/search/image/right-@1x.png" alt=""></i>
-        <div class="JD_ipone_one b">
-            <a href="#" class="qqq">手机通讯录 <img src="/static/search/image/down-@1x.png" alt=""></a>
-            <div>
-                <a href="#">手机通讯</a>
-                <a href="#">运营商</a>
-                <a href="#">手机配件</a>
-                <a href="#">手机服务</a>
-            </div>
-        </div>
-        <i><img src="/static/search/image/right-@1x.png" alt=""></i>
-        <div class="JD_ipone_one c">
-            <a href="#" class="qqq">手机 <img src="/static/search/image/down-@1x.png" alt=""></a>
-            <div>
-                <a href="#">手机</a>
-                <a href="#">老人机</a>
-                <a href="#">对讲机</a>
-                <a href="#">女性手机</a>
-                <a href="#">超续航手机</a>
-                <a href="#">全面屏手机</a>
-                <a href="#">拍照手机</a>
-                <a href="#">游戏手机</a>
-            </div>
+        <div class="JD_ipone_one a crumbs-first">
+            <a href="#">全部结果</a>
         </div>
         <i><img src="/static/search/image/right-@1x.png" alt=""></i>
         <!--遍历面包屑功能-->
-        <div class="JD_ipone_one c">
-            <a th:href="${nav.link}" th:each="nav : ${result.breadCrumbsNavs}"><span>[[${nav.attrName}]]</span>: <span>[[${nav.attrValue}]]</span> ×</a>
+        <div class="JD_ipone_one">
+            <a th:href="${nav.link}" th:each="nav : ${result.breadCrumbsNavs}" class="crumb-select-item">
+                <span>[[${nav.attrName + "："}]]</span>
+                <span style="color: red; padding-right: 5px">
+                    [[${nav.attrValue}]]
+                </span>
+                <i></i>
+            </a>
+            <span style="float: left; color: #666; font-size: 14px; font-weight: bold; margin-left: 5px" th:if="${!#strings.isEmpty(param.keyword)}">"[[${param.keyword}]]"</span>
         </div>
     </div>
 </div>
@@ -776,12 +759,12 @@
         <div class="JD_selector">
             <!--手机商品筛选-->
             <div class="title">
-                <h3><b>手机</b><em>商品筛选</em></h3>
-                <div class="st-ext">共&nbsp;<span>10135</span>个商品 </div>
+                <h3><em>商品筛选</em></h3>
+                <div class="st-ext">共&nbsp;<span>[[${result.totalCount}]]</span> 个商品 </div>
             </div>
             <div class="JD_nav_logo">
-                <!--品牌-->
-                <div class="JD_nav_wrap">
+                <!--品牌导航,面包屑导航中没有时才显示-->
+                <div class="JD_nav_wrap" th:if="${#strings.isEmpty(param.brandId)}">
                     <div class="sl_key">
                         <span><b>品牌：</b></span>
                     </div>
@@ -827,10 +810,10 @@
                         </ul>
                     </div>
                 </div>
-                <!--所有聚合出的要展示的属性-->
-                <div class="JD_pre" th:each="attr :${result.attrs}">
+                <!--所有聚合出的要展示的属性(当前请求中已有的不再显示)-->
+                <div class="JD_pre attr" th:each="attr :${result.attrs}" th:if="${!#lists.contains(result.paramAttrIds, attr.attrId)}">
                     <div class="sl_key">
-                        <span th:text="${attr.attrName}">系统：</span>
+                        <span><b th:text="${attr.attrName}">系统：</b></span>
                     </div>
                     <div class="sl_value">
                         <ul>
@@ -1044,7 +1027,7 @@
                                 th:value="${!#strings.isEmpty(price) ? #strings.substringBefore(price, '_') : 0}"/> -
                             <input id="input_price_to" type="number" th:min="0" width="120px"
                                    th:value="${!#strings.isEmpty(price) ? #strings.substringAfter(price, '_') : 0}"/>
-                            <button id="price_btn">确定
+                            <button id="price_btn">筛选</button>>
                         </div>
                         <div class="filter_top_right">
                             <span class="fp-text">
@@ -2090,6 +2073,9 @@
         }
         return false;
     })
+
+    // 检索栏目多个时，默认的js只会显示前两个div，把后面的display设置为none
+    $(".attr").css("display", "block")
 
 </script>
 </body>

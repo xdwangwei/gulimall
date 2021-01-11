@@ -16,16 +16,16 @@
 </head>
 
 <body>
-<div class="top_find">
-    <div class="top_find_son">
-        <img src="/static/index/img/top_find_logo.png" alt="">
-        <div class="input_find">
-            <input type="text" placeholder="卸妆水"/>
-            <span style="background: url(/static/index/img/img_12.png) 0 -1px;"></span>
-            <a href="/static/index/#"><img src="/static/index/img/img_09.png"/></a>
-        </div>
-    </div>
-</div>
+<!--<div class="top_find">-->
+<!--    <div class="top_find_son">-->
+<!--        <img src="/static/index/img/top_find_logo.png" alt="">-->
+<!--        <div class="input_find">-->
+<!--            <input type="text" placeholder="卸妆水"/>-->
+<!--            <span style="background: url(/static/index/img/img_12.png) 0 -1px;"></span>-->
+<!--            <a href="#"><img src="/static/index/img/img_09.png"/></a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 <ul class="left_floor">
     <li class="left_floor_xiang">享品质</li>
     <li class="left_floor_fu">服饰美妆</li>
@@ -42,7 +42,7 @@
 </ul>
 <header>
     <div class="head">
-        <a href="/static/index/#"><img src="/static/index/img/img_01.png"/></a>
+        <a href="#"><img src="/static/index/img/img_01.png"/></a>
         <p>X</p>
     </div>
     <!--头部-->
@@ -113,7 +113,7 @@
             <input id="searchText" type="text" placeholder=""/>
             <span style="background: url(/static/index/img/img_12.png) 0 -1px;"></span>
             <!--<button><i class="glyphicon"></i></button>-->
-            <a href="/static/index/#"><img src="/static/index/img/img_09.png" onclick="search()"/></a>
+            <a><img src="/static/index/img/img_09.png" onclick="search()"/></a>
         </div>
         <div class="header_ico">
             <div class="header_gw">
@@ -606,6 +606,7 @@
     function search() {
         var keyword = $("#searchText").val()
         window.location.href = "http://search.gulimall.com/list.html?keyword=" + keyword;
+        return false;
     }
 
 </script>

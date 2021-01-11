@@ -1,5 +1,6 @@
 package com.vivi.gulimall.product.controller;
 
+import com.vivi.common.to.BrandTO;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.R;
 import com.vivi.gulimall.product.entity.BrandEntity;
@@ -64,6 +65,15 @@ public class BrandController {
 		BrandEntity brand = brandService.getById(brandId);
 
         return R.ok().put("brand", brand);
+    }
+
+    /**
+     * 信息
+     */
+    @RequestMapping("/info/batch")
+    public R getBatch(@RequestBody List<Long> ids){
+        List<BrandTO> brands = brandService.getBatch(ids);
+        return R.ok().setData(brands);
     }
 
     /**

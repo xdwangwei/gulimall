@@ -14,5 +14,12 @@
         <result property="sort" column="sort"/>
     </resultMap>
 
+    <select id="getBatch" resultType="com.vivi.common.to.BrandTO">
+        select brand_id, name from pms_brand where brand_id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
 
 </mapper>

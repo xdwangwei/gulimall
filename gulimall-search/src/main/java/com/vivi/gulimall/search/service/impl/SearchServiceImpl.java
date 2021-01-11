@@ -1,9 +1,9 @@
 package com.vivi.gulimall.search.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
-import com.sun.xml.internal.bind.v2.model.core.TypeRef;
+import com.alibaba.fastjson.TypeReference;
 import com.vivi.common.constant.SearchConstant;
+import com.vivi.common.to.BrandTO;
 import com.vivi.common.to.SkuESModel;
 import com.vivi.common.utils.R;
 import com.vivi.gulimall.search.config.ProductSearchConfig;
@@ -45,6 +45,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -341,15 +342,42 @@ public class SearchServiceImpl implements SearchService {
         }
         result.setPageNavs(pageNavs);
 
+        List<SearchResult.BreadCrumbsVO> breadCrumbsVOS = new LinkedList<>();
+        /**
+         * 构建面包屑导航--参数品牌部分
+         */
+        List<Long> ids = param.getBrandId();
+        if (!CollectionUtils.isEmpty(ids)) {
+            R res = productFeignService.getBatch(ids);
+            if (res.getCode() == 0) {
+                List<BrandTO> brandTOS = res.getData(new TypeReference<List<BrandTO>>() {});
+                brandTOS.forEach(brandTO -> {
+                    SearchResult.BreadCrumbsVO crumb = new SearchResult.BreadCrumbsVO();
+                    crumb.setAttrName("品牌");
+                    crumb.setAttrValue(brandTO.getName());
+                    // 请求参数中去掉当前属性之后的链接地址
+                    String link = param.getQueryString().replace("&brandId=" + brandTO.getBrandId(), "").replace("brandId=" + brandTO.getBrandId(), "");
+                    crumb.setLink("http://search.gulimall.com/list.html?" + link);
+                    breadCrumbsVOS.add(crumb);
+                });
+            } else {
+                log.warn("ESSearch调用gulimall-product/brand/info/batch失败");
+            }
+        }
 
         /**
-         * 从请求参数规格参数部分，构建面包屑导航
+         * 构建面包屑导航，三级分类部分
+         */
+
+        /**
+         * 构建面包屑导航--规格参数部分
+         * 从请求参数规格参数部分，
          * 请求参数中有规格参数部分条件，才构建
          // &attrs=1_陶瓷:铝合金&attrs=2_anzhuo:apple
          */
         List<String> queryAttrs = param.getAttrs();
         if (!CollectionUtils.isEmpty(queryAttrs)) {
-            List<SearchResult.BreadCrumbsVO> breadCrumbsVOS = queryAttrs.stream().map(attrStr -> {
+            List<SearchResult.BreadCrumbsVO> crumbsVOS = queryAttrs.stream().map(attrStr -> {
                 // id_value
                 String[] attrInfo = attrStr.split("_");
                 SearchResult.BreadCrumbsVO breadCrumbsVO = new SearchResult.BreadCrumbsVO();
@@ -369,6 +397,8 @@ public class SearchServiceImpl implements SearchService {
                     e.printStackTrace();
                 }
                 breadCrumbsVO.setLink("http://search.gulimall.com/list.html?" + link);
+                // 保存请求参数中的attrId
+                result.getParamAttrIds().add(Long.parseLong(attrInfo[0]));
                 // 远程调用
                 try {
                     R r = productFeignService.info(Long.valueOf(attrInfo[0]));
@@ -381,8 +411,11 @@ public class SearchServiceImpl implements SearchService {
                 }
                 return breadCrumbsVO;
             }).collect(Collectors.toList());
-            result.setBreadCrumbsNavs(breadCrumbsVOS);
+            breadCrumbsVOS.addAll(crumbsVOS);
+
         }
+        // 保存所有面包屑
+        result.setBreadCrumbsNavs(breadCrumbsVOS);
         // 返回结果
         return result;
     }

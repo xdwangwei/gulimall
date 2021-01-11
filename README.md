@@ -30,12 +30,14 @@ max_connect_errors=10
 character-set-server=utf8mb4
 collation-server=utf8mb4_unicode_ci
 skip-name-resolve
-```
+
+# 运行容器
 docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root \
--v /dockerfile/mysql/conf:/etc/mysql/conf.d \
--v /dockerfile/mysql/data:/var/lib/mysql \
--v /dockerfile/mysql/log:/var/log/mysql \
+-v /root/docker/mysql/conf:/etc/mysql/conf.d \
+-v /root/docker/mysql/data:/var/lib/mysql \
+-v /root/docker/mysql/log:/var/log/mysql \
 -d mysql:8.0
+```
 
 ### Docker安装Redis
 ```shell script
@@ -104,6 +106,7 @@ docker exec -it es7.8 /bin/bash
 #此命令需要在容器中运行
 elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.8.0/elasticsearch-analysis-ik-7.8.0.zip
 # 退出容器，重启容器
+exit
 docker restart es7.8
 ```
 ## spring-cloud-alibaba的使用

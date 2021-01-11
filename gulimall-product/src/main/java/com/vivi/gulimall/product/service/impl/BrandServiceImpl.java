@@ -3,6 +3,7 @@ package com.vivi.gulimall.product.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.vivi.common.to.BrandTO;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.Query;
 import com.vivi.gulimall.product.dao.BrandDao;
@@ -11,8 +12,11 @@ import com.vivi.gulimall.product.entity.BrandEntity;
 import com.vivi.gulimall.product.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -64,6 +68,14 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
 
         // TODO 其他有关表中相关冗余字段的判断以及更新
         return true;
+    }
+
+    @Override
+    public List<BrandTO> getBatch(List<Long> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return new ArrayList<>();
+        }
+        return this.baseMapper.getBatch(ids);
     }
 
 }
