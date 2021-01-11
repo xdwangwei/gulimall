@@ -206,25 +206,27 @@ public class ConfigController {
 }
 ```
 ## JSR303
-1)、导入 javax.validation、hibernate-validator依赖，尤其是第二个，在springboot应用中使用校验，必须导入
-2）、给Bean的字段添加校验注解:javax.validation.constraints，并定义自己的message提示
-3)、开启校验功能 使用@Valid
-   效果：校验错误以后会有默认的响应；
-4）、给校验的bean后紧跟一个BindingResult，就可以获取到校验的结果
-5）、分组校验（多场景的复杂校验）
-      1)、	@NotBlank(message = "品牌名必须提交",groups = {AddGroup.class,UpdateGroup.class})
-       给校验注解标注什么情况需要进行校验
-      2）、@Validated({AddGroup.class})
-      3)、默认没有指定分组的字段校验使用注解@Valid，在分组校验情况下，只会在@Validated({AddGroup.class})生效；
-5）、自定义校验
-   1）、编写一个自定义的校验注解
-   2）、编写一个自定义的校验器 ConstraintValidator
-   3）、关联自定义的校验器和自定义的校验注解
-      @Constraint(validatedBy = { ListValueConstraintValidator.class【可以指定多个不同的校验器，适配不同类型的校验】 })
-统一的异常处理
-@ControllerAdvice
-   1）、编写异常处理类，使用@ControllerAdvice。
-   2）、使用@ExceptionHandler标注方法可以处理的异常。
+- 1)、导入 javax.validation、hibernate-validator依赖，尤其是第二个，在springboot应用中使用校验，必须导入
+- 2)、给Bean的字段添加校验注解:javax.validation.constraints，并定义自己的message提示
+  - @NotNull: CharSequence, Collection, Map 和 Array 对象不能是 null, 但可以是空集（size = 0）。
+  - @NotEmpty: CharSequence, Collection, Map 和 Array 对象不能是 null 并且相关对象的 size 大于 0。
+  - @NotBlank: String 不是 null 且 至少包含一个字符
+- 3)、开启校验功能 使用@Valid
+  - 效果：校验错误以后会有默认的响应；
+- 4)、给校验的bean后紧跟一个BindingResult，就可以获取到校验的结果
+- 5)、分组校验（多场景的复杂校验）
+      - @NotBlank(message = "品牌名必须提交",groups = {AddGroup.class,UpdateGroup.class})
+      - @Validated({AddGroup.class}),给校验注解标注什么情况需要进行校验
+      - 默认没有指定分组的字段校验使用注解@Valid，在分组校验情况下，只会在@Validated({AddGroup.class})生效；
+- 6)、自定义校验
+   - 1、编写一个自定义的校验注解
+   - 2、编写一个自定义的校验器 ConstraintValidator
+   - 3、关联自定义的校验器和自定义的校验注解
+     - @Constraint(validatedBy = { ListValueConstraintValidator.class【可以指定多个不同的校验器，适配不同类型的校验】 })
+- 统一的异常处理
+    - @ControllerAdvice
+    - 编写异常处理类，使用@ControllerAdvice。
+    - 使用@ExceptionHandler标注方法可以处理的异常。
    
 ## 分布式锁Redisson的使用
    https://redis.io/topics/distlock
