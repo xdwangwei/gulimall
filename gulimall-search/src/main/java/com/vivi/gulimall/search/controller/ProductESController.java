@@ -28,7 +28,7 @@ public class ProductESController {
         try {
             productESService.batchSave(list);
         } catch (IOException e) {
-            return R.error(BizCodeEnum.PRODUCT_UP_FAILED.getCode(), BizCodeEnum.PRODUCT_UP_FAILED.getMsg());
+            return R.error(BizCodeEnum.PRODUCT_STATUS_UP_FAILED.getCode(), BizCodeEnum.PRODUCT_STATUS_UP_FAILED.getMsg());
         }
         return R.ok();
     }

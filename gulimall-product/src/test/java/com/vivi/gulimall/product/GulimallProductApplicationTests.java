@@ -15,6 +15,8 @@ import javax.annotation.security.RunAs;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadPoolExecutor;
 
 @SpringBootTest
 class GulimallProductApplicationTests {
@@ -27,6 +29,9 @@ class GulimallProductApplicationTests {
 	
 	@Autowired
 	private StringRedisTemplate redisTemplate;
+
+	@Autowired
+	Executor executor;
 
 	@Test
 	void contextLoads() {
@@ -54,6 +59,11 @@ class GulimallProductApplicationTests {
 	void testStringRedisTemplate() {
 		String res = redisTemplate.opsForValue().get("hello");
 		System.out.println(res);
+	}
+
+	@Test
+	void testThreadPoolConfig() {
+		System.out.println(executor);
 	}
 
 }

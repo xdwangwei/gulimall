@@ -29,10 +29,17 @@ public interface WareSkuService extends IService<WareSkuEntity> {
     boolean addStock(Long wareId, Long skuId, Integer num);
 
     /**
-     * 查出指定的sku的集合，封装成map
+     * 查出指定的skus的库存信息，封装成map
      * @param skuIds
      * @return
      */
     List<SkuStockTO> getSkusStock(List<Long> skuIds);
+
+    /**
+     * 查出某个sku的库存信息
+     * @param skuId
+     * @return
+     */
+    Long getSkuStock(Long skuId);
 }
 

@@ -8,7 +8,11 @@ import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.Query;
 import com.vivi.gulimall.product.dao.ProductAttrValueDao;
 import com.vivi.gulimall.product.entity.ProductAttrValueEntity;
+import com.vivi.gulimall.product.entity.SpuInfoEntity;
 import com.vivi.gulimall.product.service.ProductAttrValueService;
+import com.vivi.gulimall.product.service.SpuInfoService;
+import com.vivi.gulimall.product.vo.ItemAttrGroupWithAttrVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +22,9 @@ import java.util.stream.Collectors;
 
 @Service("productAttrValueService")
 public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueDao, ProductAttrValueEntity> implements ProductAttrValueService {
+
+    @Autowired
+    private SpuInfoService spuInfoService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -45,6 +52,12 @@ public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueDao
             return item;
         }).collect(Collectors.toList());
         return this.saveBatch(collect);
+    }
+
+    @Override
+    public List<ItemAttrGroupWithAttrVO> getAttrsWithAttrGroupBySpuId(Long spuId) {
+        SpuInfoEntity spuInfoEntity = spuInfoService.getById(spuId);
+        return this.baseMapper.getAttrsWithAttrGroup(spuId, spuInfoEntity.getCatelogId());
     }
 
 }

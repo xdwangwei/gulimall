@@ -53,7 +53,7 @@ public class MemberEntity implements Serializable {
 	 */
 	private String header;
 	/**
-	 * 性别
+	 * 性别[1-男，0-女]
 	 */
 	private Integer gender;
 	/**
@@ -92,5 +92,23 @@ public class MemberEntity implements Serializable {
 	 * 注册时间
 	 */
 	private Date createTime;
+
+	/**
+	 * 注册来源 0-本平台，1-微博，2-微信
+	 */
+	private Integer registerType;
+	/**
+	 * 社交平台uid
+	 */
+	private String socialUid;
+
+	/**
+	 * 社交平台令牌
+	 */
+	private String accessToken;
+	/**
+	 * 当前令牌过期时间,，单位：s
+	 */
+	private Integer expireIn;
 
 }

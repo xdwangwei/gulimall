@@ -64,10 +64,11 @@
         </b>
         <ul>
             <li>
-                <a href="#" class="li_2">你好，请登录</a>
+                <a class="li_2" th:if="${session.loginUser != null}">欢迎，[[${session.loginUser.nickname}]]</a>
+                <a th:if="${session.loginUser == null}"  href="http://auth.gulimall.com/login.html" class="li_2">你好，请登录</a>
             </li>
             <li>
-                <a href="#">免费注册</a>
+                <a th:if="${session.loginUser == null}" href="http://auth.gulimall.com/reg.html">免费注册</a>
             </li>
             <span>|</span>
             <li>
@@ -1159,19 +1160,19 @@
                                 <a href="#">关注</a>
                             </div>
                             <p class="da" th:attr="id=${sku.skuId}">
-                                <a href="#">
+                                <a th:href="|http://item.gulimall.com/${sku.skuId}.html|">
                                     <img th:src="${sku.skuImg}" src="/static/search/img/57d0d400Nfd249af4.jpg" class="dim">
                                 </a>
                             </p>
                             <ul class="tab_im">
-                                <li><a href="#" title="黑色">
+                                <li><a th:href="|http://item.gulimall.com/${sku.skuId}.html|">
                                     <img th:src="${sku.skuImg}" src="/static/search/img/57d0d400Nfd249af4.jpg"></a></li>
                             </ul>
                             <p class="tab_R">
                                 <span th:text="'￥' + ${sku.skuPrice}">￥5299</span>
                             </p>
                             <p class="tab_JE">
-                                <a href="#" th:utext="${sku.skuTitle}">
+                                <a th:href="|http://item.gulimall.com/${sku.skuId}.html|" th:utext="${sku.skuTitle}">
                                     Apple iPhone 7 Plus (A1661) 32G 黑色 移动联通电信4G手机
                                 </a>
                             </p>

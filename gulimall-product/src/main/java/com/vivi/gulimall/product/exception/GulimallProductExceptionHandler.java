@@ -1,6 +1,7 @@
 package com.vivi.gulimall.product.exception;
 
 import com.vivi.common.exception.BizCodeEnum;
+import com.vivi.common.exception.BizException;
 import com.vivi.common.utils.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
@@ -32,8 +33,14 @@ public class GulimallProductExceptionHandler {
             resMap.put(item.getField(), item.getDefaultMessage());
         });
         return R
-                .error(BizCodeEnum.PRODUCT_VAILD_EXCEPTION.getCode(), BizCodeEnum.PRODUCT_VAILD_EXCEPTION.getMsg())
+                .error(BizCodeEnum.PRODUCT_PARAM_INVAILD.getCode(), BizCodeEnum.PRODUCT_PARAM_INVAILD.getMsg())
                 .put("data", resMap);
+    }
+
+    @ExceptionHandler({BizException.class})
+    public R threadPoolException(BizException e) {
+        return R
+                .error(e.getErrorCode(), e.getErrorMsg());
     }
 
     /**
@@ -41,10 +48,10 @@ public class GulimallProductExceptionHandler {
      * @param e
      * @return
      */
-    // @ExceptionHandler(value = Throwable.class)
-    // public R throwableExceptionHandler(Throwable e) {
-    //     log.error("Throwable: {}", e.getMessage());
-    //     return R
-    //             .error(BizCodeEnum.UNKNOW_EXCEPTION.getCode(), BizCodeEnum.UNKNOW_EXCEPTION.getMsg());
-    // }
+    @ExceptionHandler(value = Throwable.class)
+    public R throwableExceptionHandler(Throwable e) {
+        log.error("Throwable: {}", e.getMessage());
+        return R
+                .error(BizCodeEnum.UNKNOW_ERROR.getCode(), BizCodeEnum.UNKNOW_ERROR.getMsg());
+    }
 }

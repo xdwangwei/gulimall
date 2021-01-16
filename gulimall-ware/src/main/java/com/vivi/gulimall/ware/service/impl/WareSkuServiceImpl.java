@@ -101,9 +101,13 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
         return collect;
     }
 
+    @Override
+    public Long getSkuStock(Long skuId) {
+        return baseMapper.getSkuStock(skuId);
+    }
+
     private boolean isValidId(String key) {
         return !StringUtils.isEmpty(key) && !"0".equalsIgnoreCase(key);
     }
-
 
 }

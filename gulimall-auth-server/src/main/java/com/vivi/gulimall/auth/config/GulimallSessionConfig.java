@@ -1,6 +1,5 @@
 package com.vivi.gulimall.auth.config;
 
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
@@ -38,7 +37,7 @@ public class GulimallSessionConfig {
     public CookieSerializer cookieSerializer() {
         DefaultCookieSerializer serializer = new DefaultCookieSerializer();
         // 设置coolie名字
-        serializer.setCookieName("GULIMALL-SESSION"); // <1>
+        serializer.setCookieName("GULISESSION"); // <1>
         // 默认coolie有效域是当前域。比如访问auth.gulimall.com服务器返回的cookie数据的有效域就是auth.gulimall.com
         // 为了实现一处登录处处可用。将其有效域设置为顶级域 gulimall.com
         serializer.setDomainName("gulimall.com");

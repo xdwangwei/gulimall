@@ -44,5 +44,6 @@ public interface SpuInfoService extends IService<SpuInfoEntity> {
      * @return
      */
     boolean updateStatus(Long spuId, Integer publishStatus);
+
 }
 

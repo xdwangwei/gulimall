@@ -2,6 +2,7 @@ package com.vivi.gulimall.member.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.vivi.common.utils.PageUtils;
+import com.vivi.gulimall.member.entity.MemberEntity;
 import com.vivi.gulimall.member.entity.MemberLevelEntity;
 
 import java.util.Map;
@@ -16,5 +17,12 @@ import java.util.Map;
 public interface MemberLevelService extends IService<MemberLevelEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    /**
+     * 获取默认等级会员
+     * @return
+     */
+    MemberLevelEntity getDefaultLevel();
+
 }
 

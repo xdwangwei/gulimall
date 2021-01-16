@@ -23,7 +23,20 @@
         <result property="growth" column="growth"/>
         <result property="status" column="status"/>
         <result property="createTime" column="create_time"/>
+        <result property="registerType" column="register_type"/>
+        <result property="socialUid" column="social_uid"/>
+        <result property="accessToken" column="access_token"/>
+        <result property="expireIn" column="expire_in"/>
     </resultMap>
+
+    <select id="getByAccount" resultType="com.vivi.gulimall.member.entity.MemberEntity">
+        SELECT
+            *
+        FROM
+            ums_member
+        WHERE
+        username = #{account} OR mobile = #{account};
+    </select>
 
 
 </mapper>

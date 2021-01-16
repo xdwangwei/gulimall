@@ -273,7 +273,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             Map<Long, Long> stockMap = new HashMap<>();
             List<Long> ids = skuList.stream().map(SkuInfoEntity::getSkuId).collect(Collectors.toList());
             try {
-                R r = wareFeignService.skuStock(ids);
+                R r = wareFeignService.getSkuStockBatch(ids);
                 if (r.getCode() == 0) {
                     List<SkuStockTO> stockTOList = r.getData(new TypeReference<List<SkuStockTO>>() {
                     });
@@ -325,6 +325,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         this.baseMapper.updateStatus(spuId, publishStatus);
         return false;
     }
+
 
     private boolean isValidId(String key) {
         return !StringUtils.isEmpty(key) && !"0".equalsIgnoreCase(key);

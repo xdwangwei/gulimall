@@ -14,5 +14,30 @@
         <result property="quickShow" column="quick_show"/>
     </resultMap>
 
+    <resultMap id="AttrsWithAttrGroupMap" type="com.vivi.gulimall.product.vo.ItemAttrGroupWithAttrVO">
+        <result property="attrGroupId" column="attr_group_id"/>
+        <result property="attrGroupName" column="attr_group_name"/>
+        <collection property="attrs" ofType="com.vivi.gulimall.product.vo.ItemAttrVO">
+            <result property="attrId" column="attr_id"/>
+            <result property="attrName" column="attr_name"/>
+            <result property="attrValue" column="attr_value"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="getAttrsWithAttrGroup" resultMap="AttrsWithAttrGroupMap">
+        SELECT
+            t_pag.attr_group_id, t_pag.attr_group_name,
+            t_ppav.attr_id, t_ppav.attr_name, t_ppav.attr_value
+        FROM
+            pms_attr_group t_pag
+        LEFT JOIN pms_attr_attrgroup_relation t_paar
+                  ON t_pag.attr_group_id = t_paar.attr_group_id
+        LEFT JOIN pms_product_attr_value t_ppav
+                  ON t_ppav.attr_id = t_paar.attr_id
+        WHERE
+            t_pag.catelog_id = #{catelogId} AND t_ppav.spu_id = #{spuId};
+    </select>
+
 
 </mapper>

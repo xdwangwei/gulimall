@@ -41,12 +41,18 @@ public class WareSkuController {
         return R.ok().put("page", page);
     }
 
-    @RequestMapping("/stock")
-    public R skuStock(@RequestBody List<Long> skuIds) {
+    @RequestMapping("/stock/batch")
+    public R getSkuStockBatch(@RequestBody List<Long> skuIds) {
         List<SkuStockTO> skuStockTOS = wareSkuService.getSkusStock(skuIds);
         R ok = R.ok();
         ok.setData(skuStockTOS);
         return ok;
+    }
+
+    @RequestMapping("/stock/{skuId}")
+    public R getSkuStock(@PathVariable("skuId") Long skuId) {
+        Long stock  = wareSkuService.getSkuStock(skuId);
+        return R.ok().setData(stock);
     }
 
 

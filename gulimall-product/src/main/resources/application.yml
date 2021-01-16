@@ -29,6 +29,8 @@ spring:
     host: 192.168.50.10
     port: 6379
     password: redis
+  session:
+    store-type: redis
 
 mybatis-plus:
   # 开启mybatis-plus逻辑删除
@@ -53,4 +55,11 @@ logging:
   level:
     com.vivi.gulimall.product: debug
 
-
+# 线程池配置
+thread:
+  pool:
+    config:
+      core-size: 20
+      maximum-size: 200
+      keep-alive-time: 10
+      block-queue-size: 10000

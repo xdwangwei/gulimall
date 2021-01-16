@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.sun.org.apache.regexp.internal.RE;
 import com.vivi.common.exception.BizCodeEnum;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.R;
@@ -55,8 +54,8 @@ public class PurchaseController {
         if (purchaseService.mergePurchase(purchaseMergeVO)) {
             return R.ok();
         }
-        return R.error(BizCodeEnum.WARE_PURCHASE_MERGE_EXCEPTION.getCode(),
-                BizCodeEnum.WARE_PURCHASE_MERGE_EXCEPTION.getMsg());
+        return R.error(BizCodeEnum.WARE_PURCHASE_MERGE_FAILED.getCode(),
+                BizCodeEnum.WARE_PURCHASE_MERGE_FAILED.getMsg());
     }
 
     // http://localhost:88/api/ware/purchase/receive
@@ -81,8 +80,8 @@ public class PurchaseController {
         if (res) {
             return R.ok();
         }
-        return R.error(BizCodeEnum.WARE_PURCHASE_ASSIGN_EXCEPTION.getCode(),
-                BizCodeEnum.WARE_PURCHASE_ASSIGN_EXCEPTION.getMsg());
+        return R.error(BizCodeEnum.WARE_PURCHASE_ASSIGN_FAILED.getCode(),
+                BizCodeEnum.WARE_PURCHASE_ASSIGN_FAILED.getMsg());
     }
 
 

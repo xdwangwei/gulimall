@@ -5,7 +5,7 @@ spring:
   application:
     name: gulimall-auth-server
   redis:
-    host: 49.235.94.155
+    host: 192.168.50.10
     port: 6379
     password: redis
   session:
@@ -17,3 +17,11 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+
+oauth2:
+  social:
+    weibo:
+      client-id: 3661722387
+      client-secret: 1b253ebc0906e625b02f73050c7cde69
+      grant-type: authorization_code
+      redirect-uri: http://auth.gulimall.com/oauth2/weibo/return

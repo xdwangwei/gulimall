@@ -10,6 +10,7 @@ import com.vivi.gulimall.product.entity.SkuImagesEntity;
 import com.vivi.gulimall.product.service.SkuImagesService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -24,6 +25,12 @@ public class SkuImagesServiceImpl extends ServiceImpl<SkuImagesDao, SkuImagesEnt
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<SkuImagesEntity> listBySkuId(Long skuId) {
+
+        return this.list(new QueryWrapper<SkuImagesEntity>().eq("sku_id", skuId));
     }
 
 }

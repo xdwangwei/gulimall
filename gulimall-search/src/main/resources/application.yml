@@ -10,6 +10,12 @@ spring:
         server-addr: 127.0.0.1:8848
   thymeleaf:
     cache: false
+  session:
+    store-type: redis
+  redis:
+    host: 192.168.50.10
+    port: 6379
+    password: redis
 
 elasticsearch:
   host-addr: 192.168.50.10

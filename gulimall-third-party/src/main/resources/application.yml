@@ -16,3 +16,8 @@ alibaba:
     oss:
       endpoint: oss-cn-hangzhou.aliyuncs.com
       bucket: vivi-gulimall
+
+sms:
+  config:
+    appcode: 387a661e1f5f424c91fb9c5619deaade
+    template-id: 20210113130847

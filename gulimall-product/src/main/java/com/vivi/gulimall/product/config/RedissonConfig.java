@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * Redisson分布式锁的配置
  */
 @Configuration
-public class RedissonConfiguration {
+public class RedissonConfig {
 
     @Value("${spring.redis.host}")
     private String host;

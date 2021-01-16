@@ -15,17 +15,38 @@ package com.vivi.common.exception;
  *
  *
  */
-public enum BizCodeEnum {
+public enum BizCodeEnum implements CommonError{
 
-    UNKNOW_EXCEPTION(00000,"系统未知异常"),
+    // 系统异常
+    UNKNOW_ERROR(00000,"系统未知异常"),
+    TOO_MANY_REQUEST(00001, "请求太频繁，请稍后重试"),
+
+    THREAD_POOL_TASK_FAILED(00002, "线程池执行任务失败"),
+
+
     // 商品模块异常
-    PRODUCT_VAILD_EXCEPTION(10001,"参数格式校验失败"),
+    PRODUCT_PARAM_INVAILD(10001,"参数格式校验失败"),
 
-    PRODUCT_UP_FAILED(10111, "商品上架至ES失败"),
+    PRODUCT_STATUS_UP_FAILED(10111, "商品上架至ES失败"),
 
-    WARE_PURCHASE_MERGE_EXCEPTION(80001, "无法将采购项合并到已被领取的采购单"),
+    // 库存模块异常
+    WARE_PURCHASE_MERGE_FAILED(11001, "无法将采购项合并到已被领取的采购单"),
 
-    WARE_PURCHASE_ASSIGN_EXCEPTION(80002, "只能给新建的采购单分配采购员");
+    WARE_PURCHASE_ASSIGN_FAILED(11002, "只能给新建的采购单分配采购员"),
+
+    // 认证服务异常
+    AUTH_PARAM_INVAILD(30001,"参数格式校验失败"),
+    AUTH_CODE_NOT_MATCH(30002, "验证码验证失败，请重试或重新获取"),
+    AUTH_WEIBO_LOGIN_FAILED(30003, "微博登录失败，请重试"),
+
+    // 会员服务异常
+    MEMBER_ALREADY_EXIST(80001, "用户已存在"),
+    MEMBER_NOT_EXIST(80002, "账户不存在"),
+    MEMBER_ACCOUNT_PASSWORD_NOT_MATCH(80003, "用户名或密码错误"),
+
+    // 第三方服务异常
+    SMS_SEND_CODE_FAILED(20001, "短信验证码发送失败"),
+    OSS_GET_POLICY_FAILED(20002, "获取阿里OSS文件上传签名失败");
 
     private int code;
     private String msg;
@@ -40,6 +61,16 @@ public enum BizCodeEnum {
     }
 
     public String getMsg() {
+        return msg;
+    }
+
+    @Override
+    public int getErrorCode() {
+        return code;
+    }
+
+    @Override
+    public String getErrorMsg() {
         return msg;
     }
 }

@@ -72,7 +72,7 @@ public class BrandEntity implements Serializable {
 	 * 排序
 	 */
 	@NotNull(message = "新增品牌必须传入品牌排序字段", groups = {AddBrandValidateGroup.class, UpdateBrandValidateGroup.class})
-	@Min(value = 0, message = "品牌排序字段必须大于等于0", groups = {AddBrandValidateGroup.class, UpdateBrandValidateGroup.class})
+	@Min(value = 0, message = "品牌排序字段长度必须大于等于0", groups = {AddBrandValidateGroup.class, UpdateBrandValidateGroup.class})
 	private Integer sort;
 
 }

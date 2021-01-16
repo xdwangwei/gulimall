@@ -3,6 +3,7 @@ package com.vivi.gulimall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.gulimall.product.entity.ProductAttrValueEntity;
+import com.vivi.gulimall.product.vo.ItemAttrGroupWithAttrVO;
 
 import java.util.List;
 import java.util.Map;
@@ -31,5 +32,12 @@ public interface ProductAttrValueService extends IService<ProductAttrValueEntity
      * @return
      */
     boolean updateForSpu(Long spuId, List<ProductAttrValueEntity> list);
+
+    /**
+     * 查出此商品所有的规格参数信息(属性分组，组内属性)
+     * @param spuId
+     * @return
+     */
+    List<ItemAttrGroupWithAttrVO> getAttrsWithAttrGroupBySpuId(Long spuId);
 }
 
