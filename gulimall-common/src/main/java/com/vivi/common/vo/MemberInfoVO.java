@@ -1,4 +1,4 @@
-package com.vivi.common.to;
+package com.vivi.common.vo;
 
 import lombok.Data;
 
@@ -6,22 +6,20 @@ import java.util.Date;
 
 /**
  * @author wangwei
- * 2021/1/14 20:46
+ * 2021/1/16 13:42
  *
- * 用于服务之间数据传输，来源于 gulimall-member.MemberEntity，修改一些属性，屏蔽不必要属性
+ * 登录后的用户存在session中的数据模型
  */
 @Data
-public class MemberInfoTO {
+public class MemberInfoVO {
 
     /**
      * id
      */
     private Long id;
     /**
-     * 会员等级id
+     * 会员等级名
      */
-    // private Long levelId;
-    // 会员等级名
     private String level;
     /**
      * 用户名

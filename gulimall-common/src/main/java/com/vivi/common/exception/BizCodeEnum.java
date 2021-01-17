@@ -18,10 +18,10 @@ package com.vivi.common.exception;
 public enum BizCodeEnum implements CommonError{
 
     // 系统异常
-    UNKNOW_ERROR(00000,"系统未知异常"),
-    TOO_MANY_REQUEST(00001, "请求太频繁，请稍后重试"),
-
-    THREAD_POOL_TASK_FAILED(00002, "线程池执行任务失败"),
+    UNKNOW_ERROR(00001,"系统未知异常"),
+    TOO_MANY_REQUEST(00002, "请求太频繁，请稍后重试"),
+    THREAD_POOL_TASK_FAILED(00003, "线程池执行任务失败"),
+    CALL_FEIGN_SERVICE_FAILED(00004, "调用远程服务失败"),
 
 
     // 商品模块异常

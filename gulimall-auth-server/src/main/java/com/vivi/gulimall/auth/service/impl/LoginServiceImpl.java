@@ -1,9 +1,9 @@
 package com.vivi.gulimall.auth.service.impl;
 
-import com.vivi.common.exception.BizException;
 import com.vivi.common.to.MemberInfoTO;
 import com.vivi.common.to.MemberLoginTO;
 import com.vivi.common.utils.R;
+import com.vivi.common.vo.MemberInfoVO;
 import com.vivi.gulimall.auth.exception.LoginPageException;
 import com.vivi.gulimall.auth.feign.MemberFeignService;
 import com.vivi.gulimall.auth.service.LoginService;
@@ -23,7 +23,7 @@ public class LoginServiceImpl implements LoginService {
     MemberFeignService memberFeignService;
 
     @Override
-    public MemberInfoTO doLogin(LoginVO loginVO) {
+    public MemberInfoVO doLogin(LoginVO loginVO) {
         MemberLoginTO memberLoginTO = new MemberLoginTO();
         BeanUtils.copyProperties(loginVO, memberLoginTO);
         R r = memberFeignService.login(memberLoginTO);
@@ -31,6 +31,12 @@ public class LoginServiceImpl implements LoginService {
         if (r.getCode() != 0) {
             throw new LoginPageException(r.getCode(), r.getData("msg", String.class));
         }
-        return r.getData(MemberInfoTO.class);
+        return convertMemberInfoTO2MemberInfoVO(r.getData(MemberInfoTO.class));
+    }
+
+    private MemberInfoVO convertMemberInfoTO2MemberInfoVO(MemberInfoTO infoTO) {
+        MemberInfoVO infoVO = new MemberInfoVO();
+        BeanUtils.copyProperties(infoTO, infoVO);
+        return infoVO;
     }
 }

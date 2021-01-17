@@ -1,7 +1,6 @@
 package com.vivi.gulimall.auth.service;
 
-import com.vivi.common.to.MemberInfoTO;
-import com.vivi.common.to.WeiboUserAuthTO;
+import com.vivi.common.vo.MemberInfoVO;
 
 /**
  * @author wangwei
@@ -9,5 +8,5 @@ import com.vivi.common.to.WeiboUserAuthTO;
  */
 public interface Oauth2WeiboService {
 
-    MemberInfoTO access(String code);
+    MemberInfoVO access(String code);
 }

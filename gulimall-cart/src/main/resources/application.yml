@@ -11,3 +11,12 @@ spring:
     nacos:
       server-addr: 127.0.0.1:8848
 
+# 线程池配置
+thread:
+  pool:
+    config:
+      core-size: 20
+      maximum-size: 200
+      keep-alive-time: 10
+      block-queue-size: 10000
+

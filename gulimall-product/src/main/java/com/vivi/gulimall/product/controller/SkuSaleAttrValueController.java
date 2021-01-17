@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -21,6 +22,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("product/skusaleattrvalue")
 public class SkuSaleAttrValueController {
+
+
     @Autowired
     private SkuSaleAttrValueService skuSaleAttrValueService;
 
@@ -33,6 +36,17 @@ public class SkuSaleAttrValueController {
         PageUtils page = skuSaleAttrValueService.queryPage(params);
 
         return R.ok().put("page", page);
+    }
+
+    /**
+     * 组成成字符串返回
+     * @return
+     */
+    @RequestMapping("/stringlist/{skuId}")
+    public R liststr(@PathVariable("skuId") Long skuId){
+        List<String> attrs = skuSaleAttrValueService.stringListBySkuId(skuId);
+
+        return R.ok().setData(attrs);
     }
 
 

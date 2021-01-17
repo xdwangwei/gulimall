@@ -6,12 +6,14 @@ import com.vivi.common.to.MemberInfoTO;
 import com.vivi.common.to.WeiboUserAuthTO;
 import com.vivi.common.utils.HttpUtils;
 import com.vivi.common.utils.R;
+import com.vivi.common.vo.MemberInfoVO;
 import com.vivi.gulimall.auth.exception.LoginPageException;
 import com.vivi.gulimall.auth.feign.MemberFeignService;
 import com.vivi.gulimall.auth.service.Oauth2WeiboService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -42,7 +44,7 @@ public class Oauth2WeiboServiceImpl implements Oauth2WeiboService {
     private String redirectUri;
 
     @Override
-    public MemberInfoTO access(String code) {
+    public MemberInfoVO access(String code) {
         HashMap<String, String> map = new HashMap<>();
         map.put("client_id", "3661722387");
         map.put("client_secret", "1b253ebc0906e625b02f73050c7cde69");
@@ -60,7 +62,7 @@ public class Oauth2WeiboServiceImpl implements Oauth2WeiboService {
                 // 调用远程服务完成用户此次登录
                 R r = memberFeignService.weiboLogin(authTO);
                 if (r.getCode() == 0) {
-                    return r.getData(MemberInfoTO.class);
+                    return convertMemberInfoTO2MemberInfoVO(r.getData(MemberInfoTO.class));
                 } else {
                     log.error("微博登录-用token调用member服务登录失败：{}", r.get("msg"));
                     throw new LoginPageException(BizCodeEnum.AUTH_WEIBO_LOGIN_FAILED);
@@ -73,5 +75,11 @@ public class Oauth2WeiboServiceImpl implements Oauth2WeiboService {
             log.error("微博登录-用code获取token失败：{}", e.getMessage());
             throw new LoginPageException(BizCodeEnum.AUTH_WEIBO_LOGIN_FAILED);
         }
+    }
+
+    private MemberInfoVO convertMemberInfoTO2MemberInfoVO(MemberInfoTO infoTO) {
+        MemberInfoVO infoVO = new MemberInfoVO();
+        BeanUtils.copyProperties(infoTO, infoVO);
+        return infoVO;
     }
 }

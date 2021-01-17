@@ -3,7 +3,7 @@ package com.vivi.gulimall.ware.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.sun.corba.se.spi.ior.ObjectKey;
+import com.vivi.common.to.SkuInfoTO;
 import com.vivi.common.to.SkuStockTO;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.Query;
@@ -12,11 +12,9 @@ import com.vivi.gulimall.ware.dao.WareSkuDao;
 import com.vivi.gulimall.ware.entity.WareSkuEntity;
 import com.vivi.gulimall.ware.feign.ProductFeignService;
 import com.vivi.gulimall.ware.service.WareSkuService;
-import org.bouncycastle.eac.EACCertificateBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -73,9 +71,9 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             wareSkuEntity.setStockLocked(0);
             try {
                 R res = productFeignService.info(skuId);
-                Map<String, Object> skuInfo = (Map<String, Object>) res.get("skuInfo");
                 if (res.getCode() == 0) {
-                    wareSkuEntity.setSkuName((String) skuInfo.get("skuName"));
+                    SkuInfoTO skuInfo = res.getData("skuInfo", SkuInfoTO.class);
+                    wareSkuEntity.setSkuName(skuInfo.getSkuName());
                 }
             } catch (Exception e) {
                 log.error("调用远程服务gulimall-product查询skuinfo失败");

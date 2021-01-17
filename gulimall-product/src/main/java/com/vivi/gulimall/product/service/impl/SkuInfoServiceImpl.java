@@ -9,7 +9,9 @@ import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.Query;
 import com.vivi.common.utils.R;
 import com.vivi.gulimall.product.dao.SkuInfoDao;
-import com.vivi.gulimall.product.entity.*;
+import com.vivi.gulimall.product.entity.SkuImagesEntity;
+import com.vivi.gulimall.product.entity.SkuInfoEntity;
+import com.vivi.gulimall.product.entity.SpuInfoDescEntity;
 import com.vivi.gulimall.product.feign.WareFeignService;
 import com.vivi.gulimall.product.service.*;
 import com.vivi.gulimall.product.vo.ItemAttrGroupWithAttrVO;
@@ -23,7 +25,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 
 
@@ -120,6 +121,9 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
     @Override
     public ItemDetailVO detail(Long skuId) {
         ItemDetailVO itemDetailVO = new ItemDetailVO();
+        if (itemDetailVO == null) {
+            throw new BizException(BizCodeEnum.PRODUCT_PARAM_INVAILD, "所选商品不存在");
+        }
         // TODO 1.sku基本信息 接收返回值，后面的异步任务需要用到这个结果
         CompletableFuture<SkuInfoEntity> skuInfoFuture = CompletableFuture.supplyAsync(() -> {
             SkuInfoEntity skuInfoEntity = this.getById(skuId);
@@ -159,6 +163,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
         try {
             CompletableFuture.allOf(skuStockFuture, skuImageFuture, skuSaleAttrFuture, spuDescFuture, spuAttrGroupFuture).get();
         } catch (Exception e) {
+            log.error("线程池异步任务失败：{}", e.getCause());
             throw new BizException(BizCodeEnum.THREAD_POOL_TASK_FAILED, "异步编排查询商品详情失败");
         }
         return itemDetailVO;

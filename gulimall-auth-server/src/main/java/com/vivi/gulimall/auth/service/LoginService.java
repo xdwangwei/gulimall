@@ -1,6 +1,6 @@
 package com.vivi.gulimall.auth.service;
 
-import com.vivi.common.to.MemberInfoTO;
+import com.vivi.common.vo.MemberInfoVO;
 import com.vivi.gulimall.auth.vo.LoginVO;
 
 /**
@@ -9,5 +9,5 @@ import com.vivi.gulimall.auth.vo.LoginVO;
  */
 public interface LoginService {
 
-    MemberInfoTO doLogin(LoginVO loginVO);
+    MemberInfoVO doLogin(LoginVO loginVO);
 }

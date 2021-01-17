@@ -618,7 +618,7 @@
 
                 <div class="box-btns clear" th:if="${item.hasStock}">
                     <div class="box-btns-one">
-                        <input type="text" name="" id="" value="1"/>
+                        <input type="text" name="" id="input_sku_count" value="1"/>
                         <div class="box-btns-one1">
 
                             <div>
@@ -635,8 +635,8 @@
                         </div>
                     </div>
                     <div class="box-btns-two">
-                        <a th:href="|http://order.gulimall.com/${item.skuInfo.skuId}|">
-                            立即购买
+                        <a th:attr="skuId=${item.skuInfo.skuId}" id="a_addTocart">
+                            加入购物车
                         </a>
                     </div>
                     <div class="box-btns-three">
@@ -1313,6 +1313,13 @@
         // console.log(to_skuid[0])
         // 跳转到这个sku的详情页
         window.location.href = "http://item.gulimall.com/" + to_skuid[0] + ".html";
+    })
+
+    $("#a_addTocart").click(function () {
+        var skuId = $(this).attr("skuId");
+        var count = $("#input_sku_count").val();
+        window.location.href = "http://cart.gulimall.com/cart/additem?skuId=" + skuId + "&count=" + count;
+        return false;
     })
 </script>
 

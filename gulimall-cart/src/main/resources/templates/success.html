@@ -11,7 +11,6 @@
     <link rel="stylesheet" type="text/css" href="/static/cart/css/success.css"/>
 
 </head>
-
 <body>
 <!--头部-->
 <div class="alert-info">
@@ -49,8 +48,10 @@
             <div class="nav_top_one">
                 <a href="http://gulimall.com"><img src="/static/cart/img/logo1.jpg" style="height: 60px;width:180px;"/></a>
             </div>
-            <div class="nav_top_two"><input type="text"/>
-                <button>搜索</button>
+            <div class="nav_top_two">
+                <input id="input_keyword" type="text" placeholder="" onfocus="this.placeholder=''"
+                       onblur="this.placeholder='' ">
+                <button id="btn_search" style="margin-left: 5px;">搜索</button>
             </div>
         </div>
 
@@ -62,20 +63,25 @@
     <div class="success-wrap">
         <div class="w" id="result">
             <div class="m succeed-box">
-                <div class="mc success-cont">
+                <h1 th:if="${item == null}">所选商品不存在</h1>
+                <div class="mc success-cont" th:if="${item != null}">
                     <div class="success-lcol">
                         <div class="success-top"><b class="succ-icon"></b>
                             <h3 class="ftx-02">商品已成功加入购物车</h3></div>
                         <div class="p-item">
                             <div class="p-img">
-                                <a href="/javascript:;" target="_blank"><img style="height: 60px;width:60px;"
-                                                                             src="/static/cart/img/shop1.jpg"></a>
+                                <a th:href="|http://item.gulimall.com/${item.skuId}.html|" target="_blank"><img
+                                        style="height: 60px;width:60px;"
+                                        th:src="${item.skuImg}"></a>
                             </div>
                             <div class="p-info">
                                 <div class="p-name">
-                                    <a>TCL 55A950C 55英寸32核人工智能 HDR曲面超薄4K电视金属机身（枪色）</a>
+                                    <a th:text="${item.skuTitle}">TCL 55A950C 55英寸32核人工智能 HDR曲面超薄4K电视金属机身（枪色）</a>
                                 </div>
-                                <div class="p-extra"><span class="txt">  数量：1</span></div>
+                                <div class="p-extra">
+                                    <span class="txt" th:each="attr : ${item.attrs}">[[${attr}]] </span>
+                                    <span class="txt"> / 数量：[[${item.count}]]</span>
+                                </div>
                             </div>
                             <div class="clr"></div>
                         </div>
@@ -86,8 +92,8 @@
                         </div>
                         <div class="clr"></div>
                         <div class="bg_shop">
-                            <a class="btn-tobback">查看商品详情</a>
-                            <a class="btn-addtocart" href="http://cart.gmall.com:8087/cartList"
+                            <a th:href="|http://item.gulimall.com/${item.skuId}.html|" class="btn-tobback">查看商品详情</a>
+                            <a class="btn-addtocart" href="http://cart.gulimall.com/cart/list.html"
                                id="GotoShoppingCart"><b></b>去购物车结算</a>
                         </div>
                     </div>
@@ -99,5 +105,15 @@
 </div>
 </body>
 <script type="text/javascript" src="/static/cart/js/success.js"></script>
+<script>
+    // 搜索按钮
+    $("#btn_search").click(function () {
+        var keyword = $.trim($("#input_keyword").val());
+        if (keyword.length == 0) {
+            return false;
+        }
+        window.location.href = "http://search.gulimall.com/list.html?keyword=" + keyword;
+    })
+</script>
 
 </html>
