@@ -17,6 +17,18 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+  thymeleaf:
+    cache: false
+  # rabbitmq配置，消息确认机制配置在application.properties
+  rabbitmq:
+    host: 192.168.50.10
+    port: 5672
+    virtual-host: /
+  redis:
+    host: 192.168.50.10
+    port: 6379
+    password: redis
+
 
 mybatis-plus:
   mapperLocations: classpath:mapper/**/*.xml
@@ -26,3 +38,13 @@ mybatis-plus:
 #  使用接口IdentifierGenerator的方法nextId
 #  (默认实现类为DefaultIdentifierGenerator雪花算法)
       id-type: auto
+
+
+# 线程池配置
+thread:
+  pool:
+    config:
+      core-size: 20
+      maximum-size: 200
+      keep-alive-time: 10
+      block-queue-size: 10000
