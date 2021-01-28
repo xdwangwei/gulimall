@@ -10,6 +10,7 @@ import com.vivi.gulimall.order.entity.OrderItemEntity;
 import com.vivi.gulimall.order.service.OrderItemService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -24,6 +25,12 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemDao, OrderItemEnt
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<OrderItemEntity> listByOrderSn(String orderSn) {
+
+        return this.list(new QueryWrapper<OrderItemEntity>().eq("order_sn", orderSn));
     }
 
 }

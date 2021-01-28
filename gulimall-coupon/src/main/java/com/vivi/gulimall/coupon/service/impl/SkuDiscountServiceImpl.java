@@ -8,16 +8,12 @@ import com.vivi.gulimall.coupon.service.MemberPriceService;
 import com.vivi.gulimall.coupon.service.SkuDiscountService;
 import com.vivi.gulimall.coupon.service.SkuFullReductionService;
 import com.vivi.gulimall.coupon.service.SkuLadderService;
-import org.apache.tomcat.jni.BIOCallback;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.constraints.Email;
-import javax.xml.ws.ServiceMode;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,6 +34,11 @@ public class SkuDiscountServiceImpl implements SkuDiscountService {
     @Autowired
     private MemberPriceService memberPriceService;
 
+    /**
+     * 远程调用，seata分布式事务
+     * @param skuDiscountTO
+     * @return
+     */
     @Transactional
     @Override
     public boolean save(SkuDiscountTO skuDiscountTO) {

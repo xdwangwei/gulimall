@@ -1,6 +1,7 @@
 package com.vivi.gulimall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.vivi.common.to.SpuInfoTO;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.gulimall.product.entity.SpuInfoEntity;
 import com.vivi.gulimall.product.vo.SpuVO;
@@ -45,5 +46,6 @@ public interface SpuInfoService extends IService<SpuInfoEntity> {
      */
     boolean updateStatus(Long spuId, Integer publishStatus);
 
+    SpuInfoTO getBySkuId(Long skuId);
 }
 

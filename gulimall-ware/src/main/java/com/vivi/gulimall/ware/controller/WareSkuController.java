@@ -1,18 +1,17 @@
 package com.vivi.gulimall.ware.controller;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-
+import com.vivi.common.to.OrderLockStockTO;
 import com.vivi.common.to.SkuStockTO;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.R;
+import com.vivi.gulimall.ware.entity.WareSkuEntity;
+import com.vivi.gulimall.ware.service.WareSkuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.vivi.gulimall.ware.entity.WareSkuEntity;
-import com.vivi.gulimall.ware.service.WareSkuService;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -96,6 +95,15 @@ public class WareSkuController {
     public R delete(@RequestBody Long[] ids){
 		wareSkuService.removeByIds(Arrays.asList(ids));
 
+        return R.ok();
+    }
+
+    /**
+     * 为订单锁定库存
+     */
+    @PostMapping("/lockStock")
+    public R lockStock(@RequestBody OrderLockStockTO lockStockTO) {
+        wareSkuService.lockOrderStock(lockStockTO);
         return R.ok();
     }
 

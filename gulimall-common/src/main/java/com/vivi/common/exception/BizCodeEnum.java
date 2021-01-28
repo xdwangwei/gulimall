@@ -33,16 +33,21 @@ public enum BizCodeEnum implements CommonError{
     WARE_PURCHASE_MERGE_FAILED(11001, "无法将采购项合并到已被领取的采购单"),
 
     WARE_PURCHASE_ASSIGN_FAILED(11002, "只能给新建的采购单分配采购员"),
+    WARE_SKU_STOCK_NOT_ENOUGH(11003, "商品库存不足"),
 
     // 认证服务异常
     AUTH_PARAM_INVAILD(30001,"参数格式校验失败"),
     AUTH_CODE_NOT_MATCH(30002, "验证码验证失败，请重试或重新获取"),
     AUTH_WEIBO_LOGIN_FAILED(30003, "微博登录失败，请重试"),
+    AUTH_USER_NOT_LOGIN(30004, "用户未登录"),
 
     // 会员服务异常
     MEMBER_ALREADY_EXIST(80001, "用户已存在"),
     MEMBER_NOT_EXIST(80002, "账户不存在"),
     MEMBER_ACCOUNT_PASSWORD_NOT_MATCH(80003, "用户名或密码错误"),
+
+    // 订单模块
+    ORDER_HAS_EXPIRED(90001, "订单已处理，请重新下单"),
 
     // 第三方服务异常
     SMS_SEND_CODE_FAILED(20001, "短信验证码发送失败"),

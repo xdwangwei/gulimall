@@ -1,5 +1,6 @@
 package com.vivi.gulimall.product.controller;
 
+import com.vivi.common.to.SpuInfoTO;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.R;
 import com.vivi.gulimall.product.entity.SpuInfoEntity;
@@ -89,6 +90,15 @@ public class SpuInfoController {
 		spuInfoService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+    /**
+     * 远程调用，根据skuId查找
+     */
+    @GetMapping("/skuId/{skuId}")
+    public R getBySkuId(@PathVariable("skuId") Long skuId) {
+        SpuInfoTO spuInfoTO = spuInfoService.getBySkuId(skuId);
+        return R.ok().setData(spuInfoTO);
     }
 
 }

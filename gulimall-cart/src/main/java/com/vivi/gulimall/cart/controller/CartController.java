@@ -1,5 +1,6 @@
 package com.vivi.gulimall.cart.controller;
 
+import com.vivi.common.to.CartItemTO;
 import com.vivi.common.utils.R;
 import com.vivi.gulimall.cart.service.CartService;
 import com.vivi.gulimall.cart.vo.CartItemVO;
@@ -95,6 +96,16 @@ public class CartController {
                               @RequestParam("count") Integer count) {
         cartService.changeItemCount(skuId, count);
         return R.ok();
+    }
+
+    /**
+     * 获取当前用户购物车中选中的购物项列表
+     */
+    @ResponseBody
+    @GetMapping("/checked")
+    public R getCheckedItems() {
+        List<CartItemTO> itemTOS = cartService.getCheckedItems();
+        return R.ok().setData(itemTOS);
     }
 
 }

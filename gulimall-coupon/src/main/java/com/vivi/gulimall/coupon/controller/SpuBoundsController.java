@@ -1,19 +1,15 @@
 package com.vivi.gulimall.coupon.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import com.vivi.common.utils.R;
+import com.vivi.common.to.SpuBoundsTO;
 import com.vivi.common.utils.PageUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.vivi.common.utils.R;
 import com.vivi.gulimall.coupon.entity.SpuBoundsEntity;
 import com.vivi.gulimall.coupon.service.SpuBoundsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 /**
@@ -54,12 +50,12 @@ public class SpuBoundsController {
     }
 
     /**
-     * 保存
+     * 远程调用，保存
      */
     @RequestMapping("/save")
     // @RequiresPermissions("coupon:spubounds:save")
     public R saveSpuBounds(@RequestBody SpuBoundsEntity spuBounds){
-		spuBoundsService.save(spuBounds);
+		spuBoundsService.saveSpuBoundS(spuBounds);
 
         return R.ok();
     }
@@ -84,6 +80,14 @@ public class SpuBoundsController {
 		spuBoundsService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+    @RequestMapping("/info/spuId/{spuId}")
+    // @RequiresPermissions("coupon:spubounds:info")
+    public R getBySpuId(@PathVariable("spuId") Long spuId){
+        SpuBoundsTO spuBounds = spuBoundsService.getBySpuId(spuId);
+
+        return R.ok().setData(spuBounds);
     }
 
 }

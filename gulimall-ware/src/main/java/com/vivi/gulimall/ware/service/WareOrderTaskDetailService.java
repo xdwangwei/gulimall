@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.gulimall.ware.entity.WareOrderTaskDetailEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +17,7 @@ import java.util.Map;
 public interface WareOrderTaskDetailService extends IService<WareOrderTaskDetailEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    List<WareOrderTaskDetailEntity> listByTtaskId(Long taskId);
 }
 

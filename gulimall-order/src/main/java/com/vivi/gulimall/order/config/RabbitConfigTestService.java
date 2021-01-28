@@ -6,10 +6,8 @@ import com.vivi.gulimall.order.entity.RefundInfoEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * @author wangwei
@@ -18,10 +16,12 @@ import org.springframework.stereotype.Service;
  * 对于配置好的rabbitmq的测试
  *
  * 关于创建队列、交换机、绑定关系、测试消息发送请看测试类 RabbitTest.java
+ *
+ * 测试完毕取消这个类的监听
  */
 @Slf4j
-@Service
-@RabbitListener(queues = {"gulimall-test-queue"})
+// @Service           测试完毕取消这个类的监听
+// @RabbitListener(queues = {"gulimall-test-queue"})
 public class RabbitConfigTestService {
 
     @Autowired

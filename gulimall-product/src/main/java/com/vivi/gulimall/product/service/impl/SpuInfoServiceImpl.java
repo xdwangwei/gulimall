@@ -5,10 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.vivi.common.constant.ProductConstant;
-import com.vivi.common.to.SkuDiscountTO;
-import com.vivi.common.to.SkuESModel;
-import com.vivi.common.to.SkuStockTO;
-import com.vivi.common.to.SpuBoundsTO;
+import com.vivi.common.exception.BizCodeEnum;
+import com.vivi.common.exception.BizException;
+import com.vivi.common.to.*;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.Query;
 import com.vivi.common.utils.R;
@@ -19,17 +18,18 @@ import com.vivi.gulimall.product.feign.SearchFeignService;
 import com.vivi.gulimall.product.feign.WareFeignService;
 import com.vivi.gulimall.product.service.*;
 import com.vivi.gulimall.product.vo.SpuVO;
+import io.seata.spring.annotation.GlobalTransactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-
+@Slf4j
 @Service("spuInfoService")
 public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> implements SpuInfoService {
 
@@ -79,8 +79,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         return new PageUtils(page);
     }
 
-    // TODO 高级部分完善,事务回滚
-    @Transactional(rollbackFor = Exception.class)
+    // TODO 高级部分完善,seata分布式事务事务回滚
+    @GlobalTransactional
+    // @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean save(SpuVO spuVO) {
         // System.out.println(spuVO);
@@ -324,6 +325,37 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     public boolean updateStatus(Long spuId, Integer publishStatus) {
         this.baseMapper.updateStatus(spuId, publishStatus);
         return false;
+    }
+
+    @Override
+    public SpuInfoTO getBySkuId(Long skuId) {
+
+        SpuInfoTO spuInfoTO = new SpuInfoTO();
+
+        SkuInfoEntity sku = skuInfoService.getById(skuId);
+        Long spuId = sku.getSpuId();
+
+        SpuInfoEntity spu = this.getById(spuId);
+        // 公共属性拷贝
+        BeanUtils.copyProperties(spu, spuInfoTO);
+
+        CategoryEntity categoryEntity = categoryService.getById(spu.getCatelogId());
+        BrandEntity brandEntity = brandService.getById(spu.getBrandId());
+        // 独有属性赋值
+        spuInfoTO.setCatelogName(categoryEntity.getName());
+        spuInfoTO.setBrandName(brandEntity.getName());
+
+        R r = couponFeignService.getBySpuId(spuId);
+        if (r.getCode() != 0) {
+            log.error("gulimall-product调用gulimall-coupon失败");
+            throw new BizException(BizCodeEnum.CALL_FEIGN_SERVICE_FAILED, "查询积分失败");
+        }
+        SpuBoundsTO boundsTO = r.getData(SpuBoundsTO.class);
+
+        spuInfoTO.setGrowBounds(boundsTO.getGrowBounds());
+        spuInfoTO.setIntegration(boundsTO.getBuyBounds());
+
+        return spuInfoTO;
     }
 
 

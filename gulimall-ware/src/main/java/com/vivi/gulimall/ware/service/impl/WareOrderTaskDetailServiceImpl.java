@@ -10,6 +10,7 @@ import com.vivi.gulimall.ware.entity.WareOrderTaskDetailEntity;
 import com.vivi.gulimall.ware.service.WareOrderTaskDetailService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -24,6 +25,12 @@ public class WareOrderTaskDetailServiceImpl extends ServiceImpl<WareOrderTaskDet
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<WareOrderTaskDetailEntity> listByTtaskId(Long taskId) {
+
+        return this.list(new QueryWrapper<WareOrderTaskDetailEntity>().eq("task_id", taskId));
     }
 
 }

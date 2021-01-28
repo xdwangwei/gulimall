@@ -21,11 +21,11 @@
         </ul>
       </div>
       <div class="Jdbox_BuySuc">
-        <dl>
+        <dl th:with="flag = ${orderCreateVO != null and orderCreateVO.order != null}">
           <dt><img src="/static/order/pay/img/saoyisao.png" alt=""></dt>
           <dd>
-            <span>订单提交成功，请尽快付款！订单号：70715901829</span>
-            <span>应付金额<font>28.90</font>元</span>
+            <span>订单提交成功，请尽快付款！订单号：[[${flag ? orderCreateVO.order.orderSn : '1234567890123'}]]</span>
+            <span>应付金额<font>[[${flag ? #numbers.formatDecimal(orderCreateVO.order.payAmount,1,2) : 0.00}]]</font>元</span>
           </dd>
           <dd>
             <span>推荐使用</span>

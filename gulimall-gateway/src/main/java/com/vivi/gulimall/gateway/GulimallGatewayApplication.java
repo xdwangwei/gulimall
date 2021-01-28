@@ -11,7 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * 但是这里不需要数据源，所以需要排除这个自动配置或者从pom中排除掉相关依赖
  */
 @EnableDiscoveryClient
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class GulimallGatewayApplication {
 
 	public static void main(String[] args) {

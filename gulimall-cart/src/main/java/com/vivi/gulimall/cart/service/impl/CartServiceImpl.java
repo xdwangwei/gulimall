@@ -5,6 +5,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.vivi.common.constant.CartConstant;
 import com.vivi.common.exception.BizCodeEnum;
 import com.vivi.common.exception.BizException;
+import com.vivi.common.to.CartItemTO;
 import com.vivi.common.to.SkuInfoTO;
 import com.vivi.common.utils.R;
 import com.vivi.gulimall.cart.feign.ProductFeignService;
@@ -15,6 +16,7 @@ import com.vivi.gulimall.cart.vo.CartVO;
 import com.vivi.gulimall.cart.vo.UserLoginStatusTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -134,6 +136,7 @@ public class CartServiceImpl implements CartService {
             ops.put(skuId, JSON.toJSONString(cartItem));
         }
     }
+
 
     /**
      * 获取当前用户的购物车在redis中的key
@@ -265,6 +268,42 @@ public class CartServiceImpl implements CartService {
      */
     private void clearCart(String cartKey) {
         redisTemplate.delete(cartKey);
+    }
+
+    /**
+     * 远程调用，一定是登录用户
+     * @return
+     */
+    @Override
+    public List<CartItemTO> getCheckedItems() {
+        UserLoginStatusTO userLoginStatusTO = CartInterceptor.threadLocal.get();
+        if (userLoginStatusTO.getId() == null) {
+            throw new BizException(BizCodeEnum.AUTH_USER_NOT_LOGIN);
+        }
+        BoundHashOperations<String, String, String> ops = getCurrentUserCartOps();
+        List<CartItemTO> collect = ops.values().stream()
+                .map(val -> JSON.parseObject(val, CartItemVO.class))
+                // 过滤选中的购物项
+                .filter(item -> item.getChecked())
+                .map(itemVO -> {
+                    // 重新查询，得到最新价格
+                    R res = productFeignService.getSkuInfo(itemVO.getSkuId());
+                    if (res.getCode() != 0) {
+                        log.error("远程调用gulimall-product查询skuinfo失败");
+                        throw new BizException(BizCodeEnum.CALL_FEIGN_SERVICE_FAILED, "查询购物车失败");
+                    }
+                    SkuInfoTO skuInfo = res.getData("skuInfo", SkuInfoTO.class);
+                    itemVO.setPrice(skuInfo.getPrice());
+                    // 转换成传输对象
+                    return convertCartItem2CartItemTO(itemVO);
+                }).collect(Collectors.toList());
+        return collect;
+    }
+
+    private CartItemTO convertCartItem2CartItemTO(CartItemVO cartItemVO) {
+        CartItemTO cartItemTO = new CartItemTO();
+        BeanUtils.copyProperties(cartItemVO, cartItemTO);
+        return cartItemTO;
     }
 
 }

@@ -57,6 +57,10 @@ public class CartVO {
         return 0;
     }
 
+    /**
+     * 总共几种类型商品
+     * @return
+     */
     public Integer getTotalType() {
         if (items != null) {
             return items.size();
@@ -64,11 +68,17 @@ public class CartVO {
         return 0;
     }
 
+    /**
+     * 当前【所选】购物项总价格
+     * @return
+     */
     public BigDecimal getTotalPrice() {
         BigDecimal total = new BigDecimal("0");
         if (!CollectionUtils.isEmpty(items)) {
             for (CartItemVO item : items) {
-                total = total.add(item.getTotalPrice());
+                if (item.getChecked()) {
+                    total = total.add(item.getTotalPrice());
+                }
             }
         }
         return total.subtract(totalReduce);

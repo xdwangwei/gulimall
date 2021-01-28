@@ -1,5 +1,6 @@
 package com.vivi.gulimall.member;
 
+import io.seata.spring.boot.autoconfigure.SeataAutoConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -8,7 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 @EnableDiscoveryClient
-@SpringBootApplication
+@SpringBootApplication(exclude = {SeataAutoConfiguration.class})
 public class GulimallMemberApplication {
 
 	public static void main(String[] args) {

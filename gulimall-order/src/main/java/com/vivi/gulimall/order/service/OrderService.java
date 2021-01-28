@@ -1,8 +1,12 @@
 package com.vivi.gulimall.order.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.vivi.common.to.OrderTO;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.gulimall.order.entity.OrderEntity;
+import com.vivi.gulimall.order.vo.OrderConfirmVO;
+import com.vivi.gulimall.order.vo.OrderCreateVO;
+import com.vivi.gulimall.order.vo.OrderSubmitVO;
 
 import java.util.Map;
 
@@ -16,5 +20,36 @@ import java.util.Map;
 public interface OrderService extends IService<OrderEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    /**
+     * 返回订单确认页需要的数据
+     * @return
+     */
+    OrderConfirmVO confirmOrder();
+
+    /**
+     * 创建订单
+     * @param submitVO
+     * @return
+     */
+    OrderCreateVO submit(OrderSubmitVO submitVO);
+
+    /**
+     * 获取订单及订单项
+     * @param orderSn
+     * @return
+     */
+    OrderCreateVO getOrderDetail(String orderSn);
+
+    OrderTO getOrderTOByOrderSn(String orderSn);
+
+    OrderEntity getOrderByOrderSn(String orderSn);
+
+    /**
+     * 订单超时未支付，取消订单
+     * @param orderEntity
+     */
+    void closeOrder(OrderEntity orderEntity);
+
 }
 

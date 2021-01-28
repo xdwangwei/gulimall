@@ -1,7 +1,10 @@
 package com.vivi.gulimall.ware.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.vivi.common.to.OrderLockStockTO;
+import com.vivi.common.to.OrderTO;
 import com.vivi.common.to.SkuStockTO;
+import com.vivi.common.to.mq.StockLockTO;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.gulimall.ware.entity.WareSkuEntity;
 
@@ -41,5 +44,25 @@ public interface WareSkuService extends IService<WareSkuEntity> {
      * @return
      */
     Long getSkuStock(Long skuId);
+
+    /**
+     * 为订单锁定库存
+     * @param lockStockTO
+     * @return
+     */
+    boolean lockOrderStock(OrderLockStockTO lockStockTO);
+
+    /**
+     * 收到库存锁定过期消息，释放库存
+     * @param stockLockTO
+     * @return
+     */
+    void unlockStock(StockLockTO stockLockTO);
+
+    /**
+     * 收到订单关闭消息，释放库存
+     */
+    void unlockStock(OrderTO orderTO);
+
 }
 

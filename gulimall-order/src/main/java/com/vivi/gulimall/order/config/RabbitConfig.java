@@ -1,6 +1,12 @@
 package com.vivi.gulimall.order.config;
 
+import com.vivi.common.constant.OrderConstant;
+import com.vivi.common.constant.WareConstant;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.Exchange;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -10,6 +16,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author wangwei
@@ -20,6 +28,10 @@ import javax.annotation.PostConstruct;
  * 如果只需要创建Exchange，queue，binding，发送消息等，只需使用AmqpAdmin就足够，
  * 但如果要使用 @RabbitListener监听消息(消费)，必须有 @EnableRabbit开启功能
  * 这个注解其实是往容器中注册了RabbitListenerAnnotationBeanPostProcessor
+ *
+ * 保证消息不丢失：
+ * 1、开始publisher确认机制(confirmCallback,returnCallback)和consumer确认(手动ack/nack)
+ * 2、每条发送的消息在数据库做好记录，定期扫描数据库将发送失败的消息重新发送。
  */
 @EnableRabbit
 @Configuration
@@ -63,5 +75,97 @@ public class RabbitConfig {
         rabbitTemplate.setReturnCallback((message, replyCode, replyText, exchange, routingKey) -> {
             log.error("路由到队列失败，消息内容：{}，交换机：{}，路由件：{}，回复码：{}，回复文本：{}", message, exchange, routingKey, replyCode, replyText);
         });
+    }
+
+    @Bean
+    public Exchange orderEventExchange() {
+        // String name, boolean durable, boolean autoDelete, Map<String, Object> arguments
+        return new TopicExchange(OrderConstant.ORDER_EVENT_EXCHANGE,
+                true,
+                false);
+    }
+
+    @Bean
+    public Queue orderReleaseOrderQueue() {
+        //String name, boolean durable, boolean exclusive, boolean autoDelete,
+        // 			@Nullable Map<String, Object> arguments
+        return new Queue(OrderConstant.ORDER_RELEASE_ORDER_QUEUE,
+                true,
+                false,
+                false);
+    }
+
+    // 暂时未使用，订单取消时，要回滚扣减的优惠
+    @Bean
+    public Queue orderReleaseCouponQueue() {
+        //String name, boolean durable, boolean exclusive, boolean autoDelete,
+        // 			@Nullable Map<String, Object> arguments
+        return new Queue(OrderConstant.ORDER_RELEASE_COUPON_QUEUE,
+                true,
+                false,
+                false);
+    }
+
+    /**
+     * 死信队列/延时队列
+     * @return
+     *
+     * x-dead-letter-exchange="stock-event-exchange"
+     * x-dead-letter-routing-key="stock.release"
+     * x-message-ttl="60000"
+     */
+    @Bean
+    public Queue orderDelayQueue() {
+        //String name, boolean durable, boolean exclusive, boolean autoDelete,
+        // 			@Nullable Map<String, Object> arguments
+        Map<String, Object> arguments = new HashMap<>();
+        arguments.put("x-dead-letter-exchange", OrderConstant.DEAD_LETTER_EXCHANGE);
+        arguments.put("x-dead-letter-routing-key", OrderConstant.DEAD_LETTER_ROUTING_KEY);
+        arguments.put("x-message-ttl", OrderConstant.DEAD_LETTER_TTL);
+        return new Queue(OrderConstant.ORDER_DELAY_ORDER_QUEUE,
+                true,
+                false,
+                false,
+                arguments);
+    }
+
+    /**
+     * 绑定关系
+     */
+    @Bean
+    public Binding orderCreateBinding() {
+        // String destination, DestinationType destinationType, String exchange, String routingKey,
+        // 			@Nullable Map<String, Object> arguments
+        return new Binding(OrderConstant.ORDER_DELAY_ORDER_QUEUE,
+                Binding.DestinationType.QUEUE,
+                OrderConstant.ORDER_EVENT_EXCHANGE,
+                OrderConstant.ORDER_CREATE_ROUTING_KEY,
+                null);
+    }
+
+    @Bean
+    public Binding orderReleaseOrderBind() {
+        // String destination, DestinationType destinationType, String exchange, String routingKey,
+        // 			@Nullable Map<String, Object> arguments
+        return new Binding(OrderConstant.ORDER_RELEASE_ORDER_QUEUE,
+                Binding.DestinationType.QUEUE,
+                OrderConstant.ORDER_EVENT_EXCHANGE,
+                OrderConstant.ORDER_RELEASE_ORDER_ROUTING_KEY,
+                null);
+    }
+
+    /**
+     * 绑定到库存的解锁队列，
+     * @return
+     */
+    @Bean
+    public Binding orderReleaseStockBinding() {
+        // String destination, DestinationType destinationType, String exchange, String routingKey,
+        // 			@Nullable Map<String, Object> arguments
+        return new Binding(WareConstant.STOCK_RELEASE_QUEUE,
+                Binding.DestinationType.QUEUE,
+                OrderConstant.ORDER_EVENT_EXCHANGE,
+                OrderConstant.ORDER_RELEASE_STOCK_ROUTING_KEY,
+                null);
     }
 }
