@@ -218,12 +218,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         // int a = 1 / 0;
 
         // TODO 8.清空购物车中这些购物项
-        // List<Long> skuIds = items.stream().map(item -> item.getSkuId()).collect(Collectors.toList());
-        // R r = cartFeignService.delBatch(skuIds);
-        // if (r.getCode() != 0) {
-        //     log.error("gulimall-order调用gulimall-cart删除购物项失败：{}");
-        //     throw new BizException(BizCodeEnum.CALL_FEIGN_SERVICE_FAILED, "下单失败，请重试");
-        // }
+        List<Long> skuIds = items.stream().map(item -> item.getSkuId()).collect(Collectors.toList());
+        R r = cartFeignService.delBatch(skuIds);
+        if (r.getCode() != 0) {
+            log.error("gulimall-order调用gulimall-cart删除购物项失败：{}");
+            throw new BizException(BizCodeEnum.CALL_FEIGN_SERVICE_FAILED, "下单失败，请重试");
+        }
 
         return createVO;
     }
