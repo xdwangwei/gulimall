@@ -1,6 +1,8 @@
 package com.vivi.gulimall.order.web;
 
 import com.vivi.common.to.OrderTO;
+import com.vivi.common.utils.Constant;
+import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.R;
 import com.vivi.gulimall.order.service.OrderService;
 import com.vivi.gulimall.order.vo.OrderConfirmVO;
@@ -10,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author wangwei
@@ -26,7 +31,14 @@ public class WebController {
      * @return
      */
     @GetMapping("/center/list.html")
-    public String orderList() {
+    public String orderList(@RequestParam(value = "pageNum", required = false, defaultValue = "1") String pageNum,
+                            @RequestParam(value = "pageSize", required = false, defaultValue = "4") String pageSize,
+                            Model model) {
+        Map<String, Object> params = new HashMap<>();
+        params.put(Constant.PAGE, pageNum);
+        params.put(Constant.LIMIT, pageSize);
+        PageUtils page = orderService.getCurrentUserOrderList(params);
+        model.addAttribute("page", page);
         return "list";
     }
 

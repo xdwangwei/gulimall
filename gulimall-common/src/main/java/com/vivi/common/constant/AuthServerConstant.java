@@ -4,7 +4,7 @@ package com.vivi.common.constant;
  * @author wangwei
  * 2021/1/13 15:47
  */
-public class AuthConstant {
+public class AuthServerConstant {
 
     public static final int RANDOM_CODE_VALID_TIME = 5;
 

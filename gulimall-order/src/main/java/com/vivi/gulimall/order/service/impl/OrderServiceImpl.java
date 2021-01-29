@@ -1,6 +1,7 @@
 package com.vivi.gulimall.order.service.impl;
 
 import com.alibaba.fastjson.TypeReference;
+import com.alipay.api.AlipayApiException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -14,9 +15,11 @@ import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.Query;
 import com.vivi.common.utils.R;
 import com.vivi.common.vo.MemberInfoVO;
+import com.vivi.gulimall.order.config.AlipayTemplate;
 import com.vivi.gulimall.order.dao.OrderDao;
 import com.vivi.gulimall.order.entity.OrderEntity;
 import com.vivi.gulimall.order.entity.OrderItemEntity;
+import com.vivi.gulimall.order.entity.PaymentInfoEntity;
 import com.vivi.gulimall.order.feign.CartFeignService;
 import com.vivi.gulimall.order.feign.MemberFeignService;
 import com.vivi.gulimall.order.feign.ProductFeignService;
@@ -25,7 +28,9 @@ import com.vivi.gulimall.order.interceptor.LoginInterceptor;
 import com.vivi.gulimall.order.service.FareService;
 import com.vivi.gulimall.order.service.OrderItemService;
 import com.vivi.gulimall.order.service.OrderService;
+import com.vivi.gulimall.order.service.PaymentInfoService;
 import com.vivi.gulimall.order.vo.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -43,7 +49,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-
+@Slf4j
 @Service("orderService")
 public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> implements OrderService {
 
@@ -73,6 +79,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     @Autowired
     RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    AlipayTemplate alipayTemplate;
+
+    @Autowired
+    PaymentInfoService paymentInfoService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -206,20 +218,23 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         // int a = 1 / 0;
 
         // TODO 8.清空购物车中这些购物项
-        List<Long> skuIds = items.stream().map(item -> item.getSkuId()).collect(Collectors.toList());
-        R r = cartFeignService.delBatch(skuIds);
-        if (r.getCode() != 0) {
-            log.error("gulimall-order调用gulimall-cart删除购物项失败：{}");
-            throw new BizException(BizCodeEnum.CALL_FEIGN_SERVICE_FAILED, "下单失败，请重试");
-        }
+        // List<Long> skuIds = items.stream().map(item -> item.getSkuId()).collect(Collectors.toList());
+        // R r = cartFeignService.delBatch(skuIds);
+        // if (r.getCode() != 0) {
+        //     log.error("gulimall-order调用gulimall-cart删除购物项失败：{}");
+        //     throw new BizException(BizCodeEnum.CALL_FEIGN_SERVICE_FAILED, "下单失败，请重试");
+        // }
 
         return createVO;
     }
 
     @Override
     public OrderCreateVO getOrderDetail(String orderSn) {
-        OrderCreateVO createVO = new OrderCreateVO();
         OrderEntity orderEntity = this.getOne(new QueryWrapper<OrderEntity>().eq("order_sn", orderSn));
+        if (orderEntity == null) {
+            throw new BizException(BizCodeEnum.ORDER_CREATE_FAILED, "订单不存在");
+        }
+        OrderCreateVO createVO = new OrderCreateVO();
         List<OrderItemEntity> items = orderItemService.listByOrderSn(orderSn);
         createVO.setOrder(orderEntity);
         createVO.setItems(items);
@@ -257,6 +272,87 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
             // 向mq发送释放库存消息
             rabbitTemplate.convertAndSend(OrderConstant.ORDER_EVENT_EXCHANGE, OrderConstant.ORDER_RELEASE_STOCK_ROUTING_KEY, getOrderTOByOrderSn(order.getOrderSn()));
         }
+    }
+
+    @Override
+    public String payOrder(String orderSn) {
+        OrderEntity order = getOrderByOrderSn(orderSn);
+        if (order == null) {
+            throw new BizException(BizCodeEnum.ORDER_PAY_FEILED, "订单不存在");
+        } else if(order.getStatus() == OrderConstant.OrderStatusEnum.PAYED.getCode()) {
+            // 订单已支付
+            throw new BizException(BizCodeEnum.ORDER_PAY_FEILED, "此订单已支付");
+        }
+        AlipayVO alipayVO = new AlipayVO();
+        alipayVO.setOutTradeNo(orderSn);
+        // 支付宝支付要求金额必须为小数点后两位
+        alipayVO.setTotalAmount(order.getPayAmount().setScale(2, BigDecimal.ROUND_UP).toString());
+        alipayVO.setSubject("谷粒商城订单");
+        alipayVO.setBody("谷粒商城订单");
+        try {
+            String response = alipayTemplate.pay(alipayVO);
+            log.info("支付宝支付响应：{}", response);
+            return response;
+        } catch (AlipayApiException e) {
+            log.error("阿里支付失败：{}", e.getMessage());
+            throw new BizException(BizCodeEnum.ORDER_PAY_FEILED);
+        }
+    }
+
+    @Override
+    public PageUtils getCurrentUserOrderList(Map<String, Object> params) {
+        MemberInfoVO memberInfoVO = LoginInterceptor.threadLocal.get();
+        // 获取当前登录用户的所有订单
+        IPage<OrderEntity> page = this.page(
+                new Query<OrderEntity>().getPage(params),
+                new QueryWrapper<OrderEntity>().eq("member_id", memberInfoVO.getId()).orderByDesc("id")
+        );
+        // 查出每个订单下的订单项
+        List<OrderEntity> collect = page.getRecords().stream().map(order -> {
+            List<OrderItemEntity> orderItemEntities = orderItemService.listByOrderSn(order.getOrderSn());
+            order.setItems(orderItemEntities);
+            return order;
+        }).collect(Collectors.toList());
+
+        page.setRecords(collect);
+
+        return new PageUtils(page);
+    }
+
+    @Transactional
+    @Override
+    public String handleAlipayNotify(AlipayNotifyVO notifyVO, HttpServletRequest request) {
+        boolean verified;
+        // 1.验签
+        try {
+            verified = alipayTemplate.signVerify(request);
+        } catch (Exception e) {
+            log.warn("阿里支付异步通知验签失败");
+            return "error";
+        }
+        // 验签失败
+        if (!verified) {
+            return "error";
+        }
+        // 2.保存支付流水
+        PaymentInfoEntity paymentInfo = new PaymentInfoEntity();
+        paymentInfo.setAlipayTradeNo(notifyVO.getTrade_no());
+        paymentInfo.setCallbackTime(notifyVO.getNotify_time());
+        paymentInfo.setOrderSn(notifyVO.getOut_trade_no());
+        paymentInfo.setPaymentStatus(notifyVO.getTrade_status());
+        paymentInfo.setTotalAmount(new BigDecimal(notifyVO.getTotal_amount()));
+        paymentInfo.setSubject(notifyVO.getSubject());
+        paymentInfoService.save(paymentInfo);
+        // 3.修改订单状态为已支付
+        if (notifyVO.getTrade_status().equals("TRADE_SUCCESS") || notifyVO.getTrade_status().equals("TRADE_FINISHED")) {
+            String orderSn = notifyVO.getOut_trade_no();
+            updateOrderStatusByOrderSn(orderSn, OrderConstant.OrderStatusEnum.PAYED.getCode());
+        }
+        return "success";
+    }
+
+    private boolean updateOrderStatusByOrderSn(String orderSn, Integer status) {
+        return this.baseMapper.updateOrderStatusByOrderSn(orderSn, status);
     }
 
     /**

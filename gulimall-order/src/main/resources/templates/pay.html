@@ -21,11 +21,11 @@
         </ul>
       </div>
       <div class="Jdbox_BuySuc">
-        <dl th:with="flag = ${orderCreateVO != null and orderCreateVO.order != null}">
+        <dl>
           <dt><img src="/static/order/pay/img/saoyisao.png" alt=""></dt>
           <dd>
-            <span>订单提交成功，请尽快付款！订单号：[[${flag ? orderCreateVO.order.orderSn : '1234567890123'}]]</span>
-            <span>应付金额<font>[[${flag ? #numbers.formatDecimal(orderCreateVO.order.payAmount,1,2) : 0.00}]]</font>元</span>
+            <span>订单提交成功，请尽快付款！订单号：[[${orderCreateVO.order.orderSn}]]</span>
+            <span>应付金额<font>[[${#numbers.formatDecimal(orderCreateVO.order.payAmount,1,2)}]]</font>元</span>
           </dd>
           <dd>
             <span>推荐使用</span>
@@ -103,8 +103,10 @@
           <li>
             <img src="/static/order/pay/img/weixin.png" alt="">微信支付
           </li>
-		  <li>
-            <img src="/static/order/pay/img/zhifubao.png" style="weight:auto;height:30px;" alt="">支付宝
+		  <li th:with="orderSn=${param.orderSn}">
+            <img src="/static/order/pay/img/zhifubao.png" style="weight:auto;height:30px;" alt="">
+            <!-- 直接这样写<a th:href="|http://order.gulimall.com/pay/${param.orderSn}|">会报错 -->
+            <a th:href="|http://order.gulimall.com/pay/${orderSn}|">支付宝</a>
           </li>
         </ul>
       </div>
@@ -173,5 +175,6 @@
     }).mouseout(function(){
       $(this).css({"color":"black"})
     })
+
   </script>
 </html>

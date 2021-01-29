@@ -1,6 +1,6 @@
 package com.vivi.gulimall.auth.controller;
 
-import com.vivi.common.constant.AuthConstant;
+import com.vivi.common.constant.AuthServerConstant;
 import com.vivi.common.vo.MemberInfoVO;
 import com.vivi.gulimall.auth.service.Oauth2WeiboService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class Oauth2Controller {
     public String weiboReturn(@RequestParam("code") String code, HttpSession session) {
         MemberInfoVO info = weiboService.access(code);
         // 登录成功，保存会话信息，返回主页
-        session.setAttribute(AuthConstant.LOGIN_USER_KEY, info);
+        session.setAttribute(AuthServerConstant.LOGIN_USER_KEY, info);
         return "redirect:http://gulimall.com";
     }
 

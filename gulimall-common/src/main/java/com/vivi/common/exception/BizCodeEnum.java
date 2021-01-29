@@ -48,6 +48,8 @@ public enum BizCodeEnum implements CommonError{
 
     // 订单模块
     ORDER_HAS_EXPIRED(90001, "订单已处理，请重新下单"),
+    ORDER_CREATE_FAILED(90002, "订单创建失败"),
+    ORDER_PAY_FEILED(90003, "订单支付失败"),
 
     // 第三方服务异常
     SMS_SEND_CODE_FAILED(20001, "短信验证码发送失败"),

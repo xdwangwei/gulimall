@@ -1,6 +1,6 @@
 package com.vivi.gulimall.cart.interceptor;
 
-import com.vivi.common.constant.AuthConstant;
+import com.vivi.common.constant.AuthServerConstant;
 import com.vivi.common.constant.CartConstant;
 import com.vivi.common.vo.MemberInfoVO;
 import com.vivi.gulimall.cart.vo.UserLoginStatusTO;
@@ -39,7 +39,7 @@ public class CartInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         UserLoginStatusTO loginStatusTO = new UserLoginStatusTO();
         // 判断该用户是否登录过
-        MemberInfoVO loginUser = (MemberInfoVO) request.getSession().getAttribute(AuthConstant.LOGIN_USER_KEY);
+        MemberInfoVO loginUser = (MemberInfoVO) request.getSession().getAttribute(AuthServerConstant.LOGIN_USER_KEY);
         // 已登录
         if (loginUser != null) {
             // 记录其登录状态，id标识

@@ -14,7 +14,7 @@ public class WareConstant {
     public static final String STOCK_LOCKED_ROUTING_KEY = "stock.locked.#";
     public static final String DEAD_LETTER_EXCHANGE = "stock-event-exchange";
     public static final String DEAD_LETTER_ROUTING_KEY = "stock.release";
-    public static final Integer DEAD_LETTER_TTL = 2 * 60 * 1000; // 单位是ms
+    public static final Integer DEAD_LETTER_TTL = 3 * 60 * 1000; // 单位是ms
 
     /**
      * 采购单状态

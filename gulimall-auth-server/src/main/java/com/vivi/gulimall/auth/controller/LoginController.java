@@ -1,6 +1,6 @@
 package com.vivi.gulimall.auth.controller;
 
-import com.vivi.common.constant.AuthConstant;
+import com.vivi.common.constant.AuthServerConstant;
 import com.vivi.common.vo.MemberInfoVO;
 import com.vivi.gulimall.auth.service.LoginService;
 import com.vivi.gulimall.auth.vo.LoginVO;
@@ -43,7 +43,7 @@ public class LoginController {
         MemberInfoVO info = loginService.doLogin(loginVO);
         // 登录失败会被异常处理器处理
         // 登录成功要保存会话信息，返回主页面
-        session.setAttribute(AuthConstant.LOGIN_USER_KEY, info);
+        session.setAttribute(AuthServerConstant.LOGIN_USER_KEY, info);
         // System.out.println(infoTO);
         return "redirect:http://gulimall.com/";
     }

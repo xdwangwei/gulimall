@@ -1,6 +1,6 @@
 package com.vivi.gulimall.auth.controller;
 
-import com.vivi.common.constant.AuthConstant;
+import com.vivi.common.constant.AuthServerConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -15,7 +15,7 @@ public class IndexController {
 
     @GetMapping("/login.html")
     public String loginPage(HttpSession session) {
-        if (session.getAttribute(AuthConstant.LOGIN_USER_KEY) != null) {
+        if (session.getAttribute(AuthServerConstant.LOGIN_USER_KEY) != null) {
             // 用户已登录
             return "redirect:http://gulimall.com";
         }

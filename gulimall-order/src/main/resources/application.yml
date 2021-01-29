@@ -29,6 +29,10 @@ spring:
     host: 192.168.50.10
     port: 6379
     password: redis
+  # 指定格式，才能把 "2010-11-12 02:15:23" 这种 String 自动封装为 java.util.Date
+  mvc:
+    format:
+      date: yyyy-MM-dd HH:mm:ss
 
 
 mybatis-plus:
@@ -49,3 +53,23 @@ thread:
       maximum-size: 200
       keep-alive-time: 10
       block-queue-size: 10000
+
+
+# 支付宝支付
+alipay:
+  appId: 2016102000727879
+  merchantPrivateKey: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCaXkgWAQS8MiZ1OivhkxNA8Tyw/1o3mbLUNjRyPWJmToQq4xFw6mAMI0K/DGS79AAMPVpgCUh4nWJhzsw4A6ReYwNQ1WP5y5MvPxqApipefdXkyx1hA4f15pypi45ips7pcgK/j94TFNgMYG18jl3NP7IK86BTThcY7whOTq+4yxum9PJG55mEBJr+IeIfhgCQrc8wpXUVmRIiydf2LCz07K1E4DHFbWcw5u7EcpXBtSiOIW51BEYOzfsoH6/msxFoFFp2GCk3Sy6lbQ/yeKbshh4pzjxdCPL2a/5/HD/ofJYHDMK3X0pTatmo5pRJML91nkjRay71t55uhD72eexDAgMBAAECggEBAIgjH8WwDkH+pGX78FkWgQNj/JdIC4M/XDPEvgoF0rLRCcRczrPbLutlaWbdgjUz4ZrpvLs3VJ9yhSIm43l+1MWc4n62Ql44x8wCBdhxMqp0pV8KNhWprI0TXRQ1DFQ6Mf402vGf6kS/vC1mGQig8V6ijt0TsE/nbX1CyPtub5AyxG50dkYEwHCoejq/btdtrfITm0qLX3w7+yOn1zANhtvkVtW5r568dGUQbMCOtVa7gi039IS91JwqIcxm9s9Se/T4DlgLo4iMPEEunltrUcZkaF/lwVU0pUHtYDDaO6yfRNIZeqmsW6VNxdEbzLd/cS7ccDZLGDnHbUUseMaLUYkCgYEA6J3TljaN8KNOQw63+yFttD6eLK+LkhFicmXNuzuiO28s+gvHMsZrflieGulx0ZCnz52PTZ/VddjIzYX+thnlkWoDTTFmDK8toG6ijvDignnC6DdaAQTKsp7+0EYSV0CFYrlifYL/glLNKRCfi4/mLsEESlDl6vaAdspCYRKr4i0CgYEAqeLO+vi5aQBHvXQjlsz/kDNZrp9Hhq9iyEth4EBktzIVPomSOpKdCCGQRLtSl/jU7pAC9zmsVWVBYIF+rBLOc3biaze6EqCBEcMjZKCl+w2pvknO2qvLBozJr5V0PrjvPAyzBg9T0hyO/QuFRVijj2E4ww2fj17t/LJrPJIGvi8CgYBxxa/VSn2F8vm2Rp6pz6HOhMnsZTfIi4QxG6XSK8qfczL2YYheRzoQI9vAoekvbKcHHrMWblSDPTKJgz4fZu8nfkh7GuwkzBFu5G3Rp/PBiThRR7FXyjYxwx4yU/NohYA31yBa7xV1cnYx3ZWLNyiIOZOVnZe2ojYW47ovrGgxSQKBgHm1rGPRXcQEF2F7myOmqlE8+LtKEYxEipjEqNJoT7+Pefjbxo+AClCQ+zLCoWGPO73OHtHP1882Q6hIHeBZeN7wBTabLgu6Qb3f97NYBJHgMAPMDQ5MlZ+TrcrFYAqvo3V6A6gLwxl8rFRNtKUB4+wM0wWq9O1aLVYk3P7//ySxAoGBANhO6pPD6VzOXUEtfNjQvNNTql/UKg7XU7MPyp1hZprigKRoxx9GMrfYYY/EEoVa2OUTHzF6171PIF0mWICcGRFzVAjZYV+UmxapWAgd2IrpgESLUADbTdiYdjw24mngsAZxQblws0R2FXMgsGvXzdfDmhx/0+3ru0yY3nZOYmQt
+  alipayPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAksiNX43xHghMeqNol867fCtfDtSnKzAHp7pOCnN5EudE3wxMOmjItbI+gGMNW7YNv576WW7+wb9beVMIAgKfjdVR6DnfflP5favTQnHJ+cwBAjg9UyAChsWbPKandasJAbkqVeb1wRQMhgRQpY9mT+cNkgHGBllYhWehHZEyh2G084cxZvfkRwgzKEgx6Cxo4mgr0xcbAY4RsVRJlViYI6/7+76psuABVg0IfFS4HmX/A92tchI/x8lAXo67G47eCu04/5SelHb36tohVIOtu3NFzJbVEeoqsAKlRU2AG587NGRsbeiPsE96rrtFWX0JSsoldKRxoOpwxQmJsaURTwIDAQAB
+  notifyUrl: http://240j43n409.wicp.vip/alipay/notify
+  returnUrl: http://order.gulimall.com/center/list.html
+  signType: RSA2
+  charset: utf-8
+  formatType: json
+  # 必须在1min内完成支付，一般根据业务而变
+  timeoutExpress: 1m
+  gatewayUrl: https://openapi.alipaydev.com/gateway.do
+
+
+logging:
+  level:
+    com.vivi.gulimall.order.dao: debug

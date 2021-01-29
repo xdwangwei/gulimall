@@ -19,7 +19,7 @@ public class OrderConstant {
     public static final String ORDER_CREATE_ROUTING_KEY = "order.create.#";
     public static final String DEAD_LETTER_EXCHANGE = "order-event-exchange";
     public static final String DEAD_LETTER_ROUTING_KEY = "order.release.order";
-    public static final Integer DEAD_LETTER_TTL = 1 * 60 * 1000; // 单位是ms
+    public static final Integer DEAD_LETTER_TTL = 2 * 60 * 1000; // 单位是ms
 
     public enum  OrderStatusEnum {
         CREATE_NEW(0,"待付款"),

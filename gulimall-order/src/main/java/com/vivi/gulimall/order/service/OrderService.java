@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.vivi.common.to.OrderTO;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.gulimall.order.entity.OrderEntity;
+import com.vivi.gulimall.order.vo.AlipayNotifyVO;
 import com.vivi.gulimall.order.vo.OrderConfirmVO;
 import com.vivi.gulimall.order.vo.OrderCreateVO;
 import com.vivi.gulimall.order.vo.OrderSubmitVO;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -51,5 +53,26 @@ public interface OrderService extends IService<OrderEntity> {
      */
     void closeOrder(OrderEntity orderEntity);
 
+
+    /**
+     * 支付订单
+     * @param orderSn
+     * @return
+     */
+    String payOrder(String orderSn);
+
+
+    /**
+     * 分页查询当前登录用户的订单列表
+     * @param params
+     * @return
+     */
+    PageUtils getCurrentUserOrderList(Map<String, Object> params);
+
+    /**
+     * 处理阿里支付异步通知消息
+     * @param notifyVO
+     */
+    String handleAlipayNotify(AlipayNotifyVO notifyVO, HttpServletRequest request);
 }
 
