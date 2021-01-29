@@ -56,6 +56,14 @@ spring:
             #        localhost:88/api/product/** --> localhost:10001/product/**
             - RewritePath=/api(?<segment>/?.*), $\{segment}
 
+        # 路由到gulimall-coupon
+        - id: route_gulimall_coupon
+          uri: lb://gulimall-coupon
+          predicates:
+            - Path=/api/coupon/**
+          filters:
+            - RewritePath=/api(?<segment>/?.*), $\{segment}
+
         #       路由到订单管理模块
         - id: route_gulimall_order
           uri: lb://gulimall-order

@@ -1,0 +1,19 @@
+server:
+  port: 12000
+spring:
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+  application:
+    name: gulimall-seckill
+
+  redis:
+    host: 192.168.50.10
+    port: 6379
+    password: redis
+  # 定时任务异步执行线程池配置
+  task:
+    execution:
+      pool:
+        core-size: 5
+        max-size: 20
