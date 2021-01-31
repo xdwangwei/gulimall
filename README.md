@@ -497,3 +497,7 @@ public class Application {
      * @return
      */  
 ```
+### Rabbitmq消息可靠投递
+    https://vivi.run/archives/rabbitmq-confirm
+### Feign远程调用请求头丢失
+    https://vivi.run/archives/feign-lost-cookie

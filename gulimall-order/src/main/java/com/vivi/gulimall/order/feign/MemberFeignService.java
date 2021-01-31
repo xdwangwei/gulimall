@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface MemberFeignService {
 
     @RequestMapping("/member/memberreceiveaddress/listby/{memberId}")
-    R getAddresses(@PathVariable("memberId") Long memberId);
+    R getMemberAddresses(@PathVariable("memberId") Long memberId);
 
     @RequestMapping("/member/memberreceiveaddress/info/{id}")
     R getAddress(@PathVariable("id") Long addressId);
+
+    @RequestMapping("/member/memberreceiveaddress/default/{memberId}")
+    R getMemberDefaultAddress(@PathVariable("memberId") Long memberId);
 }

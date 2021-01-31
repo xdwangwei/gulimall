@@ -2,6 +2,7 @@ package com.vivi.gulimall.order.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.vivi.common.to.OrderTO;
+import com.vivi.common.to.mq.SeckillOrderTO;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.gulimall.order.entity.OrderEntity;
 import com.vivi.gulimall.order.vo.AlipayNotifyVO;
@@ -74,5 +75,13 @@ public interface OrderService extends IService<OrderEntity> {
      * @param notifyVO
      */
     String handleAlipayNotify(AlipayNotifyVO notifyVO, HttpServletRequest request);
+
+
+    /**
+     * 秒杀业务快速下单发过来的消息
+     * @param seckillOrderTO
+     * @return
+     */
+    boolean createSeckillOrder(SeckillOrderTO seckillOrderTO);
 }
 

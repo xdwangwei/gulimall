@@ -21,7 +21,7 @@ import java.util.Map;
  * 2021/1/18 13:50
  */
 @Controller
-public class WebController {
+public class OrderWebController {
 
     @Autowired
     OrderService orderService;

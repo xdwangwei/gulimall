@@ -37,6 +37,12 @@ public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAd
         return addressEntities.stream().map(entity -> convertAddressEntity2AddressTO(entity)).collect(Collectors.toList());
     }
 
+    @Override
+    public MemberAddressTO getMemberDefaultAddress(Long memberId) {
+        MemberReceiveAddressEntity addressEntity = this.getOne(new QueryWrapper<MemberReceiveAddressEntity>().eq("member_id", memberId).eq("default_status", "1"));
+        return convertAddressEntity2AddressTO(addressEntity);
+    }
+
     private  MemberAddressTO convertAddressEntity2AddressTO(MemberReceiveAddressEntity entity) {
         MemberAddressTO memberAddressTO = new MemberAddressTO();
         BeanUtils.copyProperties(entity, memberAddressTO);

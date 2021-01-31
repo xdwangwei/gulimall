@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.vivi.common.exception.BizCodeEnum;
 import com.vivi.common.exception.BizException;
+import com.vivi.common.to.SeckillSkuTO;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.Query;
 import com.vivi.common.utils.R;
@@ -12,6 +13,7 @@ import com.vivi.gulimall.product.dao.SkuInfoDao;
 import com.vivi.gulimall.product.entity.SkuImagesEntity;
 import com.vivi.gulimall.product.entity.SkuInfoEntity;
 import com.vivi.gulimall.product.entity.SpuInfoDescEntity;
+import com.vivi.gulimall.product.feign.SeckillFeignService;
 import com.vivi.gulimall.product.feign.WareFeignService;
 import com.vivi.gulimall.product.service.*;
 import com.vivi.gulimall.product.vo.ItemAttrGroupWithAttrVO;
@@ -48,6 +50,9 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
 
     @Autowired
     WareFeignService wareFeignService;
+
+    @Autowired
+    SeckillFeignService seckillFeignService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -138,7 +143,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
                 itemDetailVO.setHasStock(stock > 0);
             }
         }, executor);
-        // TODO 2.此sku的图片集 不需要1的结果，也无返回值，与1，2并列
+        // TODO 2.此sku的图片集 不需要1的结果，也无返回值，与6并列
         CompletableFuture<Void> skuImageFuture = CompletableFuture.runAsync(() -> {
             List<SkuImagesEntity> skuImagesEntities = skuImagesService.listBySkuId(skuId);
             itemDetailVO.setSkuImages(skuImagesEntities);
@@ -158,13 +163,22 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
             List<ItemAttrGroupWithAttrVO> itemAttrGroupWithAttrVOS = productAttrValueService.getAttrsWithAttrGroupBySpuId(skuInfoEntity.getSpuId());
             itemDetailVO.setSpuAttrGroups(itemAttrGroupWithAttrVOS);
         }, executor);
-
+        // TODO 7.当前商品参与的秒杀最近一场活动，不需要1的结果，也无返回值，与2,6并列
+        CompletableFuture<Void> skuSeckillFuture = skuInfoFuture.runAsync(() -> {
+            R r = seckillFeignService.getSkuSeckillInfo(skuId);
+            if (r.getCode() != 0) {
+                log.warn("gulimall-product调用gulimall-seckill获取秒杀信息失败");
+            } else {
+                SeckillSkuTO seckillSkuTO = r.getData(SeckillSkuTO.class);
+                itemDetailVO.setSeckillInfo(seckillSkuTO);
+            }
+        }, executor);
         // 等待所有异步任务执行完成,345在1之后执行，所以345完成1肯定完成，不用等1
         try {
-            CompletableFuture.allOf(skuStockFuture, skuImageFuture, skuSaleAttrFuture, spuDescFuture, spuAttrGroupFuture).get();
+            CompletableFuture.allOf(skuStockFuture, skuImageFuture, skuSaleAttrFuture, spuDescFuture, spuAttrGroupFuture, skuSeckillFuture).get();
         } catch (Exception e) {
-            log.error("线程池异步任务失败：{}", e.getCause());
-            throw new BizException(BizCodeEnum.THREAD_POOL_TASK_FAILED, "异步编排查询商品详情失败");
+            log.error("线程池异步编排任务失败：{}", e.getCause());
+            throw new BizException(BizCodeEnum.THREAD_POOL_TASK_FAILED, "获取商品详情失败");
         }
         return itemDetailVO;
     }

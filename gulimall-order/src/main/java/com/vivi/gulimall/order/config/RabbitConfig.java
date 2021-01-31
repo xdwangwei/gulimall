@@ -120,7 +120,7 @@ public class RabbitConfig {
         // 			@Nullable Map<String, Object> arguments
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("x-dead-letter-exchange", OrderConstant.DEAD_LETTER_EXCHANGE);
-        arguments.put("x-dead-letter-routing-key", OrderConstant.DEAD_LETTER_ROUTING_KEY);
+        arguments.put("x-dead-letter-routing-key", OrderConstant.ORDER_DEAD_LETTER_ROUTING_KEY);
         arguments.put("x-message-ttl", OrderConstant.DEAD_LETTER_TTL);
         return new Queue(OrderConstant.ORDER_DELAY_ORDER_QUEUE,
                 true,
@@ -168,4 +168,20 @@ public class RabbitConfig {
                 OrderConstant.ORDER_RELEASE_STOCK_ROUTING_KEY,
                 null);
     }
+
+    /**
+     * 秒杀消息队列和交换机的绑定关系
+     * @return
+     */
+    @Bean
+    public Binding seckillOrderDealBinding() {
+        // String destination, DestinationType destinationType, String exchange, String routingKey,
+        // 			@Nullable Map<String, Object> arguments
+        return new Binding(OrderConstant.ORDER_SECKILL_DEAL_QUEUE,
+                Binding.DestinationType.QUEUE,
+                OrderConstant.ORDER_EVENT_EXCHANGE,
+                OrderConstant.ORDER_SECKILL_DEAL_QUEUE_ROUTING_KEY,
+                null);
+    }
+
 }

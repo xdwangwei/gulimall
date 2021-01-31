@@ -6,8 +6,6 @@ package com.vivi.gulimall.seckill.schedule;
  */
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 
@@ -48,8 +46,8 @@ public class HelloSchedule {
      *
      *
      */
-    @Async
-    @Scheduled(cron = "*/5 * * * * *")
+    // @Async
+    // @Scheduled(cron = "*/5 * * * * *")
     public void hello() throws InterruptedException {
         log.info("hello...");
         Thread.sleep(3000);

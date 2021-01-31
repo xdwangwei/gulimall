@@ -513,8 +513,13 @@
                             <span>￥</span>
                             <span th:text="${#numbers.formatDecimal(item.skuInfo.price, 1, 2)}">4499.00</span>
                         </li>
-                        <li>
-                            预约享资格
+                        <!--只显示正在进行或者即将开始的秒杀-->
+                        <li style="color: red" th:if="${item.seckillInfo != null}">
+                            <!--正在进行的秒杀-->
+                            <span th:if="${item.seckillInfo.startTime.before(#dates.createNow())}">秒杀正在进行,</span>
+                            <!--即将开始的秒杀-->
+                            <span th:if="${item.seckillInfo.startTime.after(#dates.createNow())}">秒杀将于 [[${#dates.format(item.seckillInfo.startTime, 'yyyy-MM-dd HH:mm:ss')}]] 开始,</span>
+                            <span>  秒杀价：￥[[${item.seckillInfo.seckillPrice}]]</span>
                         </li>
                         <li>
                             <a href="/static/item/">
@@ -620,7 +625,6 @@
                     <div class="box-btns-one">
                         <input type="text" name="" id="input_sku_count" value="1"/>
                         <div class="box-btns-one1">
-
                             <div>
                                 <button id="jia">
                                     +
@@ -635,8 +639,12 @@
                         </div>
                     </div>
                     <div class="box-btns-two">
-                        <a th:attr="skuId=${item.skuInfo.skuId}" href="javascript:void(0)" onclick="addToCart()" id="a_addTocart">
+                        <a th:if="${item.seckillInfo == null || item.seckillInfo.startTime.after(#dates.createNow())}" th:attr="skuId=${item.skuInfo.skuId}" href="javascript:void(0)" onclick="addToCart()" id="a_addTocart">
                             加入购物车
+                        </a>
+                        <a th:if="${item.seckillInfo != null and item.seckillInfo.startTime.before(#dates.createNow())}" href="javascript:void(0)" onclick="seckillItem()" id="a_seckill"
+                           th:attr="skuId=${item.skuInfo.skuId},sessionId=${item.seckillInfo.promotionSessionId},seckillToken=${item.seckillInfo.seckillToken}">
+                            立即抢购
                         </a>
                     </div>
                     <div class="box-btns-three">
@@ -1292,7 +1300,7 @@
         $(this).css({
             "border": "solid 1.5px red"
         }).addClass("attr-selected")
-        .siblings("dd").css({
+            .siblings("dd").css({
             "border": "solid 1.5px #ccc"
         }).removeClass("attr-selected");
         // 找到所有被选择的dd，（每种属性下有一个被选中）
@@ -1321,6 +1329,22 @@
         window.location.href = "http://cart.gulimall.com/cart/additem?skuId=" + skuId + "&count=" + count;
         return false;
     }
+
+    $("#a_seckill").click(function () {
+        var isLogin = [[${session.loginUser != null}]]
+        if (!isLogin) {
+            alert("秒杀请先登录！")
+        } else {
+            var skuId = $(this).attr("skuId");
+            var sessionId = $(this).attr("sessionId");
+            var seckillToken = $(this).attr("seckillToken");
+            var seckillId = sessionId + "_" + skuId;
+            var count = $("#input_sku_count").val();
+            location.href="http://seckill.gulimall.com/seckill/item?seckillId="+seckillId+"&count="+count+"&seckillToken="+seckillToken;
+        }
+        return false;
+    })
+
 
 </script>
 

@@ -29,4 +29,4 @@ mybatis-plus:
 
 logging:
   level:
-    com.vivi.gulimall.coupon: debug
+    com.vivi.gulimall.coupon.dao: debug

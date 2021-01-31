@@ -187,12 +187,11 @@ public class CartServiceImpl implements CartService {
             if (res.getCode() != 0) {
                 log.error("远程调用gulimall-product查询skuinfo失败");
                 throw new BizException(BizCodeEnum.CALL_FEIGN_SERVICE_FAILED, "加入购物车失败");
-            } else {
-                SkuInfoTO skuInfo = res.getData("skuInfo", SkuInfoTO.class);
-                itemVO.setPrice(skuInfo.getPrice());
-                itemVO.setSkuTitle(skuInfo.getSkuTitle());
-                itemVO.setSkuImg(skuInfo.getSkuDefaultImg());
             }
+            SkuInfoTO skuInfo = res.getData("skuInfo", SkuInfoTO.class);
+            itemVO.setPrice(skuInfo.getPrice());
+            itemVO.setSkuTitle(skuInfo.getSkuTitle());
+            itemVO.setSkuImg(skuInfo.getSkuDefaultImg());
         }, executor);
 
         CompletableFuture<Void> saleAttrTask = CompletableFuture.runAsync(() -> {

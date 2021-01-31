@@ -35,15 +35,38 @@ public class FareServiceImpl implements FareService {
         MemberAddressTO address = r.getData("memberReceiveAddress", MemberAddressTO.class);
         FareInfoTO fareInfoTO = new FareInfoTO();
         fareInfoTO.setAddress(address);
-        fareInfoTO.setFare(new BigDecimal("0"));
+        fareInfoTO.setFare(getSimpleFare(address));
+        return fareInfoTO;
+    }
+
+    @Override
+    public FareInfoTO getMemberDefaultAddressFare(Long memberId) {
+        R r = memberFeignService.getMemberDefaultAddress(memberId);
+        if (r.getCode() != 0) {
+            log.error("调用gulimall-member服务查询用户默认地址");
+            throw new BizException(BizCodeEnum.CALL_FEIGN_SERVICE_FAILED);
+        }
+        MemberAddressTO address = r.getData(MemberAddressTO.class);
+        FareInfoTO fareInfoTO = new FareInfoTO();
+        fareInfoTO.setAddress(address);
+        fareInfoTO.setFare(getSimpleFare(address));
+        return fareInfoTO;
+    }
+
+    /**
+     * 简单的运费计算
+     * @param address
+     * @return
+     */
+    private BigDecimal getSimpleFare(MemberAddressTO address) {
+        // 简化运费计算
         if (address != null) {
             String phone = address.getPhone();
             if (!StringUtils.isEmpty(phone)) {
                 // 简化计算运费过程
-                BigDecimal bigDecimal = new BigDecimal(phone.substring(phone.length() - 1));
-                fareInfoTO.setFare(bigDecimal);
+                return new BigDecimal(phone.substring(phone.length() - 1));
             }
         }
-        return fareInfoTO;
+        return new BigDecimal("0");
     }
 }

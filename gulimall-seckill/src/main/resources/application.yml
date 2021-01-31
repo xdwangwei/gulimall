@@ -6,7 +6,6 @@ spring:
       server-addr: 127.0.0.1:8848
   application:
     name: gulimall-seckill
-
   redis:
     host: 192.168.50.10
     port: 6379
@@ -15,5 +14,21 @@ spring:
   task:
     execution:
       pool:
-        core-size: 5
-        max-size: 20
+        core-size: 4
+        max-size: 10
+  # 设置sprinboot返回json格式数据时对于Date类的处理方式
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  rabbitmq:
+    host: 192.168.50.10
+    virtual-host: /
+    port: 5672
+    # 生产端确认回调
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    template:
+      mandatory: true
+  thymeleaf:
+    cache: false

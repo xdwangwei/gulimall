@@ -11,6 +11,7 @@ import com.vivi.common.constant.OrderConstant;
 import com.vivi.common.exception.BizCodeEnum;
 import com.vivi.common.exception.BizException;
 import com.vivi.common.to.*;
+import com.vivi.common.to.mq.SeckillOrderTO;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.Query;
 import com.vivi.common.utils.R;
@@ -31,6 +32,7 @@ import com.vivi.gulimall.order.service.OrderService;
 import com.vivi.gulimall.order.service.PaymentInfoService;
 import com.vivi.gulimall.order.vo.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,7 +133,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         }, executor);
         CompletableFuture<Void> memberAddressTask = CompletableFuture.runAsync(() -> {
             // TODO 2.异步查询用户地址列表
-            R r2 = memberFeignService.getAddresses(loginUser.getId());
+            R r2 = memberFeignService.getMemberAddresses(loginUser.getId());
             if (r2.getCode() != 0) {
                 log.error("确认订单远程调用会员服务查询地址失败");
                 throw new BizException(BizCodeEnum.CALL_FEIGN_SERVICE_FAILED, "查询收货地址失败");
@@ -208,8 +210,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         this.save(orderEntity);
         orderItemService.saveBatch(items);
 
-        // 向mq中发送订单创建完成消息
-        rabbitTemplate.convertAndSend(OrderConstant.ORDER_EVENT_EXCHANGE, OrderConstant.ORDER_CREATE_ROUTING_KEY, orderEntity);
+        // TODO 8.向mq中发送订单创建完成消息
+        try {
+            rabbitTemplate.convertAndSend(OrderConstant.ORDER_EVENT_EXCHANGE, OrderConstant.ORDER_CREATE_ROUTING_KEY, orderEntity);
+        } catch (AmqpException e) {
+            log.warn("向mq发送订单新创建消息失败，自动重试一次");
+            rabbitTemplate.convertAndSend(OrderConstant.ORDER_EVENT_EXCHANGE, OrderConstant.ORDER_CREATE_ROUTING_KEY, orderEntity);
+        }
 
         /**
          * 此处出错，本地事务无法控制远程库存回滚，seata分布式事务可解决，
@@ -217,14 +224,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
          */
         // int a = 1 / 0;
 
-        // TODO 8.清空购物车中这些购物项
+        // TODO 9.清空购物车中这些购物项
         List<Long> skuIds = items.stream().map(item -> item.getSkuId()).collect(Collectors.toList());
         R r = cartFeignService.delBatch(skuIds);
         if (r.getCode() != 0) {
             log.error("gulimall-order调用gulimall-cart删除购物项失败：{}");
             throw new BizException(BizCodeEnum.CALL_FEIGN_SERVICE_FAILED, "下单失败，请重试");
         }
-
         return createVO;
     }
 
@@ -351,6 +357,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         return "success";
     }
 
+    /**
+     * 更新订单状态
+     * @param orderSn
+     * @param status
+     * @return
+     */
     private boolean updateOrderStatusByOrderSn(String orderSn, Integer status) {
         return this.baseMapper.updateOrderStatusByOrderSn(orderSn, status);
     }
@@ -451,7 +463,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         orderItemVO.setSkuQuantity(cartItem.getCount());
         orderItemVO.setSkuAttrsVals(cartItem.getAttrs().stream().collect(Collectors.joining(";")));
         // 2. spu部分
-        R r = productFeignService.getBySkuId(cartItem.getSkuId());
+        R r = productFeignService.getSpuBySkuId(cartItem.getSkuId());
         if (r.getCode() != 0) {
             log.error("gulimall-order调用gulimall-product查询spuinfo失败");
             throw new BizException(BizCodeEnum.CALL_FEIGN_SERVICE_FAILED, "下单失败请重新");
@@ -514,6 +526,155 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         orderEntity.setTotalAmount(totalAmount);
         // 总应付金额 = 总金额+运费
         orderEntity.setPayAmount(totalAmount.add(orderEntity.getFreightAmount()));
+    }
+
+    @Transactional
+    @Override
+    public boolean createSeckillOrder(SeckillOrderTO seckillOrderTO) {
+        // 1.验证令牌，秒杀服务发过来的消息，直接创建订单
+        // 2.快速构建订单项，其实应该快速创建出一个最简单的订单并保存，及时返回，用户支付，其他信息异步完善
+        OrderItemEntity orderItem = buildSeckillOrderItem(seckillOrderTO);
+        // 3.构建订单
+        OrderEntity orderEntity = buildSeckillOrder(seckillOrderTO);
+        // 4.设置订单需要求和项
+        calculateOrder(orderEntity, Arrays.asList(orderItem));
+        // 5.后端计算的价格和前端传来的价格进行验证，秒杀后台下单不需要
+        // 6.远程锁定库存，秒杀活动的库存上架前已锁定
+        // 7.保存订单，保存订单项
+        this.save(orderEntity);
+        orderItemService.save(orderItem);
+
+        // 8.向mq中发送订单创建完成消息
+        try {
+            rabbitTemplate.convertAndSend(OrderConstant.ORDER_EVENT_EXCHANGE, OrderConstant.ORDER_CREATE_ROUTING_KEY, orderEntity);
+        } catch (AmqpException e) {
+            log.warn("向mq发送订单新创建消息失败，自动重试一次");
+            rabbitTemplate.convertAndSend(OrderConstant.ORDER_EVENT_EXCHANGE, OrderConstant.ORDER_CREATE_ROUTING_KEY, orderEntity);
+        }
+        // 9.清空购物车中这些购物项，秒杀业务无需经过购物车，消息队列快速下单
+        return true;
+    }
+
+    /**
+     * 创建秒杀单的完整订单
+     * @param seckillOrderTO
+     * @return
+     */
+    private OrderEntity buildSeckillOrder(SeckillOrderTO seckillOrderTO) {
+        OrderEntity orderEntity = new OrderEntity();
+        // 1.订单创建者
+        orderEntity.setMemberId(seckillOrderTO.getMemberId());
+        orderEntity.setMemberUsername(seckillOrderTO.getUserName());
+        // 2.收货地址和运费
+        FareInfoTO fare = fareService.getMemberDefaultAddressFare(seckillOrderTO.getMemberId());
+        MemberAddressTO address = fare.getAddress();
+        orderEntity.setReceiverProvince(address.getProvince());
+        orderEntity.setReceiverCity(address.getCity());
+        orderEntity.setReceiverDetailAddress(address.getDetailAddress());
+        // orderEntity.setReceiverRegion();
+        // orderEntity.setReceiverPostCode();
+        orderEntity.setReceiverName(address.getName());
+        orderEntity.setReceiverPhone(address.getPhone());
+        // orderEntity.setReceiveTime();
+        // 运费
+        orderEntity.setFreightAmount(fare.getFare());
+        // 自动确认收货天数
+        orderEntity.setAutoConfirmDay(7);
+        // 3.支付信息，写死，支付宝
+        orderEntity.setPayType(OrderConstant.PayType.ALIPAY.getCode());
+        // 4.订单/订单项部分
+        orderEntity.setOrderSn(seckillOrderTO.getOrderSn());
+        orderEntity.setCreateTime(new Date());
+        orderEntity.setModifyTime(new Date());
+        orderEntity.setStatus(OrderConstant.OrderStatusEnum.CREATE_NEW.getCode());
+        orderEntity.setDeleteStatus(0);
+        orderEntity.setConfirmStatus(0);
+        // 备注
+        // orderEntity.setNote();
+        // 5.优惠/发票/快递部分
+        return orderEntity;
+    }
+
+    /**
+     * 构建秒杀单的订单项
+     * @param seckillOrderTO
+     * @return
+     */
+    private OrderItemEntity buildSeckillOrderItem(SeckillOrderTO seckillOrderTO) {
+
+        Long skuId = seckillOrderTO.getSkuId();
+
+        // 1.秒杀价格、数量信息
+        OrderItemEntity orderItemEntity = new OrderItemEntity();
+        orderItemEntity.setOrderSn(seckillOrderTO.getOrderSn());
+        orderItemEntity.setSkuId(skuId);
+        orderItemEntity.setSkuPrice(seckillOrderTO.getSeckillPrice());
+        orderItemEntity.setSkuQuantity(seckillOrderTO.getCount());
+        BigDecimal zero = new BigDecimal("0");
+        // 各种优惠，简略为0
+        orderItemEntity.setCouponAmount(zero);
+        orderItemEntity.setIntegrationAmount(zero);
+        orderItemEntity.setPromotionAmount(zero);
+        BigDecimal origin = orderItemEntity.getSkuPrice().multiply(new BigDecimal(orderItemEntity.getSkuQuantity().toString()));
+        // 原价 数量 * 单价
+        BigDecimal subtract = origin.subtract(orderItemEntity.getCouponAmount()).subtract(orderItemEntity.getIntegrationAmount()).subtract(orderItemEntity.getPromotionAmount());
+        // 实际价格=原价-优惠
+        orderItemEntity.setRealAmount(subtract);
+
+        // 2.商品基本信息，使用线程池异步编排提高效率
+        CompletableFuture<Void> skuInfoTask = CompletableFuture.runAsync(() -> {
+            // 调用远程服务查询sku详情
+            R res = productFeignService.getSkuInfo(skuId);
+            if (res.getCode() != 0) {
+                log.error("远程调用gulimall-product查询skuinfo失败");
+                throw new BizException(BizCodeEnum.CALL_FEIGN_SERVICE_FAILED, "加入购物车失败");
+            }
+            SkuInfoTO skuInfo = res.getData("skuInfo", SkuInfoTO.class);
+            orderItemEntity.setSkuName(skuInfo.getSkuName());
+            orderItemEntity.setSkuPic(skuInfo.getSkuDefaultImg());
+        }, executor);
+
+        // 3.商品销售属性信息
+        CompletableFuture<Void> saleAttrTask = CompletableFuture.runAsync(() -> {
+            // 调用远程服务查询sku saleattrs
+            R r = productFeignService.getSaleAttrStringList(skuId);
+            if (r.getCode() != 0) {
+                log.error("远程调用gulimall-product查询sku saleattr失败");
+                throw new BizException(BizCodeEnum.CALL_FEIGN_SERVICE_FAILED);
+            } else {
+                orderItemEntity.setSkuAttrsVals(r.getData(new TypeReference<List<String>>() {
+                }).stream().collect(Collectors.joining(";")));
+            }
+        }, executor);
+
+        // 4. 商品spu信息部分
+        CompletableFuture<Void> spuInfoTask = CompletableFuture.runAsync(() -> {
+            // 调用远程服务查询sku saleattrs
+            R r = productFeignService.getSpuBySkuId(skuId);
+            if (r.getCode() != 0) {
+                log.error("gulimall-order调用gulimall-product查询spuinfo失败");
+                throw new BizException(BizCodeEnum.CALL_FEIGN_SERVICE_FAILED, "秒杀订单创建失败");
+            }
+            SpuInfoTO spuInfoTO = r.getData(SpuInfoTO.class);
+            orderItemEntity.setSpuId(spuInfoTO.getId());
+            orderItemEntity.setSpuName(spuInfoTO.getSpuName());
+            // orderItemVO.setSpuPic;
+            orderItemEntity.setSpuBrand(spuInfoTO.getBrandName());
+            orderItemEntity.setCategoryId(spuInfoTO.getCatelogId());
+
+            // 5.所得积分部分
+            orderItemEntity.setGiftGrowth(spuInfoTO.getGrowBounds().intValue() * orderItemEntity.getSkuQuantity());
+            orderItemEntity.setGiftIntegration(spuInfoTO.getIntegration().intValue() * orderItemEntity.getSkuQuantity());
+        }, executor);
+
+        // 等待异步任务执行完成
+        try {
+            CompletableFuture.allOf(skuInfoTask, saleAttrTask, spuInfoTask).get();
+            return orderItemEntity;
+        } catch (Exception e) {
+            log.error("线程池异步编排构造购物项详细信息失败");
+            throw new BizException(BizCodeEnum.THREAD_POOL_TASK_FAILED, "秒杀订单创建失败");
+        }
     }
 
     private OrderSkuVO convertOrderItemTO2OrderSkuVO(CartItemTO itemTO) {

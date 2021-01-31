@@ -1,19 +1,15 @@
 package com.vivi.gulimall.coupon.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
 import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.R;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.vivi.gulimall.coupon.entity.SeckillSessionEntity;
 import com.vivi.gulimall.coupon.service.SeckillSessionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -83,6 +79,12 @@ public class SeckillSessionController {
 		seckillSessionService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
+    }
+
+    @GetMapping("/latest3days")
+    public R latest3Days() {
+        List<SeckillSessionEntity> sessions = seckillSessionService.latest3DaysSessions();
+        return R.ok().setData(sessions);
     }
 
 }

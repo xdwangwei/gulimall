@@ -36,10 +36,10 @@ public enum BizCodeEnum implements CommonError{
     WARE_SKU_STOCK_NOT_ENOUGH(11003, "商品库存不足"),
 
     // 认证服务异常
-    AUTH_PARAM_INVAILD(30001,"参数格式校验失败"),
-    AUTH_CODE_NOT_MATCH(30002, "验证码验证失败，请重试或重新获取"),
-    AUTH_WEIBO_LOGIN_FAILED(30003, "微博登录失败，请重试"),
-    AUTH_USER_NOT_LOGIN(30004, "用户未登录"),
+    AUTH_PARAM_INVAILD(99001,"参数格式校验失败"),
+    AUTH_CODE_NOT_MATCH(99002, "验证码验证失败，请重试或重新获取"),
+    AUTH_WEIBO_LOGIN_FAILED(99003, "微博登录失败，请重试"),
+    AUTH_USER_NOT_LOGIN(99004, "用户未登录"),
 
     // 会员服务异常
     MEMBER_ALREADY_EXIST(80001, "用户已存在"),
@@ -50,6 +50,9 @@ public enum BizCodeEnum implements CommonError{
     ORDER_HAS_EXPIRED(90001, "订单已处理，请重新下单"),
     ORDER_CREATE_FAILED(90002, "订单创建失败"),
     ORDER_PAY_FEILED(90003, "订单支付失败"),
+
+    // 秒杀服务
+    SECKILL_FAILED(12001, "秒杀失败"),
 
     // 第三方服务异常
     SMS_SEND_CODE_FAILED(20001, "短信验证码发送失败"),

@@ -57,6 +57,17 @@ public class MemberReceiveAddressController {
     }
 
     /**
+     * 获取用户默认地址
+     * @param memberId
+     * @return
+     */
+    @RequestMapping("/default/{memberId}")
+    R getMemberDefaultAddress(@PathVariable("memberId") Long memberId) {
+        MemberAddressTO memberReceiveAddress = memberReceiveAddressService.getMemberDefaultAddress(memberId);
+        return R.ok().setData(memberReceiveAddress);
+    }
+
+    /**
      * 保存
      */
     @RequestMapping("/save")
