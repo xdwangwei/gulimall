@@ -1,13 +1,11 @@
 package com.vivi.gulimall.thirdparty.service.impl;
 
 import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSException;
 import com.aliyun.oss.common.utils.BinaryUtil;
 import com.aliyun.oss.model.MatchMode;
 import com.aliyun.oss.model.PolicyConditions;
 import com.vivi.common.exception.BizCodeEnum;
 import com.vivi.common.exception.BizException;
-import com.vivi.common.utils.R;
 import com.vivi.gulimall.thirdparty.service.OSSService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

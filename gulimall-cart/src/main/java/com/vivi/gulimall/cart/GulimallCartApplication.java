@@ -9,6 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class GulimallCartApplication {
 
+    // 哈哈哈哈哈你说神马好呢搜剿解耦多四季豆
     public static void main(String[] args) {
         SpringApplication.run(GulimallCartApplication.class, args);
     }
