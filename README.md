@@ -498,6 +498,6 @@ public class Application {
      */  
 ```
 ### Rabbitmq消息可靠投递
-    https://vivi.run/archives/rabbitmq-confirm
+    https://codeonce.cc/archives/rabbitmq-confirm
 ### Feign远程调用请求头丢失
-    https://vivi.run/archives/feign-lost-cookie
+    https://codeonce.cc/archives/feign-lost-cookie
