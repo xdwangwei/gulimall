@@ -1,12 +1,13 @@
 package com.vivi.gulimall.seckill.interceptor;
 
-import com.vivi.common.constant.AuthServerConstant;
-import com.vivi.common.vo.MemberInfoVO;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import com.vivi.common.constant.AuthServerConstant;
+import com.vivi.common.vo.MemberInfoVO;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * @author wangwei

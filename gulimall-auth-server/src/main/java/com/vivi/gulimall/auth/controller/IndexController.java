@@ -1,11 +1,11 @@
 package com.vivi.gulimall.auth.controller;
 
-import com.vivi.common.constant.AuthServerConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.servlet.http.HttpSession;
+import com.vivi.common.constant.AuthServerConstant;
 
+import jakarta.servlet.http.HttpSession;
 /**
  * @author wangwei
  * 2021/1/13 10:25

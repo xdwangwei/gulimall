@@ -1,6 +1,7 @@
 package com.vivi.gulimall.seckill.config;
 
-import lombok.extern.slf4j.Slf4j;
+import javax.annotation.PostConstruct;
+
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -9,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author wangwei
@@ -64,9 +65,9 @@ public class RabbitmqConfig {
         /**
          * 消息由Exchange路由到Queue失败回调
          */
-        rabbitTemplate.setReturnCallback((message, replyCode, replyText, exchange, routingKey) -> {
-            log.error("路由到队列失败，消息内容：{}，交换机：{}，路由件：{}，回复码：{}，回复文本：{}", message, exchange, routingKey, replyCode, replyText);
-        });
+        // rabbitTemplate.setReturnCallback((message, replyCode, replyText, exchange, routingKey) -> {
+        //     log.error("路由到队列失败，消息内容：{}，交换机：{}，路由件：{}，回复码：{}，回复文本：{}", message, exchange, routingKey, replyCode, replyText);
+        // });
     }
 
 

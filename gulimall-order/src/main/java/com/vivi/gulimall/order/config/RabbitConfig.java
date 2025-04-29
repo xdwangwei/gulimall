@@ -1,8 +1,10 @@
 package com.vivi.gulimall.order.config;
 
-import com.vivi.common.constant.OrderConstant;
-import com.vivi.common.constant.WareConstant;
-import lombok.extern.slf4j.Slf4j;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.Exchange;
 import org.springframework.amqp.core.Queue;
@@ -15,9 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
-import java.util.HashMap;
-import java.util.Map;
+import com.vivi.common.constant.OrderConstant;
+import com.vivi.common.constant.WareConstant;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author wangwei
@@ -69,12 +72,9 @@ public class RabbitConfig {
                 log.error("消息投递到交换机失败：[correlationData={}，原因：{}]", correlationData, cause);
             }
         });
-        /**
-         * 消息由Exchange路由到Queue失败回调
-         */
-        rabbitTemplate.setReturnCallback((message, replyCode, replyText, exchange, routingKey) -> {
-            log.error("路由到队列失败，消息内容：{}，交换机：{}，路由件：{}，回复码：{}，回复文本：{}", message, exchange, routingKey, replyCode, replyText);
-        });
+        // rabbitTemplate.setReturnCallback((message, replyCode, replyText, exchange, routingKey) -> {
+        //     log.error("路由到队列失败，消息内容：{}，交换机：{}，路由件：{}，回复码：{}，回复文本：{}", message, exchange, routingKey, replyCode, replyText);
+        // });
     }
 
     @Bean

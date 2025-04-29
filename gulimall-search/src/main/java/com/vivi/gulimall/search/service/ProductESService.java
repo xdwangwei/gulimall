@@ -1,10 +1,9 @@
 package com.vivi.gulimall.search.service;
 
-import com.sun.el.parser.BooleanNode;
-import com.vivi.common.to.SkuESModel;
-
 import java.io.IOException;
 import java.util.List;
+
+import com.vivi.common.to.SkuESModel;
 
 /**
  * @author wangwei

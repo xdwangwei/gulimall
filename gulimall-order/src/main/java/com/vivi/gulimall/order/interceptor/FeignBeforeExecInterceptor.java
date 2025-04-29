@@ -1,13 +1,13 @@
 package com.vivi.gulimall.order.interceptor;
 
-import feign.RequestInterceptor;
-import feign.RequestTemplate;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author wangwei

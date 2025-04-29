@@ -1,5 +1,7 @@
 package com.vivi.gulimall.order.service;
 
+import java.util.Map;
+
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.vivi.common.to.OrderTO;
 import com.vivi.common.to.mq.SeckillOrderTO;
@@ -10,8 +12,7 @@ import com.vivi.gulimall.order.vo.OrderConfirmVO;
 import com.vivi.gulimall.order.vo.OrderCreateVO;
 import com.vivi.gulimall.order.vo.OrderSubmitVO;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 订单

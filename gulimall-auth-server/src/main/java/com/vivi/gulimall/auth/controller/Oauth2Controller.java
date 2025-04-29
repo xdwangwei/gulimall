@@ -1,15 +1,16 @@
 package com.vivi.gulimall.auth.controller;
 
-import com.vivi.common.constant.AuthServerConstant;
-import com.vivi.common.vo.MemberInfoVO;
-import com.vivi.gulimall.auth.service.Oauth2WeiboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpSession;
+import com.vivi.common.constant.AuthServerConstant;
+import com.vivi.common.vo.MemberInfoVO;
+import com.vivi.gulimall.auth.service.Oauth2WeiboService;
+
+import jakarta.servlet.http.HttpSession;
 
 
 /**

@@ -8,16 +8,13 @@
 
 package com.vivi.common.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.http.HttpStatus;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.fasterxml.jackson.core.JsonParser;
-import org.apache.http.HttpStatus;
-import org.bouncycastle.cert.dane.DANECertificateFetcher;
-import sun.net.www.protocol.http.HttpURLConnection;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 返回数据

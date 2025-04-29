@@ -1,17 +1,15 @@
 package com.vivi.gulimall.search.web;
 
-import com.vivi.gulimall.search.service.SearchService;
-import com.vivi.gulimall.search.vo.SearchParam;
-import com.vivi.gulimall.search.vo.SearchResult;
-import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
+import com.vivi.gulimall.search.service.SearchService;
+import com.vivi.gulimall.search.vo.SearchParam;
+import com.vivi.gulimall.search.vo.SearchResult;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author wangwei
