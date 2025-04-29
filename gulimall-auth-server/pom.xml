@@ -15,10 +15,18 @@
     <description>gulimall认证服务中心</description>
 
     <properties>
+        <lombok.version>1.18.32</lombok.version>
+
         <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
     </properties>
 
     <dependencies>
+        <!--lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
         <!--依赖公共模块-->
         <dependency>
             <groupId>com.vivi</groupId>

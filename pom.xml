@@ -11,6 +11,7 @@
 
     <properties>
         <java.version>11</java.version>
+        <lombok.version>1.18.32</lombok.version>
     </properties>
     <modules>
         <module>gulimall-coupon</module>
@@ -42,19 +43,18 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version> <!-- 使用新版插件 -->
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                    <compilerArgs>
-                        <!-- 允许未命名模块访问 jdk.compiler 的包 -->
-                        <arg>--add-opens</arg>
-                        <arg>jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
-                        <arg>--add-opens</arg>
-                        <arg>jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
-                    </compilerArgs>
+                    <source>17</source>
+                    <target>17</target>
+<!--                    <compilerArgs>-->
+<!--                        &lt;!&ndash; 允许未命名模块访问 jdk.compiler 的包 &ndash;&gt;-->
+<!--                        <arg>&#45;&#45;add-opens</arg>-->
+<!--                        <arg>jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>-->
+<!--                        <arg>&#45;&#45;add-opens</arg>-->
+<!--                        <arg>jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>-->
+<!--                    </compilerArgs>-->
                     <fork>true</fork> <!-- 必须启用 fork -->
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>

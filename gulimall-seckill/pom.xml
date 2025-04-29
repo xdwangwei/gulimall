@@ -15,11 +15,19 @@
     <description>谷粒商城秒杀服务</description>
 
     <properties>
+        <lombok.version>1.18.32</lombok.version>
+
         <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
         <redisson.version>3.13.6</redisson.version>
     </properties>
 
     <dependencies>
+        <!--lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.vivi</groupId>
             <artifactId>gulimall-common</artifactId>
