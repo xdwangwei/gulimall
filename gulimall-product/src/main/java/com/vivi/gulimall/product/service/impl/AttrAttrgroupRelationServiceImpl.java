@@ -1,21 +1,21 @@
 package com.vivi.gulimall.product.service.impl;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.sun.org.apache.regexp.internal.RE;
 import com.vivi.common.utils.PageUtils;
 import com.vivi.common.utils.Query;
 import com.vivi.gulimall.product.dao.AttrAttrgroupRelationDao;
 import com.vivi.gulimall.product.entity.AttrAttrgroupRelationEntity;
 import com.vivi.gulimall.product.service.AttrAttrgroupRelationService;
 import com.vivi.gulimall.product.vo.AttrAttrGroupRelationVO;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 
 @Service("attrAttrgroupRelationService")
